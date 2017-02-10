@@ -3,6 +3,7 @@ package com.theironyard.controllers;
 import com.theironyard.entities.Address;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ import java.util.Scanner;
 public class PropertyController {
     private static List<Address> addresses = new ArrayList<>();
 
+    @CrossOrigin
     @PostConstruct
     public void init() throws FileNotFoundException {
 
@@ -37,6 +39,7 @@ public class PropertyController {
             }
         }
     }
+    @CrossOrigin
     @ResponseBody
     @RequestMapping(path = "/address.json", method = RequestMethod.GET)
     public List<Address> jsonHome() {
