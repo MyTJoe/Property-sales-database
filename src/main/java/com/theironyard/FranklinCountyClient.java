@@ -1,42 +1,47 @@
-package com.theironyard.integration;
+package com.theironyard;
 
-
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.theironyard.entities.PropertyRecords;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
 
-public class FranklinClient {
+public class FranklinCountyClient {
 
-    //private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/MapServer/3/query?
+
     private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/FranklinCounty250.json";
 
     private static String baseUrl = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/MapServer/3/query";
     private static String outFieldsUrl = "outFields=Saledt,Own1,Own2,Cityname,Statecode,Zip1,Zoning,Adrno,Adradd,Adrdir,Adrstr,Adrsuf,Adrsuf2,Addr1";
+
+    //  time requested is Feb 1st -------------------------------check time here---------------------------------------
     private static String remainsUrl = "where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=Saledt DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=250&f=pjson&time=1485962060000";
     private static String fullUrl = baseUrl + "?" + outFieldsUrl + "&" + remainsUrl;
 
     public List<PropertyRecords> getRecords() {
         List<PropertyRecords> records = new ArrayList<>();
 
+        // Rest template call - two reason to use a string - content type wasn't setting to json even when requested
+        // could'nt figure out out how to map nested java objects
         RestTemplate restTemplate = new RestTemplate();
-        //System.out.println(restTemplate.getMessageConverters());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        // System.out.println(restTemplate.getMessageConverters());
+//         HttpHeaders headers = new HttpHeaders();
+//         headers.setContentType(MediaType.APPLICATION_JSON);
         String franklin = restTemplate.getForObject(testUrl, String.class);
-        JsonFactory factory = new JsonFactory();
+        // invalid content type
+//         JsonFactory factory = new JsonFactory();
+//         read up on Json
         try {
             ObjectMapper mapper = new ObjectMapper();
+            // returns an array of features that i could turn into a list for the data needed for front-end
             JsonNode node = mapper.readTree(franklin);
+            // using this to loop over array and
             Iterator<JsonNode> features = node.withArray("features").iterator();
-            System.out.println("");
+
             // google search for how to loop with an iterator
             // Iterate over the features
             // Read all the fields from each node in the iterator
@@ -44,6 +49,7 @@ public class FranklinClient {
             // Add the address object to a new list
             while (features.hasNext()) {
                 JsonNode a = features.next();
+                // bypassing attributes and getting fields used to build date of sale, owners, address, zoning info.
                 String saleDate = a.get("attributes").get("Saledt").asText();
                 String owner1 = a.get("attributes").get("Own1").asText();
                 String owner2 = a.get("attributes").get("Own2").asText();
@@ -61,7 +67,17 @@ public class FranklinClient {
                 String zoningCode = a.get("attributes").get("Zoning").asText();
 
                 // trim fixes all the whitespace errors
-                String fullAddress = getAddress(adrno.trim(), adradd.trim(), adrdir.trim(), adrstr.trim(), adrsuf.trim(), adrsuf2.trim(), addr1.trim());
+                // a lot of the address fields used to build the address objects are empty strings
+                // creating address
+                String fullAddress = getAddress(
+                        adrno.trim(),
+                        adradd.trim(),
+                        adrdir.trim(),
+                        adrstr.trim(),
+                        adrsuf.trim(),
+                        adrsuf2.trim(),
+                        addr1.trim());
+
                 String insertOwners = addOwners(owner1.trim(), owner2.trim());
                 String fixZoning = getZoning(zoningCode);
 
@@ -72,17 +88,13 @@ public class FranklinClient {
                 info.setZoning(fixZoning);
 
                 records.add(info);
-
-                System.out.println("Blah2");
             }
-            System.out.println("Blah3");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Blah");
-
         return records;
     }
+    // combine multiple owners into one field
     private String addOwners(String owner1, String owner2) {
         String result = "";
         if (!StringUtils.isEmpty(owner1)) {
@@ -93,6 +105,7 @@ public class FranklinClient {
         }
         return result.trim();
     }
+    // converting zoning codes
     private String getZoning(String zoning) {
         if (zoning.toUpperCase().startsWith("A")) {
             return "Agricultural";
@@ -105,6 +118,7 @@ public class FranklinClient {
         }
         return zoning;
     }
+    // building address field from multiple fields provided by the database
     private String getAddress(String adrno, String adradd, String adrdir, String adrstr, String adrsuf, String adrsuf2, String addr1) {
         String result = "";
         if (!StringUtils.isEmpty(adrno)) {
