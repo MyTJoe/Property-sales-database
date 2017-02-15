@@ -63,7 +63,7 @@ public class FranklinCountyClient {
                 String zoningCode = a.get("attributes").get("Zoning").asText();
 
                 // trim fixes all the whitespace errors
-                // a lot of the address fields used to build the address objects are empty strings
+                // a lot of the address fields used to build the address objects are empty strings with a space " ",
                 String fullAddress = getAddress(
                         adrno.trim(),
                         adradd.trim(),
