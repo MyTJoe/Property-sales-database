@@ -1,7 +1,7 @@
 package com.theironyard.entities;
 
 public class HarnettPropertyRecords {
-    private String name; //Owners, Owner1, Owner2
+    private String owner; //Owners, Owner1, Owner2
     private String propertyAddress; //PhysicalAddress + ParZipCode + ParCity (figure out state)
     private String mailingAddress; //MailingAddress
     private String longitude; //Longitude
@@ -11,12 +11,16 @@ public class HarnettPropertyRecords {
     private String salePrice; //SalePrice
     private String propertyValue; //TotalMarketValue
     private String landValue; //ParcelLandValue
+    private String additionalValue; // ParcelObxfValue
     private String buildingValue; // ParcelBuildingValue
-    private String actualYearBuilt; // ActualYearBuilt
-    private String zoning; //
+    private String zoning; //Zoning 
+
+    public HarnettPropertyRecords() {
+
+    }
 
     public HarnettPropertyRecords(
-            String name,
+            String owner,
             String propertyAddress,
             String mailingAddress,
             String longitude,
@@ -27,10 +31,10 @@ public class HarnettPropertyRecords {
             String propertyValue,
             String landValue,
             String buildingValue,
-            String actualYearBuilt,
-            String zoning) {
+            String zoning,
+            String additionalValue) {
 
-        this.name = name;
+        this.owner = owner;
         this.propertyAddress = propertyAddress;
         this.mailingAddress = mailingAddress;
         this.longitude = longitude;
@@ -41,8 +45,16 @@ public class HarnettPropertyRecords {
         this.propertyValue = propertyValue;
         this.landValue = landValue;
         this.buildingValue = buildingValue;
-        this.actualYearBuilt = actualYearBuilt;
         this.zoning = zoning; // needs to be set like Franklin
+        this.additionalValue = additionalValue;
+    }
+
+    public String getAdditionalValue() {
+        return additionalValue;
+    }
+
+    public void setAdditionalValue(String additionalValue) {
+        this.additionalValue = additionalValue;
     }
 
     public String getZoning() {
@@ -53,15 +65,12 @@ public class HarnettPropertyRecords {
         this.zoning = zoning;
     }
 
-    public HarnettPropertyRecords() {
+    public String getOwner() {
+        return owner;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getPropertyAddress() {
@@ -142,14 +151,6 @@ public class HarnettPropertyRecords {
 
     public void setBuildingValue(String buildingValue) {
         this.buildingValue = buildingValue;
-    }
-
-    public String getActualYearBuilt() {
-        return actualYearBuilt;
-    }
-
-    public void setActualYearBuilt(String actualYearBuilt) {
-        this.actualYearBuilt = actualYearBuilt;
     }
 }
 
