@@ -20,6 +20,12 @@ import java.util.List;
 @Controller
 public class PropertyController {
 
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+        public String home() {
+            return "home";
+    }
 
     @CrossOrigin
     @ResponseBody
@@ -37,15 +43,13 @@ public class PropertyController {
         return results;
     }
 
-//    @CrossOrigin
-//    @ResponseBody
-//    @RequestMapping(path = "/lee", method = RequestMethod.GET)
-//        public List<LeePropertyRecords> lee() {
-//        List<LeePropertyRecords> results = new LeeCountyClient().getRecords();
-//        return results;
-//    }
-
-
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(path = "/lee", method = RequestMethod.GET)
+        public List<LeePropertyRecords> lee() {
+        List<LeePropertyRecords> results = new LeeCountyClient().getRecords();
+        return results;
+    }
 }
 
 
