@@ -1,0 +1,41 @@
+{
+  "name": "property_database",
+  "version": "1.0.0",
+  "description": "front end AngularJS project for displaying changes in property ownership. Aimed at economic developers",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "angular-animate": "^1.6.2",
+    "angular-aria": "^1.6.2",
+    "angular-material": "^1.1.3",
+    "angular-ui-bootstrap": "^2.5.0",
+    "angular-utils-pagination": "^0.11.1",
+    "foundation-sites": "^6.3.0",
+    "gulp": "^3.9.1",
+    "gulp-browser": "^3.0.4",
+    "gulp-sass": "^3.0.0",
+    "gulp-strip-comments": "^2.4.3",
+    "leaflet": "^1.0.3",
+    "ng-infinite-scroll": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KingPra/propertyDatabase.git"
+  },
+  "keywords": [
+    "AngularJS",
+    "HTML5",
+    "CSS3",
+    "ngMaterial",
+    "Gulp"
+  ],
+  "author": "King Prasankongsinh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KingPra/propertyDatabase/issues"
+  },
+  "homepage": "https://github.com/KingPra/propertyDatabase#readme"
+}
