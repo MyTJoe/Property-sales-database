@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Property Database</title>
+    <!--add css file-->
+    <link href="./angular-material.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>        -->
+
+
+    <!--add js file-->
+    <!--<script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>-->
+
+    <!--<script src="./angular-material.js"></script>
+        <script src="./angular-animate.js"></script>
+        <script src="./angular-aria.js"></script>-->
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+    <script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>
+    <script src="dirPagination.js"></script>
+    <script src="app.js"></script>
+
+    <!--google maps-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX_XiOTs0b_rxPCETMAwBXH9ORBYq3VCQ" async defer></script>
+
+</head>
+
+<body ng-app="PropData" ng-cloak>
+    <md-content>
+        <md-toolbar></md-toolbar>
+        <!--<header>-->
+        <!--<h1>Property Database</h1>-->
+        <!--</header>-->
+        <nav>
+            <md <md-button><a ui-sref="listings">List View</a></md-button>
+                <button><a ui-sref="map">Map View</a></button>
+                <input type="text" placeholder="search">
+                <button>search</button>
+                <!--<md-button>Map View</md-button>-->
+
+        </nav>
+        <section>
+            <ui-view></ui-view>
+        </section>
+        <footer>
+            <p>copyright 2017</p>
+        </footer>
+    </md-content>
+</body>
+
+</html>
