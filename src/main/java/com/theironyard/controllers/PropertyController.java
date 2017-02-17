@@ -20,6 +20,7 @@ import java.util.List;
 @Controller
 public class PropertyController {
 
+
     @CrossOrigin
     @ResponseBody
     @RequestMapping(path = "/harnett", method = RequestMethod.GET)
