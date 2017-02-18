@@ -11,12 +11,14 @@ module.exports = {
         //     console.log(response.data);
         // });
         return {
-            getLoc: () => {
-                console.log('getLoc function');
+
+            getLoc: (county) => {
+                
+                console.log(`getLoc func: ${county}`);
                 // console.log(locations);
                 // return locations;
                 //return $http.get('/fakerequest.json')
-                return $http.get('https://still-retreat-79338.herokuapp.com/harnett')
+                return $http.get(`https://still-retreat-79338.herokuapp.com/${county}`)
                     .then(function (response) {
                         // angular.copy(response.data, locations);
                         console.log('then function');

@@ -18,6 +18,7 @@ const app = angular.module('PropData', [
     const controllers = [
         require('./controllers/listings'),
         require('./controllers/map'),
+        require('./controllers/county'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -26,6 +27,7 @@ const app = angular.module('PropData', [
     const components = [
         require('./components/listings'),
         require('./components/map'),
+        require('./components/county'),
     ];
     for (let i = 0; i < components.length; i++) {
         app.component(components[i].name, components[i].object)
@@ -62,7 +64,15 @@ window.addEventListener('load', function () {
 //     console.log('going to page ' + num);
 //   };
 // }
-},{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/map":5,"./routers":6,"./services/listings":7,"./services/map":8}],2:[function(require,module,exports){
+},{"./components/county":2,"./components/listings":3,"./components/map":4,"./controllers/county":5,"./controllers/listings":6,"./controllers/map":7,"./routers":8,"./services/listings":9,"./services/map":10}],2:[function(require,module,exports){
+module.exports = {
+    name: 'county',
+    object: {
+        controller: 'CountyController',
+        templateUrl: 'templates/county.html',
+    },
+};
+},{}],3:[function(require,module,exports){
 module.exports = {
     name: 'listings',
     object: {
@@ -70,7 +80,7 @@ module.exports = {
         templateUrl: 'templates/listings.html',
     },
 };
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = {
     name: 'map',
     object: {
@@ -78,7 +88,18 @@ module.exports = {
         templateUrl: 'templates/map.html',
     },
 };
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+module.exports = {
+    name: 'CountyController',
+    func: function ($scope, ListingsService) {
+        console.log('county controller ');
+         $scope.selectCounty = (county) => {
+             ListingsService.getLoc(county)
+             console.log(county);
+         }
+    },
+};
+},{}],6:[function(require,module,exports){
 module.exports = {
     name: 'ListingsController',
     func: function ($scope, ListingsService) {
@@ -164,7 +185,7 @@ module.exports = {
 
 };
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
     name: 'MapController',
     func: function ($scope, MapService) {
@@ -222,7 +243,7 @@ module.exports = {
 //     map = new google.maps.Map(element, options)
 
 // }(window, google));
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = [
     {
         name: 'listings',
@@ -234,9 +255,14 @@ module.exports = [
         url: '/map',
         component: 'map',
     },
+    {
+        name: 'county',
+        url: '/county',
+        component: 'county',
+    },
 
 ]
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = {
     name: 'ListingsService',
     func: ($http) => {
@@ -250,12 +276,14 @@ module.exports = {
         //     console.log(response.data);
         // });
         return {
-            getLoc: () => {
-                console.log('getLoc function');
+
+            getLoc: (county) => {
+                
+                console.log(`getLoc func: ${county}`);
                 // console.log(locations);
                 // return locations;
                 //return $http.get('/fakerequest.json')
-                return $http.get('https://still-retreat-79338.herokuapp.com/harnett')
+                return $http.get(`https://still-retreat-79338.herokuapp.com/${county}`)
                     .then(function (response) {
                         // angular.copy(response.data, locations);
                         console.log('then function');
@@ -267,7 +295,7 @@ module.exports = {
     },
 };
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = {
     name: 'MapService', 
     func:  () => {
