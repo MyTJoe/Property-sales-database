@@ -12,7 +12,7 @@ import java.util.List;
 
 public class HarnettCountyClient {
 
-    private String testUrl = "";
+    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/harnett-250.json";
     private String url = "http://gis.harnett.org/arcgis/rest/services/Tax/TaxParcels/MapServer/1/query?where=" +
             "parzipcode IN (27501,27521,27546,28323,28334,28339)&text=%&objectIds=&time=&geometry=&geometryTy" +
             "pe=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Owner" +
@@ -21,13 +21,13 @@ public class HarnettCountyClient {
             "Zoning&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=" +
             "&returnIdsOnly=false&returnCountOnly=false&orderByFields=SaleYear DESC,SaleMonth DESC&groupByFie" +
             "ldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=fa" +
-            "lse&resultOffset=&resultRecordCount=500&f=pjson";
+            "lse&resultOffset=&resultRecordCount=100&f=pjson";
 
     public List<HarnettPropertyRecords> getRecords() {
         List<HarnettPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String harnett = restTemplate.getForObject(url, String.class);
+        String harnett = restTemplate.getForObject(testUrl, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
