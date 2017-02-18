@@ -1,10 +1,11 @@
 module.exports = {
     name: 'CountyController',
-    func: function ($scope, ListingsService) {
+    func: function ($scope, $state, ListingsService) {
         console.log('county controller ');
          $scope.selectCounty = (county) => {
-             ListingsService.getLoc(county)
-             console.log(county);
+             ListingsService.getLoc(county);
+             //$state.go('listings');
+
          }
     },
 };
