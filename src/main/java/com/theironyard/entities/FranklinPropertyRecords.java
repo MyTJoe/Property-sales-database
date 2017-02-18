@@ -1,15 +1,15 @@
 package com.theironyard.entities;
 
-public class PropertyRecords {
+public class FranklinPropertyRecords {
     private String name;
     private String address;
     private String zoning;
     private String dateOfSale;
 
-    public PropertyRecords() {
+    public FranklinPropertyRecords() {
     }
 
-    public PropertyRecords(String name, String address, String zoning, String dateOfSale) {
+    public FranklinPropertyRecords(String name, String address, String zoning, String dateOfSale) {
         this.name = name;
         this.address = address;
         this.zoning = zoning;
