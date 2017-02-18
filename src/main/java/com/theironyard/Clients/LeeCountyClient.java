@@ -3,6 +3,7 @@ package com.theironyard.Clients;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.LeePropertyRecords;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -12,19 +13,19 @@ import java.util.List;
 
 public class LeeCountyClient {
 
-    private String testUrl = "";
+    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/lee-50.json";
     private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/LeeCounty/MapServer/1/" +
             "query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +
             "l=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&returnTrueCurves=fals" +
             "e&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderB" +
             "yFields=SaleDate DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdb" +
-            "Version=&returnDistinctValues=false&resultOffset=&resultRecordCount=500&f=pjson";
+            "Version=&returnDistinctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
 
     public List<LeePropertyRecords> getRecords() {
         List<LeePropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String lee = restTemplate.getForObject(url, String.class);
+        String lee = restTemplate.getForObject(testUrl, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -50,10 +51,10 @@ public class LeeCountyClient {
                 String salePrice = a.get("attributes").get("sale_PRICE").asText();
 
                 LeePropertyRecords info = new LeePropertyRecords();
-
+                String newAddress = createAddress(mailAdrno, mailAdradd, mailAdrdir, mailAdrstr, mailAdrsuf, mailCity, mailState, mailZip);
                 info.setOwner(owner1);
                 info.setPropertyAddress(propAddr);
-                //info.setMailingAddress();
+                info.setMailingAddress(newAddress);
                 info.setLandValue(aprLand);
                 info.setBuildingValue(aprBldg);
                 info.setTotalValue(aprTot);
@@ -66,5 +67,34 @@ public class LeeCountyClient {
         }
         return records;
     }
-    //public String createAddress(String mailAdrno, String mailAdr)
+
+    private String createAddress(String mailno, String mailadd, String maildir, String mailstr, String mailsuf, String mailcity,
+                              String mailstate, String mailzip) {
+        String result = "";
+        if (!StringUtils.isEmpty(mailno)) {
+            result += " " + mailno;
+        }
+        if (!StringUtils.isEmpty(mailadd)) {
+            result += " " + mailadd;
+        }
+        if (!StringUtils.isEmpty(maildir)) {
+            result += " " + maildir;
+        }
+        if (!StringUtils.isEmpty(mailstr)) {
+            result += " " + mailstr;
+        }
+        if (!StringUtils.isEmpty(mailsuf)) {
+            result += " " + mailsuf;
+        }
+        if (!StringUtils.isEmpty(mailcity)) {
+            result += " " + mailcity;
+        }
+        if (!StringUtils.isEmpty(mailstate)) {
+            result += ", " + mailstate;
+        }
+        if (!StringUtils.isEmpty(mailzip)) {
+            result += " " + mailzip;
+        }
+        return result.trim();
+    }
 }

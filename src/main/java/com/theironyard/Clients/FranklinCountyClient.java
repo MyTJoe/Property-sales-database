@@ -14,20 +14,20 @@ public class FranklinCountyClient {
     // could add price - sale price
     // probably should search for zip to make sure property is in franklin
     // filter out po boxes
-    private static String demoUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/FranklinCounty250.json";
+    private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/franklin-50.json";
     private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
             "MapServer/3/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inS" +
             "R=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Saledt,Own1,Own2,Cityname,Statec" +
             "ode,Zip1,Zoning,Adrno,Adradd,Adrdir,Adrstr,Adrsuf,Adrsuf2,Addr1&returnGeometry=false&returnTrueC" +
             "urves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=fa" +
             "lse&orderByFields=Saledt DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=f" +
-            "alse&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
+            "alse&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=50&f=pjson";
 
     public List<FranklinPropertyRecords> getRecords() {
         List<FranklinPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String franklin = restTemplate.getForObject(url, String.class);
+        String franklin = restTemplate.getForObject(testUrl, String.class);
         System.out.println();
 
         try {
