@@ -1,17 +1,70 @@
 package com.theironyard.Clients;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.LeePropertyRecords;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class LeeCountyClient {
-        private String testUrl = "";
-        private String url = "";
 
-        public List<LeePropertyRecords> getRecords() {
-                List<LeePropertyRecords> records = new ArrayList<>();
+    private String testUrl = "";
+    private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/LeeCounty/MapServer/1/" +
+            "query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +
+            "l=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&returnTrueCurves=fals" +
+            "e&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderB" +
+            "yFields=SaleDate DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdb" +
+            "Version=&returnDistinctValues=false&resultOffset=&resultRecordCount=500&f=pjson";
 
-                return records;
+    public List<LeePropertyRecords> getRecords() {
+        List<LeePropertyRecords> records = new ArrayList<>();
+
+        RestTemplate restTemplate = new RestTemplate();
+        String lee = restTemplate.getForObject(url, String.class);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode node = mapper.readTree(lee);
+            Iterator<JsonNode> features = node.withArray("features").iterator();
+
+            while (features.hasNext()) {
+                JsonNode a = features.next();
+                String owner1 = a.get("attributes").get("Owner1").asText();
+                String propAddr = a.get("attributes").get("PropAddr").asText();
+                String mailAdrno = a.get("attributes").get("MailADRADD").asText();
+                String mailAdradd = a.get("attributes").get("MailADRADD").asText();
+                String mailAdrdir = a.get("attributes").get("MailADRDIR").asText();
+                String mailAdrstr = a.get("attributes").get("MailADRSTR").asText();
+                String mailAdrsuf = a.get("attributes").get("MailADRSUF").asText();
+                String mailCity = a.get("attributes").get("MailCity").asText();
+                String mailState = a.get("attributes").get("MailState").asText();
+                String mailZip = a.get("attributes").get("MailZip").asText();
+                String aprLand = a.get("attributes").get("APRLAND").asText();
+                String aprBldg = a.get("attributes").get("APRBLDG").asText();
+                String aprTot = a.get("attributes").get("APRTOT").asText();
+                String saleDate = a.get("attributes").get("Saledate").asText();
+                String salePrice = a.get("attributes").get("sale_PRICE").asText();
+
+                LeePropertyRecords info = new LeePropertyRecords();
+
+                info.setOwner(owner1);
+                info.setPropertyAddress(propAddr);
+                //info.setMailingAddress();
+                info.setLandValue(aprLand);
+                info.setBuildingValue(aprBldg);
+                info.setTotalValue(aprTot);
+                info.setSalePrice(salePrice);
+                info.setSaleDate(saleDate);
+                records.add(info);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return records;
+    }
+    //public String createAddress(String mailAdrno, String mailAdr)
 }

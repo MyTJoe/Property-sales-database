@@ -14,23 +14,20 @@ public class FranklinCountyClient {
     // could add price - sale price
     // probably should search for zip to make sure property is in franklin
     // filter out po boxes
-
     private static String demoUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/FranklinCounty250.json";
-    private static String baseUrl = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/MapServer/3/query";
-    private static String outFieldsUrl = "outFields=Saledt,Own1,Own2,Cityname,Statecode,Zip1,Zoning,Adrno,Adradd,Adrdir,Adrstr,Adrsuf,Adrsuf2,Addr1";
-    //  time requested is Feb 1st -------------------------------check time here---------------------------------------
-    private static String remainingUrl = "where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope" +
-            "&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&&returnGeometry=false&returnTrueCurves=fals" +
-            "e&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFiel" +
-            "ds=Saledt DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&ret" +
-            "urnDistinctValues=false&resultOffset=&resultRecordCount=250&f=pjson";
-    private static String fullUrl = baseUrl + "?" + outFieldsUrl + "&" + remainingUrl;
+    private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
+            "MapServer/3/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inS" +
+            "R=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Saledt,Own1,Own2,Cityname,Statec" +
+            "ode,Zip1,Zoning,Adrno,Adradd,Adrdir,Adrstr,Adrsuf,Adrsuf2,Addr1&returnGeometry=false&returnTrueC" +
+            "urves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=fa" +
+            "lse&orderByFields=Saledt DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=f" +
+            "alse&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
 
     public List<FranklinPropertyRecords> getRecords() {
         List<FranklinPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String franklin = restTemplate.getForObject(demoUrl, String.class);
+        String franklin = restTemplate.getForObject(url, String.class);
         System.out.println();
 
         try {
@@ -112,7 +109,8 @@ public class FranklinCountyClient {
     }
 
     // building address field from multiple fields provided by the database
-    private String getAddress(String adrno, String adradd, String adrdir, String adrstr, String adrsuf, String adrsuf2, String addr1) {
+    private String getAddress(String adrno, String adradd, String adrdir, String adrstr, String adrsuf, String adrsuf2,
+                              String addr1) {
         String result = "";
         if (!StringUtils.isEmpty(adrno)) {
             result += " " + adrno;
@@ -139,34 +137,3 @@ public class FranklinCountyClient {
     }
 }
 
-//         invalid content type
-//         JsonFactory factory = new JsonFactory();
-
-//         System.out.println(restTemplate.getMessageConverters());
-//         HttpHeaders headers = new HttpHeaders();
-//         headers.setContentType(MediaType.APPLICATION_JSON);
-
-
-
-
-
-
-
-// Rest template call - two reasons to use a string - "invalid content type"
-// content type wasn't setting to json even when requested
-// could'nt figure out out how to map nested objects
-
-// RestTemplate restTemplate = new RestTemplate();
-// String franklin = restTemplate.getForObject(testUrl, String.class);
-
-// returns an array of features that i could turn into a list for the data needed for front-end
-// JsonNode node = mapper.readTree(franklin);
-
-// using this to loop over array of features
-// Iterator<JsonNode> features = node.withArray("features").iterator();
-
-// Iterate over the features array
-// Read all the fields from each node in the iterator
-// Copy the fields to a new address object
-// Add the address object to a new list
-// while (features.hasNext()) {

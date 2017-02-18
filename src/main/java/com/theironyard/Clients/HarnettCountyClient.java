@@ -68,9 +68,7 @@ public class HarnettCountyClient {
                 info.setAdditionalValue(parcelObxfValue);
                 info.setLongitude(longitude);
                 info.setLatitude(latitude);
-
                 records.add(info);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
