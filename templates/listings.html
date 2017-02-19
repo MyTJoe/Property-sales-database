@@ -24,14 +24,14 @@
 
 
 <!--pagnination test-->
-<section dir-paginate="loc in locations | itemsPerPage: 10" class="listing">
+<section dir-paginate="loc in locations | itemsPerPage: 10" class="listing"><button ng-click="coord(loc.longitude, loc.latitude)">
     <img ng-src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location={{ loc.propertyAddress }}
 &fov=40&pitch=0
-&key=AIzaSyD3sFAc9Vhuy5HI4JvEshs0xM3rCEa5gY0" alt="placeholder">
+&key=AIzaSyD3sFAc9Vhuy5HI4JvEshs0xM3rCEa5gY0" alt="placeholder"></button>
             <div class="info">
             <h2> {{ loc.owner }}</h2>
+            <p>Address of Property Sold: <md-button ng-click="coord(loc.longitude, loc.latitude)">{{ loc.propertyAddress }}</md-button></p>
             <p><a>Owner's Address: {{ loc.mailingAddress }}</p>
-            <p><md-button ng-click="coord(loc.longitude, loc.latitude)">Address of Property Sold: {{ loc.propertyAddress }}</md-button></p>
             <p>Zoning: {{ loc.zoning }}</p>
             <p>Total Property Value: {{ loc.propertyValue | currency }}</p>
             <p>Land Value: {{ loc.landValue | currency }}</p>

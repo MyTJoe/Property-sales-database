@@ -4,7 +4,7 @@ module.exports = {
         console.log('county controller ');
          $scope.selectCounty = (county) => {
              ListingsService.getLoc(county);
-             //$state.go('listings');
+             $state.go('listings');
 
          }
     },
