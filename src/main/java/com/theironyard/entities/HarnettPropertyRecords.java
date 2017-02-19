@@ -9,44 +9,13 @@ public class HarnettPropertyRecords {
     private String saleMonth; //SaleMonth
     private String saleYear; //SaleYear
     private String salePrice; //SalePrice
-    private String propertyValue; //TotalMarketValue
+    private String totalValue; //TotalMarketValue
     private String landValue; //ParcelLandValue
     private String additionalValue; // ParcelObxfValue
     private String buildingValue; // ParcelBuildingValue
     private String zoning; //Zoning 
 
     public HarnettPropertyRecords() {
-
-    }
-
-    public HarnettPropertyRecords(
-            String owner,
-            String propertyAddress,
-            String mailingAddress,
-            String longitude,
-            String latitude,
-            String saleMonth,
-            String saleYear,
-            String salePrice,
-            String propertyValue,
-            String landValue,
-            String buildingValue,
-            String zoning,
-            String additionalValue) {
-
-        this.owner = owner;
-        this.propertyAddress = propertyAddress;
-        this.mailingAddress = mailingAddress;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.saleMonth = saleMonth;
-        this.saleYear = saleYear;
-        this.salePrice = salePrice;
-        this.propertyValue = propertyValue;
-        this.landValue = landValue;
-        this.buildingValue = buildingValue;
-        this.zoning = zoning; // needs to be set like Franklin
-        this.additionalValue = additionalValue;
     }
 
     public String getAdditionalValue() {
@@ -129,12 +98,12 @@ public class HarnettPropertyRecords {
         this.salePrice = salePrice;
     }
 
-    public String getPropertyValue() {
-        return propertyValue;
+    public String getTotalValue() {
+        return totalValue;
     }
 
-    public void setPropertyValue(String propertyValue) {
-        this.propertyValue = propertyValue;
+    public void setTotalValue(String totalValue) {
+        this.totalValue = totalValue;
     }
 
     public String getLandValue() {

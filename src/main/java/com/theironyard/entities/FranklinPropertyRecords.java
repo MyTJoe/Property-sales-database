@@ -1,19 +1,48 @@
 package com.theironyard.entities;
 
 public class FranklinPropertyRecords {
-    private String name;
+    private String owner;
     private String address;
     private String zoning;
     private String dateOfSale;
+    private String salePrice; //Price
+    private String landValue; //Aprland
+    private String buildingValue; //Aprbldg
+    private String totalValue; //Tot22SUM
 
     public FranklinPropertyRecords() {
     }
 
-    public FranklinPropertyRecords(String name, String address, String zoning, String dateOfSale) {
-        this.name = name;
-        this.address = address;
-        this.zoning = zoning;
-        this.dateOfSale = dateOfSale;
+    public String getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(String salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public String getLandValue() {
+        return landValue;
+    }
+
+    public void setLandValue(String landValue) {
+        this.landValue = landValue;
+    }
+
+    public String getBuildingValue() {
+        return buildingValue;
+    }
+
+    public void setBuildingValue(String buildingValue) {
+        this.buildingValue = buildingValue;
+    }
+
+    public String getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(String totalValue) {
+        this.totalValue = totalValue;
     }
 
     public String getDateOfSale() {
@@ -24,12 +53,12 @@ public class FranklinPropertyRecords {
         this.dateOfSale = dateOfSale;
     }
 
-    public String getName() {
-        return name;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getAddress() {

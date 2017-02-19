@@ -10,24 +10,21 @@ import java.io.IOException;
 import java.util.*;
 
 public class FranklinCountyClient {
-    // could add Tot22SUM I think it is the value of the property
-    // could add price - sale price
-    // probably should search for zip to make sure property is in franklin
-    // filter out po boxes
-    private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/franklin-50.json";
+    private static String testUrl = "";
     private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
             "MapServer/3/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inS" +
-            "R=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Saledt,Own1,Own2,Cityname,Statec" +
-            "ode,Zip1,Zoning,Adrno,Adradd,Adrdir,Adrstr,Adrsuf,Adrsuf2,Addr1&returnGeometry=false&returnTrueC" +
-            "urves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=fa" +
-            "lse&orderByFields=Saledt DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=f" +
-            "alse&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=50&f=pjson";
+            "R=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Saledt,Own1,Own2,Price,Aprland,A" +
+            "prbldg,Tot22SUM,Cityname,Statecode,Zip1,Zoning,Adrno,Adradd,Adrdir,Adrstr,Adrsuf,Adrsuf2,Addr1&r" +
+            "eturnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnI" +
+            "dsOnly=false&returnCountOnly=false&orderByFields=Saledt DESC&groupByFieldsForStatistics=&outStat" +
+            "istics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultR" +
+            "ecordCount=250&f=pjson";
 
     public List<FranklinPropertyRecords> getRecords() {
         List<FranklinPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String franklin = restTemplate.getForObject(testUrl, String.class);
+        String franklin = restTemplate.getForObject(url, String.class);
         System.out.println();
 
         try {
@@ -36,7 +33,7 @@ public class FranklinCountyClient {
             Iterator<JsonNode> features = node.withArray("features").iterator();
 
             System.out.println();
-
+            //Price,Aprland,Aprbldg,Tot22SUM
             while (features.hasNext()) {
                 JsonNode a = features.next();
                 String saleDate = a.get("attributes").get("Saledt").asText();
@@ -53,6 +50,10 @@ public class FranklinCountyClient {
                 String state = a.get("attributes").get("Statecode").asText();
                 String zipCode = a.get("attributes").get("Zip1").asText();
                 String zoningCode = a.get("attributes").get("Zoning").asText();
+                String salePrice = a.get("attributes").get("Price").asText();
+                String landValue = a.get("attributes").get("Aprland").asText();
+                String buildingValue = a.get("attributes").get("Aprbldg").asText();
+                String totalValue = a.get("attributes").get(("Tot22SUM")).asText();
 
                 // trim fixes all the whitespace errors
                 // a lot of the address fields used to build the address objects are empty strings with a space " ",
@@ -69,11 +70,14 @@ public class FranklinCountyClient {
                 String zoningName = convertZoningCode(zoningCode);
 
                 FranklinPropertyRecords info = new FranklinPropertyRecords();
-                info.setName(insertOwners);
+                info.setOwner(insertOwners);
                 info.setAddress(fullAddress + " " + cityName + " " + state + ", " + zipCode);
                 info.setDateOfSale(saleDate);
                 info.setZoning(zoningName);
-
+                info.setSalePrice(salePrice);
+                info.setLandValue(landValue);
+                info.setBuildingValue(buildingValue);
+                info.setTotalValue(totalValue);
                 records.add(info);
             }
         } catch (IOException e) {
@@ -111,6 +115,8 @@ public class FranklinCountyClient {
     // building address field from multiple fields provided by the database
     private String getAddress(String adrno, String adradd, String adrdir, String adrstr, String adrsuf, String adrsuf2,
                               String addr1) {
+
+
         String result = "";
         if (!StringUtils.isEmpty(adrno)) {
             result += " " + adrno;

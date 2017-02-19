@@ -46,7 +46,7 @@ public class HarnettCountyClient {
                 String saleMoth = a.get("attributes").get("SaleMonth").asText();
                 String saleYear = a.get("attributes").get("SaleYear").asText();
                 String salePrice = a.get("attributes").get("SalePrice").asText();
-                String propertyValue = a.get("attributes").get("TotalMarketValue").asText();
+                String totalValue = a.get("attributes").get("TotalMarketValue").asText();
                 String landValue = a.get("attributes").get("ParcelLandValue").asText();
                 String buildingValue = a.get("attributes").get("ParcelBuildingValue").asText();
                 String parcelObxfValue = a.get("attributes").get("ParcelObxfValue").asText();
@@ -62,7 +62,7 @@ public class HarnettCountyClient {
                 info.setSaleMonth(saleMoth);
                 info.setSaleYear(saleYear);
                 info.setSalePrice(salePrice);
-                info.setPropertyValue(propertyValue);
+                info.setTotalValue(totalValue);
                 info.setLandValue(landValue);
                 info.setBuildingValue(buildingValue);
                 info.setAdditionalValue(parcelObxfValue);

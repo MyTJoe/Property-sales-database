@@ -1,7 +1,6 @@
 package com.theironyard.entities;
 
 public class RutherfordPropertyRecords {
-    //check zip make sure in rutherford
     private String owner; //Property_Owner,
     private String propertyAddress; //Physical_Address,Physical_Address_City,Physical_Address_State,Physical_Address_Zip,
     private String mailingAddress; //Owner_Mailing_Address_1,Owner_Mailing_Address_City,Owner_Mailing_Address_State,Owner_Mailing_Address_Zip,
@@ -13,28 +12,6 @@ public class RutherfordPropertyRecords {
     private String saleDate; //Land_Sale_Date,
 
     public RutherfordPropertyRecords() {
-    }
-
-    public RutherfordPropertyRecords(
-            String owner,
-            String propertyAddress,
-            String mailingAddress,
-            String zoning,
-            String buildingValue,
-            String landValue,
-            String totalValue,
-            String salePrice,
-            String saleDate) {
-
-        this.owner = owner;
-        this.propertyAddress = propertyAddress;
-        this.mailingAddress = mailingAddress;
-        this.zoning = zoning;
-        this.buildingValue = buildingValue;
-        this.landValue = landValue;
-        this.totalValue = totalValue;
-        this.salePrice = salePrice;
-        this.saleDate = saleDate;
     }
 
     public String getOwner() {

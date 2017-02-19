@@ -2,7 +2,6 @@ package com.theironyard.entities;
 
 
 public class LeePropertyRecords {
-
     private String owner; // Owner1,
     private String propertyAddress; //PropAddr + city? + State?
     private String mailingAddress; //MailADRNO,MailADRADD,MailADRDIR,MailADRSTR,MailADRSUF,MailCity,MailState,MailZip
@@ -13,26 +12,6 @@ public class LeePropertyRecords {
     private String salePrice; //sale_PRICE
 
     public LeePropertyRecords() {
-    }
-
-    public LeePropertyRecords(
-            String owner,
-            String propertyAddress,
-            String mailingAddress,
-            String landValue,
-            String buildingValue,
-            String totalValue,
-            String saleDate,
-            String salePrice) {
-
-        this.owner = owner;
-        this.propertyAddress = propertyAddress;
-        this.mailingAddress = mailingAddress;
-        this.landValue = landValue;
-        this.buildingValue = buildingValue;
-        this.totalValue = totalValue;
-        this.saleDate = saleDate;
-        this.salePrice = salePrice;
     }
 
     public String getOwner() {

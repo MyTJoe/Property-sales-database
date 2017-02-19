@@ -796,7 +796,7 @@ input {
 *
 */
 
-@mixin flex-order-for-name($sizes:null) {
+@mixin flex-order-for-owner($sizes:null) {
   @if $sizes == null {
     $sizes : '';
 
@@ -822,7 +822,7 @@ input {
   }
 }
 
-@mixin offset-for-name($sizes:null) {
+@mixin offset-for-owner($sizes:null) {
   @if $sizes == null { $sizes : ''; }
 
   @for $i from 0 through 19 {
@@ -875,11 +875,11 @@ input {
   }
 }
 
-@mixin layout-for-name($name: null) {
-  @if $name == null { $name : '';          }
-  @if $name != ''   { $name : '-#{$name}'; }
+@mixin layout-for-owner($owner: null) {
+  @if $owner == null { $owner : '';          }
+  @if $owner != ''   { $owner : '-#{$owner}'; }
 
-  .layout#{$name}, .layout#{$name}-column, .layout#{$name}-row {
+  .layout#{$owner}, .layout#{$owner}-column, .layout#{$owner}-row {
     box-sizing: border-box;
     display: -webkit-box;
     display: -webkit-flex;
@@ -887,17 +887,17 @@ input {
     display: -ms-flexbox;
     display: flex;
   }
-  .layout#{$name}-column {  flex-direction: column;     }
-  .layout#{$name}-row    {  flex-direction: row;        }
+  .layout#{$owner}-column {  flex-direction: column;     }
+  .layout#{$owner}-row    {  flex-direction: row;        }
 }
 
-@mixin flex-properties-for-name($name: null) {
+@mixin flex-properties-for-owner($owner: null) {
   $flexName: 'flex';
-  @if $name != null {
-    $flexName: 'flex-#{$name}';
-    $name : '-#{$name}';
+  @if $owner != null {
+    $flexName: 'flex-#{$owner}';
+    $owner : '-#{$owner}';
   } @else {
-    $name : '';
+    $owner : '';
   }
 
   .#{$flexName}             { flex: 1;         box-sizing: border-box; }  // === flex: 1 1 0%;
@@ -947,7 +947,7 @@ input {
 	    > .#{$flexName}-66   , > .#{$flexName}-66     {  flex: 1 1 66.66%;  max-width: 100%;  max-height: 66.66%; box-sizing: border-box; }
 	  }
 
-    .layout#{$name}-row > .#{$flexName}-#{$i * 5} {
+    .layout#{$owner}-row > .#{$flexName}-#{$i * 5} {
       flex: 1 1 100%;
       max-width: #{$value};
       max-height: 100%;
@@ -957,7 +957,7 @@ input {
       @if $i == 0 {  min-width: 0;  }
     }
 
-    .layout#{$name}-column > .#{$flexName}-#{$i * 5} {
+    .layout#{$owner}-column > .#{$flexName}-#{$i * 5} {
       flex: 1 1 100%;
       max-width: 100%;
       max-height: #{$value};
@@ -969,7 +969,7 @@ input {
 
   }
 
-  .layout#{$name}-row {
+  .layout#{$owner}-row {
     > .#{$flexName}-33   , > .#{$flexName}-33     {  flex: 1 1 100%;  max-width: 33.33%;  max-height: 100%; box-sizing: border-box; }
     > .#{$flexName}-66   , > .#{$flexName}-66     {  flex: 1 1 100%;  max-width: 66.66%;  max-height: 100%; box-sizing: border-box; }
 
@@ -978,7 +978,7 @@ input {
 
   }
 
-  .layout#{$name}-column {
+  .layout#{$owner}-column {
     > .#{$flexName}-33   , > .#{$flexName}-33     {  flex: 1 1 100%;  max-width: 100%;  max-height: 33.33%; box-sizing: border-box; }
     > .#{$flexName}-66   , > .#{$flexName}-66     {  flex: 1 1 100%;  max-width: 100%;  max-height: 66.66%; box-sizing: border-box; }
 
@@ -988,7 +988,7 @@ input {
 
 }
 
-@mixin layout-align-for-name($suffix: null) {
+@mixin layout-align-for-owner($suffix: null) {
 
   // Alignment attributes for layout containers' children
   // Arrange on the Main Axis
@@ -996,13 +996,13 @@ input {
   // flex-start is the default for justify-content
   // ------------------------------
 
-  $name: 'layout-align';
+  $owner: 'layout-align';
   @if $suffix != null {
-    $name: 'layout-align-#{$suffix}';
+    $owner: 'layout-align-#{$suffix}';
   }
 
-  .#{$name},
-  .#{$name}-start-stretch // defaults
+  .#{$owner},
+  .#{$owner}-start-stretch // defaults
   {
     justify-content : flex-start;
     align-content : stretch;
@@ -1010,51 +1010,51 @@ input {
   }
 
   // Main Axis Center
-  .#{$name}-start,
-  .#{$name}-start-start,
-  .#{$name}-start-center,
-  .#{$name}-start-end,
-  .#{$name}-start-stretch
+  .#{$owner}-start,
+  .#{$owner}-start-start,
+  .#{$owner}-start-center,
+  .#{$owner}-start-end,
+  .#{$owner}-start-stretch
   {
     justify-content: flex-start;
   }
 
   // Main Axis Center
-  .#{$name}-center,           //stretch
-  .#{$name}-center-start,
-  .#{$name}-center-center,
-  .#{$name}-center-end,
-  .#{$name}-center-stretch
+  .#{$owner}-center,           //stretch
+  .#{$owner}-center-start,
+  .#{$owner}-center-center,
+  .#{$owner}-center-end,
+  .#{$owner}-center-stretch
   {
     justify-content: center;
   }
 
   // Main Axis End
-  .#{$name}-end, //stretch
-  .#{$name}-end-start,
-  .#{$name}-end-center,
-  .#{$name}-end-end,
-  .#{$name}-end-stretch
+  .#{$owner}-end, //stretch
+  .#{$owner}-end-start,
+  .#{$owner}-end-center,
+  .#{$owner}-end-end,
+  .#{$owner}-end-stretch
   {
     justify-content: flex-end;
   }
 
   // Main Axis Space Around
-  .#{$name}-space-around, //stretch
-  .#{$name}-space-around-center,
-  .#{$name}-space-around-start,
-  .#{$name}-space-around-end,
-  .#{$name}-space-around-stretch
+  .#{$owner}-space-around, //stretch
+  .#{$owner}-space-around-center,
+  .#{$owner}-space-around-start,
+  .#{$owner}-space-around-end,
+  .#{$owner}-space-around-stretch
   {
     justify-content: space-around;
   }
 
   // Main Axis Space Between
-  .#{$name}-space-between, //stretch
-  .#{$name}-space-between-center,
-  .#{$name}-space-between-start,
-  .#{$name}-space-between-end,
-  .#{$name}-space-between-stretch
+  .#{$owner}-space-between, //stretch
+  .#{$owner}-space-between-center,
+  .#{$owner}-space-between-start,
+  .#{$owner}-space-between-end,
+  .#{$owner}-space-between-stretch
   {
     justify-content: space-between;
   }
@@ -1066,22 +1066,22 @@ input {
   // ------------------------------
 
   // Cross Axis Start
-  .#{$name}-start-start,
-  .#{$name}-center-start,
-  .#{$name}-end-start,
-  .#{$name}-space-between-start,
-  .#{$name}-space-around-start
+  .#{$owner}-start-start,
+  .#{$owner}-center-start,
+  .#{$owner}-end-start,
+  .#{$owner}-space-between-start,
+  .#{$owner}-space-around-start
   {
     align-items: flex-start;
     align-content: flex-start;
   }
 
   // Cross Axis Center
-  .#{$name}-start-center,
-  .#{$name}-center-center,
-  .#{$name}-end-center,
-  .#{$name}-space-between-center,
-  .#{$name}-space-around-center
+  .#{$owner}-start-center,
+  .#{$owner}-center-center,
+  .#{$owner}-end-center,
+  .#{$owner}-space-between-center,
+  .#{$owner}-space-around-center
   {
     align-items: center;
     align-content: center;
@@ -1089,33 +1089,33 @@ input {
   }
 
   // Cross Axis Center IE overflow fix
-  .#{$name}-start-center > *,
-  .#{$name}-center-center > *,
-  .#{$name}-end-center > *,
-  .#{$name}-space-between-center > *,
-  .#{$name}-space-around-center > *
+  .#{$owner}-start-center > *,
+  .#{$owner}-center-center > *,
+  .#{$owner}-end-center > *,
+  .#{$owner}-space-between-center > *,
+  .#{$owner}-space-around-center > *
   {
     max-width: 100%;
     box-sizing: border-box;
   }
 
   // Cross Axis End
-  .#{$name}-start-end,
-  .#{$name}-center-end,
-  .#{$name}-end-end,
-  .#{$name}-space-between-end,
-  .#{$name}-space-around-end
+  .#{$owner}-start-end,
+  .#{$owner}-center-end,
+  .#{$owner}-end-end,
+  .#{$owner}-space-between-end,
+  .#{$owner}-space-around-end
   {
     align-items: flex-end;
     align-content: flex-end;
   }
 
   // Cross Axis Start
-  .#{$name}-start-stretch,
-  .#{$name}-center-stretch,
-  .#{$name}-end-stretch,
-  .#{$name}-space-between-stretch,
-  .#{$name}-space-around-stretch
+  .#{$owner}-start-stretch,
+  .#{$owner}-center-stretch,
+  .#{$owner}-end-stretch,
+  .#{$owner}-space-between-stretch,
+  .#{$owner}-space-around-stretch
   {
     align-items: stretch;
     align-content: stretch;
@@ -1212,13 +1212,13 @@ input {
   }
 }
 
-@mixin layouts_for_breakpoint($name:null) {
-    @include flex-order-for-name($name);
-    @include offset-for-name($name);
-    @include layout-align-for-name($name);
+@mixin layouts_for_breakpoint($owner:null) {
+    @include flex-order-for-owner($owner);
+    @include offset-for-owner($owner);
+    @include layout-align-for-owner($owner);
 
-    @include flex-properties-for-name($name);
-    @include layout-for-name($name);
+    @include flex-properties-for-owner($owner);
+    @include layout-for-owner($owner);
 }
 
 .md-panel-outer-wrapper {
@@ -2353,7 +2353,7 @@ $chip-delete-icon-size: rem(1.8) !default;
 $contact-chip-padding: 0 rem(2.5) 0 0 !default;
 $contact-chip-suggestion-image-height: rem(4.0) !default;
 $contact-chip-suggestion-margin: rem(0.8) !default;
-$contact-chip-name-width: rem(12) !default;
+$contact-chip-owner-width: rem(12) !default;
 
 .md-contact-chips {
   .md-chips {
@@ -2366,7 +2366,7 @@ $contact-chip-name-width: rem(12) !default;
           border-radius: $chip-height / 2;
         }
       }
-      .md-contact-name {
+      .md-contact-owner {
         display: inline-block;
         height: $chip-height;
         @include rtl-prop(margin-left, margin-right, rem(0.8), auto);
@@ -2381,11 +2381,11 @@ $contact-chip-name-width: rem(12) !default;
     border-radius: $contact-chip-suggestion-image-height / 2;
     margin-top: $contact-chip-suggestion-margin;
   }
-  .md-contact-name {
+  .md-contact-owner {
     @include rtl-prop(margin-left, margin-right, $contact-chip-suggestion-margin, auto);
-    width: $contact-chip-name-width;
+    width: $contact-chip-owner-width;
   }
-  .md-contact-name, .md-contact-email {
+  .md-contact-owner, .md-contact-email {
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2822,7 +2822,7 @@ md-calendar {
   }
 }
 
-// The label above each month (containing the month name and the year, e.g. "Jun 2014").
+// The label above each month (containing the month owner and the year, e.g. "Jun 2014").
 .md-calendar-month-label {
   height: $md-calendar-cell-size;
   font-size: $md-calendar-month-label-font-size;
@@ -4824,10 +4824,10 @@ md-progress-linear {
       animation: none;
 
       .md-bar1 {
-        animation-name: none;
+        animation-owner: none;
       }
       .md-bar2 {
-        animation-name: none;
+        animation-owner: none;
       }
     }
   }
