@@ -51,7 +51,16 @@ public class LeeCountyClient {
                 String salePrice = a.get("attributes").get("sale_PRICE").asText();
 
                 LeePropertyRecords info = new LeePropertyRecords();
-                String newAddress = createAddress(mailAdrno, mailAdradd, mailAdrdir, mailAdrstr, mailAdrsuf, mailCity, mailState, mailZip);
+                String newAddress = createAddress(
+                        mailAdrno,
+                        mailAdradd,
+                        mailAdrdir,
+                        mailAdrstr,
+                        mailAdrsuf,
+                        mailCity,
+                        mailState,
+                        mailZip);
+
                 info.setOwner(owner1);
                 info.setPropertyAddress(propAddr);
                 info.setMailingAddress(newAddress);
