@@ -21,10 +21,9 @@ import java.util.List;
 public class PropertyController {
 
     @CrossOrigin
-    @ResponseBody
     @RequestMapping(path = "/", method = RequestMethod.GET)
         public String home() {
-            return "home";
+            return "/index.html";
     }
 
     @CrossOrigin

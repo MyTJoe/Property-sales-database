@@ -1,17 +1,100 @@
 package com.theironyard.Clients;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.LeePropertyRecords;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class LeeCountyClient {
-        private String testUrl = "";
-        private String url = "";
+//ask jimmy about time
+    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/lee-50.json";
+    private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/LeeCounty/MapServer/1/" +
+            "query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +
+            "l=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&returnTrueCurves=fals" +
+            "e&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderB" +
+            "yFields=SaleDate DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdb" +
+            "Version=&returnDistinctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
 
-        public List<LeePropertyRecords> getRecords() {
-                List<LeePropertyRecords> records = new ArrayList<>();
+    public List<LeePropertyRecords> getRecords() {
+        List<LeePropertyRecords> records = new ArrayList<>();
 
-                return records;
+        RestTemplate restTemplate = new RestTemplate();
+        String lee = restTemplate.getForObject(testUrl, String.class);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode node = mapper.readTree(lee);
+            Iterator<JsonNode> features = node.withArray("features").iterator();
+
+            while (features.hasNext()) {
+                JsonNode a = features.next();
+                String owner1 = a.get("attributes").get("Owner1").asText();
+                String propAddr = a.get("attributes").get("PropAddr").asText();
+                String mailAdrno = a.get("attributes").get("MailADRADD").asText();
+                String mailAdradd = a.get("attributes").get("MailADRADD").asText();
+                String mailAdrdir = a.get("attributes").get("MailADRDIR").asText();
+                String mailAdrstr = a.get("attributes").get("MailADRSTR").asText();
+                String mailAdrsuf = a.get("attributes").get("MailADRSUF").asText();
+                String mailCity = a.get("attributes").get("MailCity").asText();
+                String mailState = a.get("attributes").get("MailState").asText();
+                String mailZip = a.get("attributes").get("MailZip").asText();
+                String aprLand = a.get("attributes").get("APRLAND").asText();
+                String aprBldg = a.get("attributes").get("APRBLDG").asText();
+                String aprTot = a.get("attributes").get("APRTOT").asText();
+                String saleDate = a.get("attributes").get("Saledate").asText();
+                String salePrice = a.get("attributes").get("sale_PRICE").asText();
+
+                LeePropertyRecords info = new LeePropertyRecords();
+                String newAddress = createAddress(mailAdrno, mailAdradd, mailAdrdir, mailAdrstr, mailAdrsuf, mailCity, mailState, mailZip);
+                info.setOwner(owner1);
+                info.setPropertyAddress(propAddr);
+                info.setMailingAddress(newAddress);
+                info.setLandValue(aprLand);
+                info.setBuildingValue(aprBldg);
+                info.setTotalValue(aprTot);
+                info.setSalePrice(salePrice);
+                info.setSaleDate(saleDate);
+                records.add(info);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return records;
+    }
+
+    private String createAddress(String mailno, String mailadd, String maildir, String mailstr, String mailsuf, String mailcity,
+                              String mailstate, String mailzip) {
+        String result = "";
+        if (!StringUtils.isEmpty(mailno)) {
+            result += " " + mailno;
+        }
+        if (!StringUtils.isEmpty(mailadd)) {
+            result += " " + mailadd;
+        }
+        if (!StringUtils.isEmpty(maildir)) {
+            result += " " + maildir;
+        }
+        if (!StringUtils.isEmpty(mailstr)) {
+            result += " " + mailstr;
+        }
+        if (!StringUtils.isEmpty(mailsuf)) {
+            result += " " + mailsuf;
+        }
+        if (!StringUtils.isEmpty(mailcity)) {
+            result += " " + mailcity;
+        }
+        if (!StringUtils.isEmpty(mailstate)) {
+            result += ", " + mailstate;
+        }
+        if (!StringUtils.isEmpty(mailzip)) {
+            result += " " + mailzip;
+        }
+        return result.trim();
+    }
 }
