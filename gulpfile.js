@@ -8,7 +8,7 @@ gulp.task('default', ['html', 'css', 'js', 'mjs', 'mcss']);
 gulp.task('html', () => {
   gulp.src('templates/*.html')
     .pipe(gulp.dest('public/templates'));
-  return gulp.src('index.html')
+  return gulp.src('home.html')
     .pipe(gulp.dest('public/'));
 });
 
