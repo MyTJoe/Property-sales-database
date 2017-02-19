@@ -18,11 +18,7 @@ module.exports = {
                 // console.log(locations);
                 // return locations;
                 //return $http.get('/fakerequest.json')
-<<<<<<< HEAD
-                return $http.get(`https://still-retreat-79338.herokuapp.com/${county}`)
-=======
-                return $http.get('https://still-retreat-79338.herokuapp.com/franklin')
->>>>>>> cdeac502e66d6040a72da7ea97fa9fd93a4eedcb
+                return $http.get(`https://countycrasher.herokuapp.com/harnett`)
                     .then(function (response) {
                         // angular.copy(response.data, locations);
                         console.log('then function');
