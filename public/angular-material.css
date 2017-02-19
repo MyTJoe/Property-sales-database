@@ -1100,11 +1100,11 @@ md-content {
     .md-contact-chips .md-chips md-chip .md-contact-avatar img {
       height: 32px;
       border-radius: 16px; }
-  .md-contact-chips .md-chips md-chip .md-contact-name {
+  .md-contact-chips .md-chips md-chip .md-contact-owner {
     display: inline-block;
     height: 32px;
     margin-left: 8px; }
-    [dir=rtl] .md-contact-chips .md-chips md-chip .md-contact-name {
+    [dir=rtl] .md-contact-chips .md-chips md-chip .md-contact-owner {
       margin-left: auto;
       margin-right: 8px; }
 
@@ -1114,13 +1114,13 @@ md-content {
     height: 40px;
     border-radius: 20px;
     margin-top: 8px; }
-  .md-contact-suggestion .md-contact-name {
+  .md-contact-suggestion .md-contact-owner {
     margin-left: 8px;
     width: 120px; }
-    [dir=rtl] .md-contact-suggestion .md-contact-name {
+    [dir=rtl] .md-contact-suggestion .md-contact-owner {
       margin-left: auto;
       margin-right: 8px; }
-  .md-contact-suggestion .md-contact-name, .md-contact-suggestion .md-contact-email {
+  .md-contact-suggestion .md-contact-owner, .md-contact-suggestion .md-contact-email {
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis; }
@@ -2910,9 +2910,9 @@ md-progress-linear {
     md-progress-linear .md-container.ng-hide ._md-progress-linear-disabled md-progress-linear .md-container {
       animation: none; }
       md-progress-linear .md-container.ng-hide ._md-progress-linear-disabled md-progress-linear .md-container .md-bar1 {
-        animation-name: none; }
+        animation-owner: none; }
       md-progress-linear .md-container.ng-hide ._md-progress-linear-disabled md-progress-linear .md-container .md-bar2 {
-        animation-name: none; }
+        animation-owner: none; }
   md-progress-linear .md-container.md-mode-buffer {
     background-color: transparent !important;
     transition: all 0.2s linear; }
