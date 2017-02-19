@@ -17,6 +17,7 @@ const app = angular.module('PropData', [
     const controllers = [
         require('./controllers/listings'),
         require('./controllers/map'),
+        require('./controllers/county'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -25,6 +26,7 @@ const app = angular.module('PropData', [
     const components = [
         require('./components/listings'),
         require('./components/map'),
+        require('./components/county'),
     ];
     for (let i = 0; i < components.length; i++) {
         app.component(components[i].name, components[i].object)

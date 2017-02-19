@@ -2,6 +2,7 @@ package com.theironyard.entities;
 
 
 public class LeePropertyRecords {
+
     private String owner; // Owner1,
     private String propertyAddress; //PropAddr + city? + State?
     private String mailingAddress; //MailADRNO,MailADRADD,MailADRDIR,MailADRSTR,MailADRSUF,MailCity,MailState,MailZip
