@@ -8,8 +8,7 @@ public class RutherfordPropertyRecords {
     private String zoning; //Land_Class
     private String buildingValue; //Total_Building_Value_Assessed
     private String landValue; //Total_Land_Value_Assessed
-    private String totalPropertyValue; //Total_Property_Value,
-
+    private String totalValue; //Total_Property_Value,
     private String salePrice; //Sale_Price
     private String saleDate; //Land_Sale_Date,
 
@@ -23,7 +22,7 @@ public class RutherfordPropertyRecords {
             String zoning,
             String buildingValue,
             String landValue,
-            String totalPropertyValue,
+            String totalValue,
             String salePrice,
             String saleDate) {
 
@@ -33,7 +32,7 @@ public class RutherfordPropertyRecords {
         this.zoning = zoning;
         this.buildingValue = buildingValue;
         this.landValue = landValue;
-        this.totalPropertyValue = totalPropertyValue;
+        this.totalValue = totalValue;
         this.salePrice = salePrice;
         this.saleDate = saleDate;
     }
@@ -86,12 +85,12 @@ public class RutherfordPropertyRecords {
         this.landValue = landValue;
     }
 
-    public String getTotalPropertyValue() {
-        return totalPropertyValue;
+    public String getTotalValue() {
+        return totalValue;
     }
 
-    public void setTotalPropertyValue(String totalPropertyValue) {
-        this.totalPropertyValue = totalPropertyValue;
+    public void setTotalValue(String totalValue) {
+        this.totalValue = totalValue;
     }
 
     public String getSalePrice() {
