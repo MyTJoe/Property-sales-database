@@ -18,7 +18,6 @@ const app = angular.module('PropData', [
     const controllers = [
         require('./controllers/listings'),
         require('./controllers/map'),
-        require('./controllers/county'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -27,7 +26,6 @@ const app = angular.module('PropData', [
     const components = [
         require('./components/listings'),
         require('./components/map'),
-        require('./components/county'),
     ];
     for (let i = 0; i < components.length; i++) {
         app.component(components[i].name, components[i].object)
@@ -64,15 +62,7 @@ window.addEventListener('load', function () {
 //     console.log('going to page ' + num);
 //   };
 // }
-},{"./components/county":2,"./components/listings":3,"./components/map":4,"./controllers/county":5,"./controllers/listings":6,"./controllers/map":7,"./routers":8,"./services/listings":9,"./services/map":10}],2:[function(require,module,exports){
-module.exports = {
-    name: 'county',
-    object: {
-        controller: 'CountyController',
-        templateUrl: 'templates/county.html',
-    },
-};
-},{}],3:[function(require,module,exports){
+},{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/map":5,"./routers":6,"./services/listings":7,"./services/map":8}],2:[function(require,module,exports){
 module.exports = {
     name: 'listings',
     object: {
@@ -80,7 +70,7 @@ module.exports = {
         templateUrl: 'templates/listings.html',
     },
 };
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = {
     name: 'map',
     object: {
@@ -88,35 +78,56 @@ module.exports = {
         templateUrl: 'templates/map.html',
     },
 };
-},{}],5:[function(require,module,exports){
-module.exports = {
-    name: 'CountyController',
-    func: function ($scope, $state, ListingsService) {
-        console.log('county controller ');
-         $scope.selectCounty = (county) => {
-             ListingsService.getLoc(county);
-             $state.go('listings');
-
-         }
-    },
-};
-},{}],6:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = {
     name: 'ListingsController',
     func: function ($scope, $state, ListingsService, MapService) {
-        console.log('listingcontoller activated');
-        ListingsService.getLoc().then(function (listings) {
-            $scope.locations = listings;
-        });
+        // county select box
+        $scope.displayCounty = 'Harnett County';
+        let pickCounty = 'harnett';
+        $scope.countyList = [
+            {
+                value: 'franklin',
+                label: 'Franklin County'
+            },
+            {
+                value: 'harnett',
+                label: 'Harnett County'
+            },
+            {
+                value: 'lee',
+                label: 'Lee County'
+            }
+        ];
+
+        //refreshes page when new county is selected
+        $scope.changedValue = (item) => {
+            $scope.displayCounty = item.label;
+            pickCounty = item.value;
+            ListingsService.getLoc(pickCounty).then(function (listings) {
+                $scope.locations = listings;
+            });
+        };
+
+        //getting array of locations 
+         initialCountyLoad = () => {
+            let initCounty = pickCounty;
+            ListingsService.getLoc(initCounty).then(function (listings) {
+                $scope.locations = listings;
+            });
+        };
+
+        initialCountyLoad();
+
+        // map stuff that's currently not working
         $scope.coord = (lat, lng) => {
             MapService.locate(lat, lng);
             //$state.go('map');
-            console.log(`coordFunc:${lat}, ${lng}`);
         }
     },
 };
 
-},{}],7:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = {
     name: 'MapController',
     func: function ($scope, MapService) {
@@ -153,7 +164,7 @@ module.exports = {
     }
 
 };
-},{}],8:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = [
     {
         name: 'listings',
@@ -165,14 +176,9 @@ module.exports = [
         url: '/map',
         component: 'map',
     },
-    {
-        name: 'county',
-        url: '/county',
-        component: 'county',
-    },
 
 ]
-},{}],9:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
     name: 'ListingsService',
     func: ($http) => {
@@ -180,7 +186,7 @@ module.exports = {
             getLoc: (county) => {
                 console.log(`getLoc func in ListingsService: ${county}`);
                 return $http.get
-                (`https://countycrasher.herokuapp.com/harnett`)
+                (`https://countycrasher.herokuapp.com/${county}`)
                     .then(function (response) {
                         console.log(`data ${response.data}`);
                         return response.data;
@@ -190,7 +196,7 @@ module.exports = {
     },
 };
 
-},{}],10:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
     name: 'MapService', 
     func:  () => {

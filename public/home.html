@@ -35,13 +35,14 @@
 
 <body ng-app="PropData" ng-cloak>
     <md-content>
-        <md-toolbar></md-toolbar>
+        <md-toolbar>
+            <h1>{{displayCounty}}</h1>
+            <h1>more toolbar testing</h1>
+        </md-toolbar>
         <!--<header>-->
         <!--<h1>Property Database</h1>-->
         <!--</header>-->
         <nav>
-             
-            <md-button><a ui-sref="county">Select County</a></md-button>
             <md-button><a ui-sref="listings">List View</a></md-button>
                 <md-button><a ui-sref="map">Map View</a></md-button>
                 <input type="text" placeholder="search">
