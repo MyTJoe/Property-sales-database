@@ -8,9 +8,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
-
+// couldn't push to heroku -- remote contains work that you don't have locally
 public class FranklinCountyClient {
-    //
     private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/franklin-30.json";
     private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
             "MapServer/3/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inS" +

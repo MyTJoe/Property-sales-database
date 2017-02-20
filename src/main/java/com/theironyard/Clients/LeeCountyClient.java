@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LeeCountyClient {
-//ask jimmy about time
     private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/lee-30.json";
     private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/LeeCounty/MapServer/1/" +
             "query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +

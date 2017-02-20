@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class HarnettCountyClient {
-    //do a query for 30 if front end needs smaller data size tomorrow
     private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/harnett-30.json";
     private String url = "http://gis.harnett.org/arcgis/rest/services/Tax/TaxParcels/MapServer/1/query?where=" +
             "parzipcode IN (27501,27521,27546,28323,28334,28339)&text=%&objectIds=&time=&geometry=&geometryTy" +
