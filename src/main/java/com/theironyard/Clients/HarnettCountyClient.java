@@ -11,8 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class HarnettCountyClient {
-
-    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/harnett-50.json";
+    //do a query for 30 if front end needs smaller data size tomorrow
+    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/harnett-30.json";
     private String url = "http://gis.harnett.org/arcgis/rest/services/Tax/TaxParcels/MapServer/1/query?where=" +
             "parzipcode IN (27501,27521,27546,28323,28334,28339)&text=%&objectIds=&time=&geometry=&geometryTy" +
             "pe=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Owner" +
@@ -21,7 +21,7 @@ public class HarnettCountyClient {
             "Zoning&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=" +
             "&returnIdsOnly=false&returnCountOnly=false&orderByFields=SaleYear DESC,SaleMonth DESC&groupByFie" +
             "ldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=fa" +
-            "lse&resultOffset=&resultRecordCount=50&f=pjson";
+            "lse&resultOffset=&resultRecordCount=30&f=pjson";
 
     public List<HarnettPropertyRecords> getRecords() {
         List<HarnettPropertyRecords> records = new ArrayList<>();
@@ -53,11 +53,10 @@ public class HarnettCountyClient {
                 String zoning = a.get("attributes").get("Zoning").asText();
 
                 HarnettPropertyRecords info = new HarnettPropertyRecords();
-                String zoningName = convertZoningCode(zoning);
 
-                info.setZoning(zoning);
                 info.setOwner(owner1);
-                info.setPropertyAddress(physicalAddress + " " + parCity + ", NC " + parZipCode);
+                StringBuilder sb = new StringBuilder();
+                info.setPropertyAddress(sb.append(physicalAddress).append(" ").append(parCity).append(", NC").append(parZipCode).toString());
                 info.setMailingAddress(mailingAddress);
                 info.setSaleMonth(saleMoth);
                 info.setSaleYear(saleYear);
@@ -68,25 +67,13 @@ public class HarnettCountyClient {
                 info.setAdditionalValue(parcelObxfValue);
                 info.setLongitude(longitude);
                 info.setLatitude(latitude);
+                info.setZoning(zoning);
                 records.add(info);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return records;
-    }
-
-    private String convertZoningCode(String zoningCode) {
-        if (zoningCode.toUpperCase().startsWith("A")) {
-            return "Agricultural";
-        }
-        if (zoningCode.toUpperCase().startsWith("C")) {
-            return "Commercial";
-        }
-        if (zoningCode.toUpperCase().startsWith("R")) {
-            return "Residential";
-        }
-        return zoningCode;
     }
 }
 

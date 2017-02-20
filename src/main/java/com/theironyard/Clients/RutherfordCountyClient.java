@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class RutherfordCountyClient {
+    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/rutherford-30.json";
     private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/RutherfordCounty/MapServer" +
             "/46/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +
             "l=esriSpatialRelIntersects&relationParam=&outFields=Property_Owner,Land_Sale_Date,Land_Class,Physica" +
@@ -24,14 +25,12 @@ public class RutherfordCountyClient {
         List<RutherfordPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String rutherford = restTemplate.getForObject(url, String.class);
+        String rutherford = restTemplate.getForObject(testUrl, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(rutherford);
             Iterator<JsonNode> features = node.withArray("features").iterator();
-
-            System.out.println();
 
             while (features.hasNext()) {
                 JsonNode a = features.next();
@@ -49,22 +48,31 @@ public class RutherfordCountyClient {
                 String zoning = a.get("attributes").get("Land_Class").asText();
                 String saleDate = a.get("attributes").get("Land_Sale_Date").asText();
                 String landValue = a.get("attributes").get("Total_Land_Value_Assessed").asText();
-                String buildingValue = a.get("attributes").get("Total_Buidling_Value_Assessed").asText();
+                String buildingValue = a.get("attributes").get("Total_Building_Value_Assessed").asText();
 
                 RutherfordPropertyRecords info = new RutherfordPropertyRecords();
                 info.setOwner(owner);
+                String createPropAddress = buildPropertyAddress(
+                        physicalAddress,
+                        physicalAddressCity,
+                        physicalAddressState,
+                        physicalAddressZip);
+                info.setPropertyAddress(createPropAddress);
+
+                String createMailAddress = buildMailingAddress(
+                        ownerMailingAddress1,
+                        ownerMailingAddressCity,
+                        ownerMailingAddressState,
+                        ownerMailingAddressZip);
+                info.setMailingAddress(createMailAddress);
+
                 info.setSalePrice(salePrice);
                 info.setTotalValue(totalValue);
                 info.setBuildingValue(buildingValue);
                 info.setLandValue(landValue);
                 info.setZoning(zoning);
                 info.setSaleDate(saleDate);
-
-
-
-
-
-                //records.add();
+                records.add(info);
             }
 
         } catch (Exception e) {
@@ -72,8 +80,40 @@ public class RutherfordCountyClient {
         }
         return records;
     }
+
+    private String buildPropertyAddress(String address, String city, String state, String zip) {
+        StringBuilder sb = new StringBuilder();
+        if (!address.isEmpty()) {
+            sb.append(address);
+        }
+        if (!city.isEmpty()) {
+            sb.append(" ").append(city);
+        }
+        if (!state.isEmpty()) {
+            sb.append(" ").append(state);
+        }
+        if (!zip.isEmpty()) {
+            sb.append(", ").append(zip);
+        }
+        return sb.toString().trim();
+    }
+
+    private String buildMailingAddress(String mAddress, String mCity, String mState, String mZip) {
+        StringBuilder sb = new StringBuilder();
+        if (!mAddress.isEmpty()) {
+            sb.append(mAddress);
+        }
+        if (!mCity.isEmpty()) {
+            sb.append(" ").append(mCity);
+        }
+        if (!mState.isEmpty()) {
+            sb.append(" ").append(mState);
+        }
+        if (!mZip.isEmpty()) {
+            sb.append(", ").append(mZip);
+        }
+        return sb.toString().trim();
+    }
 }
 
-//         Total_Land_Value_Assessed,
-//         Total_Building_Value_Assessed,
 

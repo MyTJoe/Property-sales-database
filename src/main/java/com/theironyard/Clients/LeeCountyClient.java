@@ -13,13 +13,13 @@ import java.util.List;
 
 public class LeeCountyClient {
 //ask jimmy about time
-    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/lee-50.json";
+    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/lee-30.json";
     private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/LeeCounty/MapServer/1/" +
             "query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +
             "l=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&returnTrueCurves=fals" +
             "e&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderB" +
             "yFields=SaleDate DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdb" +
-            "Version=&returnDistinctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
+            "Version=&returnDistinctValues=false&resultOffset=&resultRecordCount=30&f=pjson";
 
     public List<LeePropertyRecords> getRecords() {
         List<LeePropertyRecords> records = new ArrayList<>();
@@ -79,31 +79,31 @@ public class LeeCountyClient {
 
     private String createAddress(String mailno, String mailadd, String maildir, String mailstr, String mailsuf, String mailcity,
                               String mailstate, String mailzip) {
-        String result = "";
+        StringBuilder sb = new StringBuilder();
         if (!StringUtils.isEmpty(mailno)) {
-            result += " " + mailno;
+            sb.append(" ").append(mailno);
         }
         if (!StringUtils.isEmpty(mailadd)) {
-            result += " " + mailadd;
+            sb.append(" ").append(mailadd);
         }
         if (!StringUtils.isEmpty(maildir)) {
-            result += " " + maildir;
+            sb.append(" ").append(maildir);
         }
         if (!StringUtils.isEmpty(mailstr)) {
-            result += " " + mailstr;
+            sb.append(" ").append(mailstr);
         }
         if (!StringUtils.isEmpty(mailsuf)) {
-            result += " " + mailsuf;
+            sb.append(" ").append(mailsuf);
         }
         if (!StringUtils.isEmpty(mailcity)) {
-            result += " " + mailcity;
+            sb.append(" ").append(mailcity);
         }
         if (!StringUtils.isEmpty(mailstate)) {
-            result += ", " + mailstate;
+            sb.append(" ").append(mailstate);
         }
         if (!StringUtils.isEmpty(mailzip)) {
-            result += " " + mailzip;
+            sb.append(", ").append(mailzip);
         }
-        return result.trim();
+        return sb.toString().trim();
     }
 }
