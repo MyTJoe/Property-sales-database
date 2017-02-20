@@ -3,25 +3,25 @@ module.exports = {
     func: function ($scope, MapService) {
 
     let kings_map;
-    function initMap(lati, long) {
+    function initMap() {
         kings_map = new google.maps.Map(document.querySelector('#map'), {
             center: {
-                 lat: lati,
-                 lng: long,
+                 lat: -35.667,
+                 lng: 145.667,
             },
-            zoom: 8
+            zoom: 10
         });
 
-        let marker = new google.maps.Marker({
-            position: {
-                // lat: -34.397,
-                // lng: 150.644,
-            },
-            map: kings_map
-        });
+        // let marker = new google.maps.Marker({
+        //     position: {
+        //         // lat: -34.397,
+        //         // lng: 150.644,
+        //     },
+        //     map: kings_map
+        // });
     };
 
-    initMap(lati, long);
+    initMap();
     
 
 

@@ -16,6 +16,10 @@ module.exports = {
             {
                 value: 'lee',
                 label: 'Lee County'
+            },
+            {
+                value: 'rutherford',
+                label: 'Rutherford County'
             }
         ];
 
@@ -41,7 +45,7 @@ module.exports = {
         // map stuff that's currently not working
         $scope.coord = (lat, lng) => {
             MapService.locate(lat, lng);
-            //$state.go('map');
+            $state.go('map');
         }
     },
 };
