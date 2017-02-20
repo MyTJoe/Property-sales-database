@@ -18,7 +18,6 @@ const app = angular.module('PropData', [
     const controllers = [
         require('./controllers/listings'),
         require('./controllers/map'),
-        require('./controllers/county'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -27,7 +26,6 @@ const app = angular.module('PropData', [
     const components = [
         require('./components/listings'),
         require('./components/map'),
-        require('./components/county'),
     ];
     for (let i = 0; i < components.length; i++) {
         app.component(components[i].name, components[i].object)
@@ -64,15 +62,7 @@ window.addEventListener('load', function () {
 //     console.log('going to page ' + num);
 //   };
 // }
-},{"./components/county":2,"./components/listings":3,"./components/map":4,"./controllers/county":5,"./controllers/listings":6,"./controllers/map":7,"./routers":8,"./services/listings":9,"./services/map":10}],2:[function(require,module,exports){
-module.exports = {
-    name: 'county',
-    object: {
-        controller: 'CountyController',
-        templateUrl: 'templates/county.html',
-    },
-};
-},{}],3:[function(require,module,exports){
+},{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/map":5,"./routers":6,"./services/listings":7,"./services/map":8}],2:[function(require,module,exports){
 module.exports = {
     name: 'listings',
     object: {
@@ -80,7 +70,7 @@ module.exports = {
         templateUrl: 'templates/listings.html',
     },
 };
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = {
     name: 'map',
     object: {
@@ -88,117 +78,66 @@ module.exports = {
         templateUrl: 'templates/map.html',
     },
 };
-},{}],5:[function(require,module,exports){
-module.exports = {
-    name: 'CountyController',
-    func: function ($scope, ListingsService) {
-        console.log('county controller ');
-         $scope.selectCounty = (county) => {
-             ListingsService.getLoc(county)
-             console.log(county);
-         }
-    },
-};
-},{}],6:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = {
     name: 'ListingsController',
-    func: function ($scope, ListingsService) {
-        //$scope.locations = ListingsService.getLoc();
-        // let listArr = ListingsService.getLoc();
-        ListingsService.getLoc().then(function (listings) {
-            $scope.locations = listings;
-            
-            // function for number of buttons
-            // $scope.btnNums = () => {
-            //     let count = 0;
-            //     for (let i = 1; i < listings.length / 10; i++) {
-            //         console.log(listings.length);
-            //         count++;
-            //         btnCount.push(count);
-            //         console.log(btnCount);
-            //     }
-            //     return btnCount;
-                
-            // };
+    func: function ($scope, $state, ListingsService, MapService) {
+        // county select box
+        $scope.displayCounty = 'Harnett County';
+        let pickCounty = 'harnett';
+        $scope.countyList = [
+            {
+                value: 'franklin',
+                label: 'Franklin County'
+            },
+            {
+                value: 'harnett',
+                label: 'Harnett County'
+            },
+            {
+                value: 'lee',
+                label: 'Lee County'
+            }
+        ];
 
-            // calling btnNums function for buttons to show on page load
-            // $scope.btnNums();
+        //refreshes page when new county is selected
+        $scope.changedValue = (item) => {
+            $scope.displayCounty = item.label;
+            pickCounty = item.value;
+            ListingsService.getLoc(pickCounty).then(function (listings) {
+                $scope.locations = listings;
+            });
+        };
 
-            // $scope.showPage = (operator) => {
-            // let startNum = (operator - 1) * 10;
-            // let endNum = operator * 10;
-            //return startNum;
-        //};
+        //getting array of locations 
+         initialCountyLoad = () => {
+            let initCounty = pickCounty;
+            ListingsService.getLoc(initCounty).then(function (listings) {
+                $scope.locations = listings;
+            });
+        };
 
-        });
+        initialCountyLoad();
 
-        // function for amount of  buttons needed
-         //let btnCount = [];
-        // console.log(`btnCount array: ${btnCount}`);
-
-        // buttons for pages
-        // $scope.num = btnCount;
-        // console.log(`btnCount: ${btnCount}`);
-
-        // showPage function
-        // 1. Remember current page, update it whenever you change page. 
-        // 2. If operator is 'back', set startNum and endNum based on currentPage - 1
-        // 3. If operator if 'next', set startNum and endNum based on currentPage + 1
-        // 4. Else use the formula we already have.
-        //let currentPage = 1;
-
-        // $scope.showPage = (operator) => {
-        //     let startNum = (operator - 1) * 10;
-        //     let endNum = operator * 10;
-        //     console.log(`showPage func. Button ${operator} was pressed: ${startNum}, ${endNum}`);
-
-           // $scope.locations = listings.slice(startNum, endNum);
-            // if (operator === 'next' && endNum < listArr.length) {
-            //     startNum = startNum + 10;
-            //     endNum = endNum + 10;
-            //     console.log($scope.num);
-            // } else
-            //     if (operator === 'back' && startNum > 0) {
-            //         startNum = startNum - 10;
-            //         endNum = endNum - 10;
-            //         console.log('back button');
-            //     } else
-            //         if (operator === 'back' && startNum === 0 || operator === 'next' && endNum >= listArr.length) {
-            //             startNum = startNum;
-            //             endNum = endNum;
-            //             console.log(`back button value is: ${operator}. Values: ${startNum}, ${endNum}`);
-            //         }
-            //         else
-            //             if (operator === 1) {
-            //                 startNum = 0;
-            //                 endNum = 10;
-            //                 console.log(`button ${operator} was pushed: ${startNum}, ${endNum}`);
-            //             } else {
-            //                 startNum = operator * 10;
-            //                 endNum = startNum + 10;
-            //                 console.log(` button ${operator} pushed: ${startNum}, ${endNum}`);
-            //             }
-            // return $scope.locations;
-        //};
-
+        // map stuff that's currently not working
+        $scope.coord = (lat, lng) => {
+            MapService.locate(lat, lng);
+            //$state.go('map');
+        }
     },
-
 };
 
-},{}],7:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = {
     name: 'MapController',
     func: function ($scope, MapService) {
 
-
-
-
     let kings_map;
-    function initMap() {
+    function initMap(lati, long) {
         kings_map = new google.maps.Map(document.querySelector('#map'), {
             center: {
-                 lat: -34.397,
-                 lng: 150.644,
+                 lat: lati,
+                 lng: long,
             },
             zoom: 8
         });
@@ -212,7 +151,7 @@ module.exports = {
         });
     };
 
-    initMap();
+    initMap(lati, long);
     
 
 
@@ -225,25 +164,7 @@ module.exports = {
     }
 
 };
-
-
-
-// (function(window, google) {
-
-//     // map options
-//     let options = {
-//         center: {
-//             lat: 37.791350, // lat and long for san fran. Change later
-//             lng: -122.435883,
-//     },
-//     zoom:10,
-// },
-//     element = document.getElementById('#map')
-//     // map
-//     map = new google.maps.Map(element, options)
-
-// }(window, google));
-},{}],8:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = [
     {
         name: 'listings',
@@ -255,39 +176,19 @@ module.exports = [
         url: '/map',
         component: 'map',
     },
-    {
-        name: 'county',
-        url: '/county',
-        component: 'county',
-    },
 
 ]
-},{}],9:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
     name: 'ListingsService',
     func: ($http) => {
-        // const locations = [];
-        // temp get request for testing
-        // $http.get('/fakerequest.json')
-        // // $http.get('https://still-retreat-79338.herokuapp.com/address.json')
-        // .then(function (response) {
-        //     angular.copy(response.data, locations);
-        //     console.log('then function');
-        //     console.log(response.data);
-        // });
         return {
-
             getLoc: (county) => {
-                
-                console.log(`getLoc func: ${county}`);
-                // console.log(locations);
-                // return locations;
-                //return $http.get('/fakerequest.json')
-                return $http.get(`https://countycrasher.herokuapp.com/harnett`)
+                console.log(`getLoc func in ListingsService: ${county}`);
+                return $http.get
+                (`https://countycrasher.herokuapp.com/${county}`)
                     .then(function (response) {
-                        // angular.copy(response.data, locations);
-                        console.log('then function');
-                        //console.log(response.data);
+                        console.log(`data ${response.data}`);
                         return response.data;
                     });
             },
@@ -295,11 +196,10 @@ module.exports = {
     },
 };
 
-},{}],10:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
     name: 'MapService', 
     func:  () => {
-    
         return {
             locate: () => {
                 console.log('my map was clicked');
@@ -308,4 +208,8 @@ module.exports = {
         }
     },
 };
+
+
+
+
 },{}]},{},[1]);
