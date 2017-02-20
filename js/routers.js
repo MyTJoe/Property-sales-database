@@ -6,7 +6,7 @@ module.exports = [
     },
     {
         name: 'map',
-        url: '/map',
+        url: '/map/:pid', // colon indicates a 'route parameter'
         component: 'map',
     },
 

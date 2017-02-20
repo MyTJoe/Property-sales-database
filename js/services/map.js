@@ -1,6 +1,9 @@
  module.exports = {
      name: 'MapService', 
      func: () => {
+         let coordinates = [];
+         let lati;
+         let long;
 //         let coordinates;
 //         let kings_map;
 //     function initMap() {
@@ -33,20 +36,22 @@
                 // function initMap () {
              initMap: (lat, lng) => {
                  console.log(`initMap func: ${coordinates}`);
-                 console.log(`logging coordinates in initMap: ${lat}`);
-    const map = new google.maps.Map(document.querySelector('#map'), {
-        center: {
-            lat: -34.397,
-            lng: 135.543,
-        },
-        zoom: 10
-    });
+                 console.log(`logging coordinates in initMap: ${lati}`);
+    // const map = new google.maps.Map(document.querySelector('#map'), {
+    //     center: {
+    //         lat: -34.397,
+    //         lng: 135.543,
+    //     },
+    //     zoom: 10
+    // });
     //return map;
 },
 locate: (lat, lng) => {
                 coordinates = [lat, lng]
+                lati = lat;
+                long = lng;
                 console.log(`my map was clicked ${coordinates[0]}`);
-               //return kings_map;
+               return coordinates;
             },
 
          }  

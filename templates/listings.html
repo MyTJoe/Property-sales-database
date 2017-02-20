@@ -8,7 +8,7 @@
 &key=AIzaSyD3sFAc9Vhuy5HI4JvEshs0xM3rCEa5gY0" alt="placeholder"></button>
             <div class="info">
             <h2> {{ loc.owner }}</h2>
-            <p>Address of Property Sold: <md-button ng-click="coord(loc.longitude, loc.latitude)">{{ loc.propertyAddress || loc.address }}
+            <p>Address of Property Sold: <md-button ng-click="coord(loc)">{{ loc.propertyAddress || loc.address }}
             </md-button></p>
             <p ng-show="loc.mailingAddress != null"><a>Owner's Address: {{ loc.mailingAddress }}</p>
             <p>Total Property Value: {{ loc.totalValue | currency }}</p>

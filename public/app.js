@@ -125,9 +125,11 @@ module.exports = {
         initialCountyLoad();
 
         // map stuff that's currently not working
-        $scope.coord = (lat, lng) => {
-            MapService.locate(lat, lng);
-            $state.go('map');
+        $scope.coord = (location) => {
+            MapService.locate(location.latitude, location.longitude);
+            $state.go('map', {
+                pid: location.totalValue, // not right
+            }); // rerouting to a different view
         }
     },
 };
@@ -135,8 +137,32 @@ module.exports = {
 },{}],5:[function(require,module,exports){
 module.exports = {
     name: 'MapController',
-    func: function ($scope, MapService) {
-        MapService.initMap();
+    func: function ($scope, MapService, ListingsService) {
+
+    const map = new google.maps.Map(document.querySelector('#map'), {
+        center: {
+            lat: 35.3579,
+            lng: -78.8836,
+        },
+        zoom: 10,
+    });
+
+    ListingsService.getLoc('harnett').then(function (result) {
+        for (let i = 0; i < result.length; i++) {
+            const lat = parseFloat(result[i].latitude);
+            const long = parseFloat(result[i].longitude);
+
+            let marker = new google.maps.Marker({
+                position: {
+                    lat: lat,
+                    lng: long,
+                },
+                map: map,
+            });
+        }
+    });
+
+
     // let kings_map;
     // function initMap() {
     //     let coord = MapService.coordinates;
@@ -211,7 +237,7 @@ module.exports = [
     },
     {
         name: 'map',
-        url: '/map',
+        url: '/map/:pid', // colon indicates a 'route parameter'
         component: 'map',
     },
 
@@ -238,6 +264,9 @@ module.exports = {
  module.exports = {
      name: 'MapService', 
      func: () => {
+         let coordinates = [];
+         let lati;
+         let long;
 //         let coordinates;
 //         let kings_map;
 //     function initMap() {
@@ -270,20 +299,22 @@ module.exports = {
                 // function initMap () {
              initMap: (lat, lng) => {
                  console.log(`initMap func: ${coordinates}`);
-                 console.log(`logging coordinates in initMap: ${lat}`);
-    const map = new google.maps.Map(document.querySelector('#map'), {
-        center: {
-            lat: -34.397,
-            lng: 135.543,
-        },
-        zoom: 10
-    });
+                 console.log(`logging coordinates in initMap: ${lati}`);
+    // const map = new google.maps.Map(document.querySelector('#map'), {
+    //     center: {
+    //         lat: -34.397,
+    //         lng: 135.543,
+    //     },
+    //     zoom: 10
+    // });
     //return map;
 },
 locate: (lat, lng) => {
                 coordinates = [lat, lng]
+                lati = lat;
+                long = lng;
                 console.log(`my map was clicked ${coordinates[0]}`);
-               //return kings_map;
+               return coordinates;
             },
 
          }  

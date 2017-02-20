@@ -43,9 +43,11 @@ module.exports = {
         initialCountyLoad();
 
         // map stuff that's currently not working
-        $scope.coord = (lat, lng) => {
-            MapService.locate(lat, lng);
-            $state.go('map');
+        $scope.coord = (location) => {
+            MapService.locate(location.latitude, location.longitude);
+            $state.go('map', {
+                pid: location.totalValue, // not right
+            }); // rerouting to a different view
         }
     },
 };
