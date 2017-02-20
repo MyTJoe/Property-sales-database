@@ -22,19 +22,14 @@
 </head>
 
 <body ng-app="PropData" ng-cloak>
-    <md-content>
-        <md-toolbar>
-            <h1>{{displayCounty}}</h1>
-            <h1>more toolbar testing</h1>
-        </md-toolbar>
+    <md-content class="md-padding">
+        <md-nav-bar md-selected-nav-item="currentNavItem"         nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-sref="listings" name="ListView">
+            List View </md-nav-item>
+            <md-nav-item md-nav-sref="map" name="Map">
+            Map View </md-nav-item>
+        </md-nav-bar>
 
-        <nav>
-            <md-button><a ui-sref="listings">List View</a></md-button>
-                <md-button><a ui-sref="map">Map View</a></md-button>
-                <!--<input type="text" placeholder="search">
-                <button>search</button>-->
-
-        </nav>
         <section>
             <ui-view></ui-view>
         </section>
