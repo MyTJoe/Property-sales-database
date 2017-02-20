@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.2/angular-messages.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.min.js"></script>
     <script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>
-    <script src="dirPagination.js"></script>
+    <script src="./dirPagination.js"></script>
     <script src="app.js"></script>
 
     <!--google maps-->
@@ -22,22 +22,26 @@
 </head>
 
 <body ng-app="PropData" ng-cloak>
-    <header>
-        <h1>County Database Explorer Test Header</h1>
-    </header>
-    <md-content>
-        <md-toolbar>
-            <h1>{{displayCounty}}</h1>
-            <h1>more toolbar testing</h1>
-        </md-toolbar>
+    <md-content class="md-padding">
+        <header> 
+            <h1>County Database Explorer</h1>
+        </header>
+        <md-nav-bar md-selected-nav-item="currentNavItem"         nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-sref="listings" name="ListView">
+            List View </md-nav-item>
+            <md-nav-item md-nav-sref="map" name="Map">
+            Map View </md-nav-item>
+        </md-nav-bar>
+            <!--<nav>
+                <md-button><a ui-sref="listings">List View</a></md-button>
+                    <md-button><a ui-sref="map">Map View</a></md-button>-->
 
-        <nav>
-            <md-button><a ui-sref="listings">List View</a></md-button>
-                <md-button><a ui-sref="map">Map View</a></md-button>
-                <!--<input type="text" placeholder="search">
-                <button>search</button>-->
+                    <!--<input type="text" placeholder="search">
+                    <button>search</button>-->
 
-        </nav>
+            <!--</nav>-->
+        
+    
         <section>
             <ui-view></ui-view>
         </section>
