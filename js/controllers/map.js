@@ -2,26 +2,28 @@ module.exports = {
     name: 'MapController',
     func: function ($scope, MapService) {
 
-    let kings_map;
-    function initMap() {
-        kings_map = new google.maps.Map(document.querySelector('#map'), {
-            center: {
-                 lat: -35.667,
-                 lng: 145.667,
-            },
-            zoom: 10
-        });
+    // let kings_map;
+    // function initMap() {
+    //     let coord = MapService.coordinates;
+    //     console.log(`initMap coord= ${coord}`);
+    //     kings_map = new google.maps.Map(document.querySelector('#map'), {
+    //         center: {
+    //              lat: -35.667,
+    //              lng: 145.667,
+    //         },
+    //         zoom: 10
+    //     });
 
-        // let marker = new google.maps.Marker({
-        //     position: {
-        //         // lat: -34.397,
-        //         // lng: 150.644,
-        //     },
-        //     map: kings_map
-        // });
-    };
+    //     // let marker = new google.maps.Marker({
+    //     //     position: {
+    //     //         // lat: -34.397,
+    //     //         // lng: 150.644,
+    //     //     },
+    //     //     map: kings_map
+    //     // });
+    // };
 
-    initMap();
+    MapService.kings_map;
     
 
 

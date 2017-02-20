@@ -3,17 +3,18 @@
 <h1>{{displayCounty}}</h1>
 <!--pagnination test-->
 <section dir-paginate="loc in locations | itemsPerPage: 10" class="listing"><button ng-click="coord(loc.longitude, loc.latitude)">
-    <img ng-src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location={{ loc.propertyAddress }}
+    <img ng-src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location={{ loc.propertyAddress || loc.address}}
 &fov=40&pitch=0
 &key=AIzaSyD3sFAc9Vhuy5HI4JvEshs0xM3rCEa5gY0" alt="placeholder"></button>
             <div class="info">
             <h2> {{ loc.owner }}</h2>
-            <p>Address of Property Sold: <md-button ng-click="coord(loc.longitude, loc.latitude)">{{ loc.propertyAddress }}</md-button></p>
-            <p><a>Owner's Address: {{ loc.mailingAddress }}</p>
+            <p>Address of Property Sold: <md-button ng-click="coord(loc.longitude, loc.latitude)">{{ loc.propertyAddress || loc.address }}
+            </md-button></p>
+            <p ng-show="loc.mailingAddress != null"><a>Owner's Address: {{ loc.mailingAddress }}</p>
             <p>Total Property Value: {{ loc.totalValue | currency }}</p>
-            <p>Land Value: {{ loc.landValue | currency }}</p>
-            <p>Building Value: {{ loc.buildingValue | currency }}</p>
-            <p>Additional Value: {{ loc.additionalValue | currency }}</p>
+            <p ng-show="loc.landValue != null">Land Value: {{ loc.landValue | currency }}</p>
+            <p ng-show="loc.buildingValue != null">Building Value: {{ loc.buildingValue | currency }}</p>
+            <p ng-show="loc.additionalValue != null">Additional Value: {{ loc.additionalValue | currency }}</p>
             <p>Zoning: {{ loc.zoning }}</p>
             <p>Date of Sale: {{ loc.saleMonth | date:'MMM' }} {{ loc.saleYear }}</p>
             </div>
