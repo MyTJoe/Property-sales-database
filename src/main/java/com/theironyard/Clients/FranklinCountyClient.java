@@ -8,9 +8,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
-
+// couldn't push to heroku -- remote contains work that you don't have locally
 public class FranklinCountyClient {
-    private static String testUrl = "";
+    private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/franklin-30.json";
     private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
             "MapServer/3/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inS" +
             "R=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Saledt,Own1,Own2,Price,Aprland,A" +
@@ -18,22 +18,18 @@ public class FranklinCountyClient {
             "eturnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnI" +
             "dsOnly=false&returnCountOnly=false&orderByFields=Saledt DESC&groupByFieldsForStatistics=&outStat" +
             "istics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultR" +
-            "ecordCount=250&f=pjson";
+            "ecordCount=100&f=pjson";
 
     public List<FranklinPropertyRecords> getRecords() {
         List<FranklinPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String franklin = restTemplate.getForObject(url, String.class);
-        System.out.println();
-
+        String franklin = restTemplate.getForObject(testUrl, String.class);
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(franklin);
             Iterator<JsonNode> features = node.withArray("features").iterator();
 
-            System.out.println();
-            //Price,Aprland,Aprbldg,Tot22SUM
             while (features.hasNext()) {
                 JsonNode a = features.next();
                 String saleDate = a.get("attributes").get("Saledt").asText();
@@ -66,18 +62,18 @@ public class FranklinCountyClient {
                         adrsuf2.trim(),
                         addr1.trim());
 
-                String insertOwners = addOwners(owner1.trim(), owner2.trim());
-                String zoningName = convertZoningCode(zoningCode);
-
                 FranklinPropertyRecords info = new FranklinPropertyRecords();
+                String insertOwners = addOwners(owner1.trim(), owner2.trim());
                 info.setOwner(insertOwners);
-                info.setAddress(fullAddress + " " + cityName + " " + state + ", " + zipCode);
                 info.setDateOfSale(saleDate);
+                String zoningName = convertZoningCode(zoningCode);
                 info.setZoning(zoningName);
                 info.setSalePrice(salePrice);
                 info.setLandValue(landValue);
                 info.setBuildingValue(buildingValue);
                 info.setTotalValue(totalValue);
+                StringBuilder sb = new StringBuilder();
+                info.setAddress(sb.append(fullAddress).append(" ").append(cityName).append(" ").append(state).append(", ").append(zipCode).toString());
                 records.add(info);
             }
         } catch (IOException e) {
@@ -88,14 +84,15 @@ public class FranklinCountyClient {
 
     // combine multiple owners into one field
     private String addOwners(String owner1, String owner2) {
-        String result = "";
+        StringBuilder sb = new StringBuilder();
+
         if (!StringUtils.isEmpty(owner1)) {
-            result += " " + owner1;
+            sb.append(" ").append(owner1);
         }
         if (!StringUtils.isEmpty(owner2)) {
-            result += " & " + owner2;
+            sb.append(" & ").append(owner2);
         }
-        return result.trim();
+        return sb.toString().trim();
     }
 
     // converting zoning codes
@@ -115,31 +112,30 @@ public class FranklinCountyClient {
     // building address field from multiple fields provided by the database
     private String getAddress(String adrno, String adradd, String adrdir, String adrstr, String adrsuf, String adrsuf2,
                               String addr1) {
+        StringBuilder sb = new StringBuilder();
 
-
-        String result = "";
         if (!StringUtils.isEmpty(adrno)) {
-            result += " " + adrno;
+            sb.append(" ").append(adrno);
         }
         if (!StringUtils.isEmpty(adradd)) {
-            result += " " + adradd;
+            sb.append(" ").append(adradd);
         }
         if (!StringUtils.isEmpty(adrdir)) {
-            result += " " + adrdir;
+            sb.append(" ").append(adrdir);
         }
         if (!StringUtils.isEmpty(adrstr)) {
-            result += " " + adrstr;
+            sb.append(" ").append(adrstr);
         }
         if (!StringUtils.isEmpty(adrsuf)) {
-            result += " " + adrsuf;
+            sb.append(" ").append(adrsuf);
         }
         if (!StringUtils.isEmpty(adrsuf2)) {
-            result += " " + adrsuf2;
+            sb.append(" ").append(adrsuf2);
         }
         if (!StringUtils.isEmpty(addr1)) {
-            result += " " + addr1;
+            sb.append(" ").append(addr1);
         }
-        return result.trim();
+        return sb.toString().trim();
     }
 }
 
