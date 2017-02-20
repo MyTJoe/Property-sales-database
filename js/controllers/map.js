@@ -1,7 +1,7 @@
 module.exports = {
     name: 'MapController',
     func: function ($scope, MapService) {
-
+        MapService.initMap();
     // let kings_map;
     // function initMap() {
     //     let coord = MapService.coordinates;
@@ -23,16 +23,16 @@ module.exports = {
     //     // });
     // };
 
-    MapService.kings_map;
+    // initMap();
     
 
 
 
-        console.log('map controller');
-        $scope.locate = () => {
-            console.log('scope locate was clicked, activated in map controller');
-            MapService.locate();
-        }
+    //     console.log('map controller');
+    //     $scope.locate = () => {
+    //         console.log('scope locate was clicked, activated in map controller');
+    //         MapService.locate();
+    //     }
     }
 
 };

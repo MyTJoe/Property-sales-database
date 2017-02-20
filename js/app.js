@@ -2,8 +2,7 @@ const app = angular.module('PropData', [
         'ui.router',        
         'ngMaterial',
         'ngAnimate',
-        'ngAria', 
-        'angularUtils.directives.dirPagination',
+        'ngAria',
     ]);
 // angular material theme
 // config(function ($mdThemingProvider) {
@@ -17,6 +16,7 @@ const app = angular.module('PropData', [
     const controllers = [
         require('./controllers/listings'),
         require('./controllers/map'),
+        require('./controllers/pager'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -33,6 +33,7 @@ const app = angular.module('PropData', [
     const services = [
         require('./services/listings'),
         require('./services/map'),
+        require('./services/pager'),
     ];
     for (let i = 0; i < services.length; i++) {
         app.factory(services[i].name, services[i].func)
