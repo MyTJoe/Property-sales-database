@@ -2,15 +2,12 @@ module.exports = {
     name: 'MapController',
     func: function ($scope, MapService) {
 
-
-
-
     let kings_map;
-    function initMap() {
+    function initMap(lati, long) {
         kings_map = new google.maps.Map(document.querySelector('#map'), {
             center: {
-                 lat: -34.397,
-                 lng: 150.644,
+                 lat: lati,
+                 lng: long,
             },
             zoom: 8
         });
@@ -24,7 +21,7 @@ module.exports = {
         });
     };
 
-    initMap();
+    initMap(lati, long);
     
 
 
@@ -37,21 +34,3 @@ module.exports = {
     }
 
 };
-
-
-
-// (function(window, google) {
-
-//     // map options
-//     let options = {
-//         center: {
-//             lat: 37.791350, // lat and long for san fran. Change later
-//             lng: -122.435883,
-//     },
-//     zoom:10,
-// },
-//     element = document.getElementById('#map')
-//     // map
-//     map = new google.maps.Map(element, options)
-
-// }(window, google));
