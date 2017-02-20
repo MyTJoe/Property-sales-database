@@ -1,13 +1,14 @@
 package com.theironyard.entities;
 
 public class HarnettPropertyRecords {
+    private String generatedId;//OBJECTID
+    private String propertyId;//ParcelID
     private String owner; //Owners, Owner1, Owner2
     private String propertyAddress; //PhysicalAddress + ParZipCode + ParCity (figure out state)
     private String mailingAddress; //MailingAddress
     private String longitude; //Longitude
     private String latitude; //Latitude
-    private String saleMonth; //SaleMonth
-    private String saleYear; //SaleYear
+    private String saleDate; //SaleMonth
     private String salePrice; //SalePrice
     private String totalValue; //TotalMarketValue
     private String landValue; //ParcelLandValue
@@ -16,6 +17,22 @@ public class HarnettPropertyRecords {
     private String zoning; //Zoning 
 
     public HarnettPropertyRecords() {
+    }
+
+    public String getGeneratedId() {
+        return generatedId;
+    }
+
+    public void setGeneratedId(String generatedId) {
+        this.generatedId = generatedId;
+    }
+
+    public String getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(String propertyId) {
+        this.propertyId = propertyId;
     }
 
     public String getAdditionalValue() {
@@ -74,20 +91,12 @@ public class HarnettPropertyRecords {
         this.latitude = latitude;
     }
 
-    public String getSaleMonth() {
-        return saleMonth;
+    public String getSaleDate() {
+        return saleDate;
     }
 
-    public void setSaleMonth(String saleMonth) {
-        this.saleMonth = saleMonth;
-    }
-
-    public String getSaleYear() {
-        return saleYear;
-    }
-
-    public void setSaleYear(String saleYear) {
-        this.saleYear = saleYear;
+    public void setSaleDate(String saleDate) {
+        this.saleDate = saleDate;
     }
 
     public String getSalePrice() {

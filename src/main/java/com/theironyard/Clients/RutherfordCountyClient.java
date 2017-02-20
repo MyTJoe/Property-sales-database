@@ -3,6 +3,7 @@ package com.theironyard.Clients;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theironyard.entities.RutherfordPropertyRecords;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -83,16 +84,17 @@ public class RutherfordCountyClient {
 
     private String buildPropertyAddress(String address, String city, String state, String zip) {
         StringBuilder sb = new StringBuilder();
-        if (!address.isEmpty()) {
+
+        if (!StringUtils.isEmpty(address)) {
             sb.append(address);
         }
-        if (!city.isEmpty()) {
+        if (!StringUtils.isEmpty(city)) {
             sb.append(" ").append(city);
         }
-        if (!state.isEmpty()) {
+        if (!StringUtils.isEmpty(state)) {
             sb.append(" ").append(state);
         }
-        if (!zip.isEmpty()) {
+        if (!StringUtils.isEmpty(zip)) {
             sb.append(", ").append(zip);
         }
         return sb.toString().trim();
@@ -100,16 +102,16 @@ public class RutherfordCountyClient {
 
     private String buildMailingAddress(String mAddress, String mCity, String mState, String mZip) {
         StringBuilder sb = new StringBuilder();
-        if (!mAddress.isEmpty()) {
+        if (!StringUtils.isEmpty(mAddress)) {
             sb.append(mAddress);
         }
-        if (!mCity.isEmpty()) {
+        if (!StringUtils.isEmpty(mCity)) {
             sb.append(" ").append(mCity);
         }
-        if (!mState.isEmpty()) {
+        if (!StringUtils.isEmpty(mState)) {
             sb.append(" ").append(mState);
         }
-        if (!mZip.isEmpty()) {
+        if (!StringUtils.isEmpty(mZip)) {
             sb.append(", ").append(mZip);
         }
         return sb.toString().trim();

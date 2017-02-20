@@ -4,7 +4,7 @@ public class FranklinPropertyRecords {
     private String owner;
     private String address;
     private String zoning;
-    private String dateOfSale;
+    private String saleDate;
     private String salePrice; //Price
     private String landValue; //Aprland
     private String buildingValue; //Aprbldg
@@ -45,12 +45,12 @@ public class FranklinPropertyRecords {
         this.totalValue = totalValue;
     }
 
-    public String getDateOfSale() {
-        return dateOfSale;
+    public String getSaleDate() {
+        return saleDate;
     }
 
-    public void setDateOfSale(String dateOfSale) {
-        this.dateOfSale = dateOfSale;
+    public void setSaleDate(String saleDate) {
+        this.saleDate = saleDate;
     }
 
     public String getOwner() {

@@ -8,8 +8,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
-// couldn't push to heroku -- remote contains work that you don't have locally
+// add zips
 public class FranklinCountyClient {
+    //find zip for franklin only
     private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/franklin-30.json";
     private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
             "MapServer/3/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inS" +
@@ -65,7 +66,7 @@ public class FranklinCountyClient {
                 FranklinPropertyRecords info = new FranklinPropertyRecords();
                 String insertOwners = addOwners(owner1.trim(), owner2.trim());
                 info.setOwner(insertOwners);
-                info.setDateOfSale(saleDate);
+                info.setSaleDate(saleDate);
                 String zoningName = convertZoningCode(zoningCode);
                 info.setZoning(zoningName);
                 info.setSalePrice(salePrice);
@@ -73,7 +74,14 @@ public class FranklinCountyClient {
                 info.setBuildingValue(buildingValue);
                 info.setTotalValue(totalValue);
                 StringBuilder sb = new StringBuilder();
-                info.setAddress(sb.append(fullAddress).append(" ").append(cityName).append(" ").append(state).append(", ").append(zipCode).toString());
+                info.setAddress(sb.
+                        append(fullAddress).
+                        append(" ").
+                        append(cityName).
+                        append(" ").
+                        append(state).
+                        append(", ").
+                        append(zipCode).toString());
                 records.add(info);
             }
         } catch (IOException e) {

@@ -25,7 +25,7 @@ public class PropertyController {
     @CrossOrigin
     @RequestMapping(path = "/", method = RequestMethod.GET)
         public String home() {
-            return "/home.html";
+            return "/index.html";
     }
 
     @CrossOrigin
