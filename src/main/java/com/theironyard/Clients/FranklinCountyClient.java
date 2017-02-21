@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class FranklinCountyClient {
-    //27508,27525,27549,27596
+
     private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Franklin-30.json";
     private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
             "MapServer/3/query?where=Zip1 IN (27508,27525,27549,27596)&text=%&objectIds=&time=&geometry=&geom" +
