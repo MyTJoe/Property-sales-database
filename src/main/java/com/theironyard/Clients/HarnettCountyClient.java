@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class HarnettCountyClient {
-    private String testUrl = "";
+    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Harnett-30.json";
     private String url = "http://gis.harnett.org/arcgis/rest/services/Tax/TaxParcels/MapServer/1/query?where=" +
             "parzipcode IN (27501,27521,27546,28323,28334,28339)&text=%&objectIds=&time=&geometry=&geometryTy" +
             "pe=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=OBJEC" +
@@ -27,7 +27,7 @@ public class HarnettCountyClient {
         List<HarnettPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String harnett = restTemplate.getForObject(url, String.class);
+        String harnett = restTemplate.getForObject(testUrl, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -55,7 +55,7 @@ public class HarnettCountyClient {
                 String zoning = a.get("attributes").get("Zoning").asText();
 
                 HarnettPropertyRecords info = new HarnettPropertyRecords();
-                info.setGeneratedId(objectId);
+                info.setDataId(objectId);
                 info.setPropertyId(parcelID);
                 info.setOwner(owner1);
                 info.setMailingAddress(mailingAddress);

@@ -5,6 +5,8 @@ public class FranklinPropertyRecords {
     private String address;
     private String zoning;
     private String saleDate;
+//    private String longitude;
+//    private String latitude;
     private String salePrice; //Price
     private String landValue; //Aprland
     private String buildingValue; //Aprbldg

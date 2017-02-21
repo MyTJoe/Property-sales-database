@@ -1,7 +1,7 @@
 package com.theironyard.entities;
 
 public class HarnettPropertyRecords {
-    private String generatedId;//OBJECTID
+    private String dataId;//OBJECTID
     private String propertyId;//ParcelID
     private String owner; //Owners, Owner1, Owner2
     private String propertyAddress; //PhysicalAddress + ParZipCode + ParCity (figure out state)
@@ -19,12 +19,12 @@ public class HarnettPropertyRecords {
     public HarnettPropertyRecords() {
     }
 
-    public String getGeneratedId() {
-        return generatedId;
+    public String getDataId() {
+        return dataId;
     }
 
-    public void setGeneratedId(String generatedId) {
-        this.generatedId = generatedId;
+    public void setDataId(String dataId) {
+        this.dataId = dataId;
     }
 
     public String getPropertyId() {
