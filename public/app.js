@@ -128,9 +128,14 @@ module.exports = {
         $scope.coord = (location) => {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
-                pid: location.totalValue, // not right
+                pid: location.propertyId, // not right
             }); // rerouting to a different view
         }
+
+
+
+
+
     },
 };
 
@@ -162,38 +167,6 @@ module.exports = {
         }
     });
 
-
-    // let kings_map;
-    // function initMap() {
-    //     let coord = MapService.coordinates;
-    //     console.log(`initMap coord= ${coord}`);
-    //     kings_map = new google.maps.Map(document.querySelector('#map'), {
-    //         center: {
-    //              lat: -35.667,
-    //              lng: 145.667,
-    //         },
-    //         zoom: 10
-    //     });
-
-    //     // let marker = new google.maps.Marker({
-    //     //     position: {
-    //     //         // lat: -34.397,
-    //     //         // lng: 150.644,
-    //     //     },
-    //     //     map: kings_map
-    //     // });
-    // };
-
-    // initMap();
-    
-
-
-
-    //     console.log('map controller');
-    //     $scope.locate = () => {
-    //         console.log('scope locate was clicked, activated in map controller');
-    //         MapService.locate();
-    //     }
     }
 
 };
@@ -218,6 +191,7 @@ module.exports = {
         if (page < 1 || page > vm.pager.totalPages) {
             return;
         }
+ 
  
         // get pager object from service
         vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
@@ -313,7 +287,7 @@ locate: (lat, lng) => {
                 coordinates = [lat, lng]
                 lati = lat;
                 long = lng;
-                console.log(`my map was clicked ${coordinates[0]}`);
+                console.log(`my map was clicked ${lati}, ${long}`);
                return coordinates;
             },
 

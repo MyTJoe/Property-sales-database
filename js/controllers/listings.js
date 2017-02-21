@@ -46,8 +46,13 @@ module.exports = {
         $scope.coord = (location) => {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
-                pid: location.totalValue, // not right
+                pid: location.propertyId, // not right
             }); // rerouting to a different view
         }
+
+
+
+
+
     },
 };

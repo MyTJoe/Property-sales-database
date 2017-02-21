@@ -19,6 +19,7 @@ module.exports = {
             return;
         }
  
+ 
         // get pager object from service
         vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
  

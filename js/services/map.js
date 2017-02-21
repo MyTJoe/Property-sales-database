@@ -50,7 +50,7 @@ locate: (lat, lng) => {
                 coordinates = [lat, lng]
                 lati = lat;
                 long = lng;
-                console.log(`my map was clicked ${coordinates[0]}`);
+                console.log(`my map was clicked ${lati}, ${long}`);
                return coordinates;
             },
 

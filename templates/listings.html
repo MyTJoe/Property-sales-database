@@ -2,7 +2,7 @@
 </select>
 <h1>{{displayCounty}}</h1>
 <!--pagnination test-->
-<section ng-repeat="loc in locations" class="listing"><button ng-click="coord(loc.longitude, loc.latitude)">
+<section ng-repeat="loc in locations | limitTo: 10" class="listing"><button ng-click="coord(loc)">
     <img ng-src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location={{ loc.propertyAddress || loc.address}}
 &fov=40&pitch=0
 &key=AIzaSyD3sFAc9Vhuy5HI4JvEshs0xM3rCEa5gY0" alt="placeholder"></button>
@@ -10,23 +10,23 @@
             <h2> {{ loc.owner }}</h2>
             <p>Address of Property Sold: <md-button ng-click="coord(loc)">{{ loc.propertyAddress || loc.address }}
             </md-button></p>
-            <p ng-show="loc.mailingAddress != null"><a>Owner's Address: {{ loc.mailingAddress }}</p>
+            <p ng-show="loc.mailingAddress != null">Owner's Address: {{ loc.mailingAddress }}</p>
             <p>Total Property Value: {{ loc.totalValue | currency }}</p>
             <p ng-show="loc.landValue != null">Land Value: {{ loc.landValue | currency }}</p>
             <p ng-show="loc.buildingValue != null">Building Value: {{ loc.buildingValue | currency }}</p>
             <p ng-show="loc.additionalValue != null">Additional Value: {{ loc.additionalValue | currency }}</p>
             <p>Zoning: {{ loc.zoning }}</p>
-            <p>Date of Sale: {{ loc.saleMonth | date:'MMM' }} {{ loc.saleYear }}</p>
+            <p>Date of Sale: {{ loc.saleDate }}</p>
             </div>
 </section>
 
 
-<!--<div ng-controller="ExampleController as vm" class="container">-->
+<!--<div ng-controller="PagerController as vm" class="container">-->
     <!--<div class="text-center">
         <h1>AngularJS - Pagination Example with logic like Google</h1>-->
  
         <!-- items being paged -->
-        <!--<div ng-repeat="loc in locations">Name: {{ loc.owner }}</div>-->
+        <!--<div ng-repeat="loc in vm.items">Name: {{ loc.owner }}</div>-->
          
         <!-- pager -->
         <!--<ul ng-if="vm.pager.pages.length" class="pagination">
@@ -45,8 +45,8 @@
             <li ng-class="{disabled:vm.pager.currentPage === vm.pager.totalPages}">
                 <a ng-click="vm.setPage(vm.pager.totalPages)">Last</a>
             </li>
-        </ul>
-    </div>
+        </ul>-->
+    <!--</div>
 </div>-->
 
 
