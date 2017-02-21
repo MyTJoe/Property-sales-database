@@ -16,18 +16,6 @@
             <p ng-show="loc.buildingValue != null">Building Value: {{ loc.buildingValue | currency }}</p>
             <p ng-show="loc.additionalValue != null">Additional Value: {{ loc.additionalValue | currency }}</p>
             <p>Zoning: {{ loc.zoning }}</p>
-<<<<<<< HEAD
-            <p>Date of Sale: {{ loc.saleDate | date:'MMM' }} {{ loc.saleYear }}</p>
-            </div>
-</section>
-
-<div class="text-center">
-    <dir-pagination-controls direction-links="true" boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
-</div>
-
-
-
-=======
             <p>Date of Sale: {{ loc.saleDate }}</p>
             </div>
 </section>
