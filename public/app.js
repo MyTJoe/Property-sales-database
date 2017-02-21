@@ -6,7 +6,7 @@ const app = angular.module('PropData', [
         'ngAria',
     ]);
 // angular material theme
-// config(function ($mdThemingProvider) {
+// app.config(function ($mdThemingProvider) {
 //     $mdThemingProvider.theme('default')
 //         .primaryPalette('blue')
 //         .accentPalette('orange')
@@ -46,15 +46,6 @@ const app = angular.module('PropData', [
             $stateProvider.state(routers[i]);
         }
     });
-
-    // left in from starter pack. delete if not needed
-// });
-window.addEventListener('load', function () {
-    console.log('ready to rock');
-});
-
-
-
 
 // might need for button pagination
 
@@ -124,7 +115,6 @@ module.exports = {
 
         initialCountyLoad();
 
-        // map stuff that's currently not working
         $scope.coord = (location) => {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
@@ -147,6 +137,19 @@ module.exports = {
     func: function ($scope, MapService, ListingsService, $stateParams) {
         // if pid is undefined, need to show everything
         // if pid is defined, only show that one
+        let county = ListingsService.passCounty();
+        let mainLat = 35.3579;
+        let mainLong = -78.8836;
+        
+        if (county === null || county === undefined) {
+            county = 'harnett';
+            // mainLat = 35.3579;
+            // mainLong = -78.8836;
+        } else if (county === 'franklin') {
+            console.log('franklin in the house');
+        }
+        console.log(`dispaly county: ${county}`);
+        console.log(`this is somename`)
         console.log($stateParams.pid);
 
         const map = new google.maps.Map(document.querySelector('#map'), {
@@ -154,11 +157,11 @@ module.exports = {
                 lat: 35.3579,
                 lng: -78.8836,
             },
-            zoom: 10,
+            zoom: 11,
         });
 
         // // Show all markers
-        ListingsService.getLoc('harnett').then(function (result) {
+        ListingsService.getLoc(county).then(function (result) {
             for (let i = 0; i < result.length; i++) {
                 // console.log(result[i].propertyId);
                 if (result[i].propertyId === $stateParams.pid) {
@@ -172,8 +175,7 @@ module.exports = {
                         },
                         map: map,
                     });
-                } else if ($stateParams.pid === '') {
-                    console.log('show it all');
+                } else if ($stateParams.pid === '' || $stateParams.pid === undefined) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
 
@@ -235,7 +237,7 @@ module.exports = [
     },
     {
         name: 'allmap',
-        url: '/map/', // colon indicates a 'route parameter'
+        url: '/map/',
         component: 'map',
         params: {
             pid: undefined,
@@ -248,15 +250,19 @@ module.exports = [
 module.exports = {
     name: 'ListingsService',
     func: ($http) => {
+        let thisCounty = null;
         return {
             getLoc: (county) => {
                 console.log(`getLoc func in ListingsService: ${county}`);
+                thisCounty = county;
                 return $http.get
                 (`https://countylink.herokuapp.com/${county}`)
                     .then(function (response) {
-                        console.log(`data ${response.data}`);
                         return response.data;
                     });
+            },
+            passCounty: () => {
+                return thisCounty;
             },
         }
     },
@@ -269,47 +275,13 @@ module.exports = {
          let coordinates = [];
          let lati;
          let long;
-//         let coordinates;
-//         let kings_map;
-//     function initMap() {
-//         let coord = MapService.coordinates;
-//         console.log(`initMap coord= ${coord}`);
-//         kings_map = new google.maps.Map(document.querySelector('#map'), {
-//             center: {
-//                  lat: -35.667,
-//                  lng: 145.667,
-//             },
-//             zoom: 10
-//         });
-
-//         let marker = new google.maps.Marker({
-//             position: {
-//                 // lat: -34.397,
-//                 // lng: 150.644,
-//             },
-//             map: kings_map
-//         });
-//     };
 
          return {
-            // locate: (lat, lng) => {
-            //     coordinates = [lat, lng]
-            //     console.log(`my map was clicked ${coordinates[0]}`);
-            //    //return kings_map;
-            // },
 
-                // function initMap () {
              initMap: (lat, lng) => {
                  console.log(`initMap func: ${coordinates}`);
                  console.log(`logging coordinates in initMap: ${lati}`);
-    // const map = new google.maps.Map(document.querySelector('#map'), {
-    //     center: {
-    //         lat: -34.397,
-    //         lng: 135.543,
-    //     },
-    //     zoom: 10
-    // });
-    //return map;
+
 },
 locate: (lat, lng) => {
                 coordinates = [lat, lng]
@@ -322,17 +294,7 @@ locate: (lat, lng) => {
          }  
      },
  };
- 
 
-// function initMap () {
-//     const map = new google.maps.Map(document.querySelector('#map'), {
-//         center: {
-//             lat: -34.567,
-//             lng: 35.543,
-//         },
-//         zoom: 10
-//     });
-// };
 },{}],10:[function(require,module,exports){
 module.exports = {
     name: 'PagerService',

@@ -5,7 +5,7 @@ const app = angular.module('PropData', [
         'ngAria',
     ]);
 // angular material theme
-// config(function ($mdThemingProvider) {
+// app.config(function ($mdThemingProvider) {
 //     $mdThemingProvider.theme('default')
 //         .primaryPalette('blue')
 //         .accentPalette('orange')
@@ -45,15 +45,6 @@ const app = angular.module('PropData', [
             $stateProvider.state(routers[i]);
         }
     });
-
-    // left in from starter pack. delete if not needed
-// });
-window.addEventListener('load', function () {
-    console.log('ready to rock');
-});
-
-
-
 
 // might need for button pagination
 

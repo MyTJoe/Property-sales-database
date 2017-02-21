@@ -11,7 +11,7 @@ module.exports = [
     },
     {
         name: 'allmap',
-        url: '/map/', // colon indicates a 'route parameter'
+        url: '/map/',
         component: 'map',
         params: {
             pid: undefined,
