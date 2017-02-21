@@ -3,9 +3,11 @@
 
 <head>
     <title>Property Database</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--add css file-->
     <link href="./angular-material.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-animate.min.js"></script>
@@ -13,8 +15,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.2/angular-messages.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.min.js"></script>
     <script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>
-    <script src="./dirPagination.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="app.js"></script>
+    <script src="bootstrap.min.js"></script>
+ 
 
     <!--google maps-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX_XiOTs0b_rxPCETMAwBXH9ORBYq3VCQ" async defer></script>
@@ -29,19 +33,19 @@
         <md-nav-bar md-selected-nav-item="currentNavItem"         nav-bar-aria-label="navigation links">
             <md-nav-item md-nav-sref="listings" name="ListView">
             List View </md-nav-item>
-            <md-nav-item md-nav-sref="map" name="Map">
+            <md-nav-item md-nav-sref="allmap" name="Map">
             Map View </md-nav-item>
         </md-nav-bar>
-            <!--<nav>
-                <md-button><a ui-sref="listings">List View</a></md-button>
-                    <md-button><a ui-sref="map">Map View</a></md-button>-->
 
+<<<<<<< HEAD
                     <!--<input type="text" placeholder="search">
                     <button>search</button>-->
 
             <!--</nav>-->
 
 
+=======
+>>>>>>> feature/buttons
         <section>
             <ui-view></ui-view>
         </section>

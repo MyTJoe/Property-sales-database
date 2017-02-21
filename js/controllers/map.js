@@ -1,36 +1,49 @@
+
 module.exports = {
     name: 'MapController',
-    func: function ($scope, MapService) {
+    // $stateParams is how you pull values out of the route (URL)
+    func: function ($scope, MapService, ListingsService, $stateParams) {
+        // if pid is undefined, need to show everything
+        // if pid is defined, only show that one
+        console.log($stateParams.pid);
 
-    let kings_map;
-    function initMap() {
-        kings_map = new google.maps.Map(document.querySelector('#map'), {
+        const map = new google.maps.Map(document.querySelector('#map'), {
             center: {
-                 lat: -35.667,
-                 lng: 145.667,
+                lat: 35.3579,
+                lng: -78.8836,
             },
-            zoom: 10
+            zoom: 10,
         });
 
-        // let marker = new google.maps.Marker({
-        //     position: {
-        //         // lat: -34.397,
-        //         // lng: 150.644,
-        //     },
-        //     map: kings_map
-        // });
-    };
+        // // Show all markers
+        ListingsService.getLoc('harnett').then(function (result) {
+            for (let i = 0; i < result.length; i++) {
+                // console.log(result[i].propertyId);
+                if (result[i].propertyId === $stateParams.pid) {
+                    const lat = parseFloat(result[i].latitude);
+                    const long = parseFloat(result[i].longitude);
 
-    initMap();
-    
+                    let marker = new google.maps.Marker({
+                        position: {
+                            lat: lat,
+                            lng: long,
+                        },
+                        map: map,
+                    });
+                } else if ($stateParams.pid === '') {
+                    console.log('show it all');
+                    const lat = parseFloat(result[i].latitude);
+                    const long = parseFloat(result[i].longitude);
 
-
-
-        console.log('map controller');
-        $scope.locate = () => {
-            console.log('scope locate was clicked, activated in map controller');
-            MapService.locate();
-        }
-    }
-
+                    let marker = new google.maps.Marker({
+                        position: {
+                            lat: lat,
+                            lng: long,
+                        },
+                        map: map,
+                    });
+                }
+            }
+        });
+    },
 };
