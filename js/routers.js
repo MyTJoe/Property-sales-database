@@ -1,7 +1,7 @@
 module.exports = [
     {
         name: 'listings',
-        url: '/listings',
+        url: '',
         component: 'listings',
     },
     {

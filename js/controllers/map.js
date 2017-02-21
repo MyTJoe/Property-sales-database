@@ -30,7 +30,7 @@ module.exports = {
                         },
                         map: map,
                     });
-                } else if ($stateParams.pid === ''){
+                } else if ($stateParams.pid === '') {
                     console.log('show it all');
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
