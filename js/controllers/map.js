@@ -20,7 +20,7 @@ module.exports = {
         console.log(`this is somename`)
         console.log($stateParams.pid);
 
-        const map = new google.maps.Map(document.querySelector('#map'), {
+        let map = new google.maps.Map(document.querySelector('#map'), {
             center: {
                 lat: 35.3579,
                 lng: -78.8836,
@@ -28,21 +28,29 @@ module.exports = {
             zoom: 11,
         });
 
-        // // Show all markers
+        // show single map view
         ListingsService.getLoc(county).then(function (result) {
             for (let i = 0; i < result.length; i++) {
-                // console.log(result[i].propertyId);
                 if (result[i].propertyId === $stateParams.pid) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
 
+                    let hybridMap = new google.maps.Map(document.querySelector('#map'), {
+            center: {
+                lat: lat,
+                lng: long,
+            },
+            zoom: 17,
+            mapTypeId: 'hybrid', 
+        });             
                     let marker = new google.maps.Marker({
                         position: {
                             lat: lat,
                             lng: long,
                         },
-                        map: map,
+                        map: hybridMap,
                     });
+                    //shows all markers 
                 } else if ($stateParams.pid === '' || $stateParams.pid === undefined) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);

@@ -5,14 +5,6 @@ const app = angular.module('PropData', [
         'ngAnimate',
         'ngAria',
     ]);
-// angular material theme
-// app.config(function ($mdThemingProvider) {
-//     $mdThemingProvider.theme('default')
-//         .primaryPalette('blue')
-//         .accentPalette('orange')
-    //end of theme
-
-
     //controller loop
     const controllers = [
         require('./controllers/listings'),
@@ -46,14 +38,6 @@ const app = angular.module('PropData', [
             $stateProvider.state(routers[i]);
         }
     });
-
-// might need for button pagination
-
-// function OtherController($scope) {
-//   $scope.pageChangeHandler = function(num) {
-//     console.log('going to page ' + num);
-//   };
-// }
 },{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/map":5,"./controllers/pager":6,"./routers":7,"./services/listings":8,"./services/map":9,"./services/pager":10}],2:[function(require,module,exports){
 module.exports = {
     name: 'listings',
@@ -121,11 +105,6 @@ module.exports = {
                 pid: location.propertyId,
             }); // rerouting to a different view
         }
-
-
-
-
-
     },
 };
 
@@ -152,7 +131,7 @@ module.exports = {
         console.log(`this is somename`)
         console.log($stateParams.pid);
 
-        const map = new google.maps.Map(document.querySelector('#map'), {
+        let map = new google.maps.Map(document.querySelector('#map'), {
             center: {
                 lat: 35.3579,
                 lng: -78.8836,
@@ -160,21 +139,29 @@ module.exports = {
             zoom: 11,
         });
 
-        // // Show all markers
+        // show single map view
         ListingsService.getLoc(county).then(function (result) {
             for (let i = 0; i < result.length; i++) {
-                // console.log(result[i].propertyId);
                 if (result[i].propertyId === $stateParams.pid) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
 
+                    let hybridMap = new google.maps.Map(document.querySelector('#map'), {
+            center: {
+                lat: lat,
+                lng: long,
+            },
+            zoom: 17,
+            mapTypeId: 'hybrid', 
+        });             
                     let marker = new google.maps.Marker({
                         position: {
                             lat: lat,
                             lng: long,
                         },
-                        map: map,
+                        map: hybridMap,
                     });
+                    //shows all markers 
                 } else if ($stateParams.pid === '' || $stateParams.pid === undefined) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
@@ -269,30 +256,16 @@ module.exports = {
 };
 
 },{}],9:[function(require,module,exports){
- module.exports = {
+module.exports = {
      name: 'MapService', 
      func: () => {
-         let coordinates = [];
-         let lati;
-         let long;
-
          return {
-
-             initMap: (lat, lng) => {
-                 console.log(`initMap func: ${coordinates}`);
-                 console.log(`logging coordinates in initMap: ${lati}`);
-
-},
-locate: (lat, lng) => {
+            locate: (lat, lng) => {
                 coordinates = [lat, lng]
-                lati = lat;
-                long = lng;
-                console.log(`my map was clicked ${lati}, ${long}`);
                return coordinates;
-            },
-
-         }  
-     },
+                },
+            }  
+        },
  };
 
 },{}],10:[function(require,module,exports){

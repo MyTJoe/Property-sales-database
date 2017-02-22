@@ -4,14 +4,6 @@ const app = angular.module('PropData', [
         'ngAnimate',
         'ngAria',
     ]);
-// angular material theme
-// app.config(function ($mdThemingProvider) {
-//     $mdThemingProvider.theme('default')
-//         .primaryPalette('blue')
-//         .accentPalette('orange')
-    //end of theme
-
-
     //controller loop
     const controllers = [
         require('./controllers/listings'),
@@ -45,11 +37,3 @@ const app = angular.module('PropData', [
             $stateProvider.state(routers[i]);
         }
     });
-
-// might need for button pagination
-
-// function OtherController($scope) {
-//   $scope.pageChangeHandler = function(num) {
-//     console.log('going to page ' + num);
-//   };
-// }

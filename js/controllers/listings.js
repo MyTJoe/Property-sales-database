@@ -48,10 +48,5 @@ module.exports = {
                 pid: location.propertyId,
             }); // rerouting to a different view
         }
-
-
-
-
-
     },
 };
