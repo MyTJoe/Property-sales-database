@@ -5,14 +5,39 @@ public class FranklinPropertyRecords {
     private String address;
     private String zoning;
     private String saleDate;
-//    private String longitude;
-//    private String latitude;
     private String salePrice; //Price
     private String landValue; //Aprland
     private String buildingValue; //Aprbldg
     private String totalValue; //Tot22SUM
+    private String city;
+    private String state;
+    private String zip;
 
     public FranklinPropertyRecords() {
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getSalePrice() {

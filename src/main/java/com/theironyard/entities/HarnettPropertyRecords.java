@@ -1,10 +1,10 @@
 package com.theironyard.entities;
 
 public class HarnettPropertyRecords {
-    private String dataId;//OBJECTID
+
     private String propertyId;//ParcelID
     private String owner; //Owners, Owner1, Owner2
-    private String propertyAddress; //PhysicalAddress + ParZipCode + ParCity (figure out state)
+    private String propertyAddress; //PhysicalAddress +  + (figure out state)
     private String mailingAddress; //MailingAddress
     private String longitude; //Longitude
     private String latitude; //Latitude
@@ -15,16 +15,35 @@ public class HarnettPropertyRecords {
     private String additionalValue; // ParcelObxfValue
     private String buildingValue; // ParcelBuildingValue
     private String zoning; //Zoning 
+    private String city; //ParCity
+    private String State = "NC";
+    private String zip; //ParZipCode
 
     public HarnettPropertyRecords() {
     }
 
-    public String getDataId() {
-        return dataId;
+    public String getCity() {
+        return city;
     }
 
-    public void setDataId(String dataId) {
-        this.dataId = dataId;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getPropertyId() {
