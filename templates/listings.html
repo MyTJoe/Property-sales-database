@@ -10,6 +10,7 @@
             <div class="info">
                 <h2>{{ loc.propertyAddress || loc.address }}
                 </h2>
+                <h2>{{ loc.city}}, {{ loc.state}} {{loc.zip}}</h2>
                 <p> {{ loc.owner }}</p>
                 <p ng-show="loc.mailingAddress != null">Owner's Address: {{ loc.mailingAddress }}</p>
                 <p>Total Property Value: {{ loc.totalValue | currency }}</p>
