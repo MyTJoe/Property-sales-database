@@ -80,31 +80,69 @@ module.exports = {
             }
         ];
 
+        //pagination maybe
+        $scope.btnNums =  (loc) => {
+            let count = 0;
+            console.log(`work already ${loc}`);
+            for (let i = 0; i < loc.length / 10; i++) {
+                count++;
+                btnCount.push(count);
+                console.log(`some num here: ${btnCount}`);
+            }
+                return btnCount;
+        };
+        //button operations;
+         let btnCount = [];
+         let currentPage = 1;
+         let startNum = 0;
+         let endNum = 10;
+         $scope.num = btnCount;
+        $scope.showPage = (operator) => {
+            if (operator === 'next') {
+                startNum += 10;
+                endNum += 10;
+            } else if (operator === 'back') {
+                startNum = startNum - 10;
+                endNum =  endNum - 10;
+            } else {            
+             startNum = (operator - 1) * 10;
+             endNum = operator * 10;
+            }
+            // A bit wasteful because it redoes a bit AJAX request for each page load.
+            ListingsService.getLoc(pickCounty).then(function (listings) {
+                //$scope.locations = listings;
+                $scope.locations = listings.slice(startNum, endNum);
+            });
+        };
+        //end of pagination
+
         //refreshes page when new county is selected
         $scope.changedValue = (item) => {
             $scope.displayCounty = item.label;
             pickCounty = item.value;
             ListingsService.getLoc(pickCounty).then(function (listings) {
-                $scope.locations = listings;
+                //$scope.locations = listings;
             });
         };
-
         //getting array of locations 
          initialCountyLoad = () => {
             let initCounty = pickCounty;
             ListingsService.getLoc(initCounty).then(function (listings) {
-                $scope.locations = listings;
+                let allListings = listings
+                $scope.locations = allListings.slice(startNum, endNum);
+                console.log(`this is all list: ${allListings}`)
+                $scope.btnNums(listings);
             });
         };
-
         initialCountyLoad();
-
+        //sends coordinates to map
         $scope.coord = (location) => {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
                 pid: location.propertyId,
             }); // rerouting to a different view
-        }
+        };
+        
     },
 };
 
@@ -136,7 +174,7 @@ module.exports = {
                 lat: 35.3579,
                 lng: -78.8836,
             },
-            zoom: 11,
+            zoom: 10,
         });
 
         // show single map view
@@ -145,15 +183,14 @@ module.exports = {
                 if (result[i].propertyId === $stateParams.pid) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
-
                     let hybridMap = new google.maps.Map(document.querySelector('#map'), {
-            center: {
-                lat: lat,
-                lng: long,
-            },
-            zoom: 17,
-            mapTypeId: 'hybrid', 
-        });             
+                        center: {
+                            lat: lat,
+                            lng: long,
+                        },
+                        zoom: 17,
+                        mapTypeId: 'hybrid', 
+                    });             
                     let marker = new google.maps.Marker({
                         position: {
                             lat: lat,
@@ -161,7 +198,7 @@ module.exports = {
                         },
                         map: hybridMap,
                     });
-                    //shows all markers 
+                //shows all markers on road map 
                 } else if ($stateParams.pid === '' || $stateParams.pid === undefined) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
