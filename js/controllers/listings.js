@@ -67,6 +67,9 @@ module.exports = {
             $scope.displayCounty = item.label;
             pickCounty = item.value;
             ListingsService.getLoc(pickCounty).then(function (listings) {
+                let allListings = listings
+                $scope.locations = allListings.slice(startNum, endNum);
+                $scope.btnNums(listings);
             });
         };
         //getting array of locations 
