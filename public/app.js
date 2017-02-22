@@ -84,7 +84,7 @@ module.exports = {
         $scope.btnNums =  (loc) => {
             let count = 0;
             console.log(`work already ${loc}`);
-            for (let i = 1; i < loc.length / 10; i++) {
+            for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
                 console.log(`some num here: ${btnCount}`);
@@ -93,6 +93,24 @@ module.exports = {
         };
          let btnCount = [];
          $scope.num = btnCount;
+         let currentPage = 1;
+         let sNum = 0;
+         let eNum = 10;
+
+        $scope.showPage = (operator) => {
+            
+            let startNum = (operator - 1) * 10;
+            let endNum = operator * 10;
+            console.log(`showPage func. Button ${operator} was pressed: ${startNum}, ${endNum}`);
+            sNum = startNum;
+            eNum = endNum;
+
+            // A bit wasteful because it redoes a bit AJAX request for each page load.
+            ListingsService.getLoc(pickCounty).then(function (listings) {
+                //$scope.locations = listings;
+                $scope.locations = listings.slice(sNum, eNum);
+            });
+        };
         //end of pagination
 
         //refreshes page when new county is selected
@@ -100,14 +118,16 @@ module.exports = {
             $scope.displayCounty = item.label;
             pickCounty = item.value;
             ListingsService.getLoc(pickCounty).then(function (listings) {
-                $scope.locations = listings;
+                //$scope.locations = listings;
             });
         };
         //getting array of locations 
          initialCountyLoad = () => {
             let initCounty = pickCounty;
             ListingsService.getLoc(initCounty).then(function (listings) {
-                $scope.locations = listings;
+                let allListings = listings
+                $scope.locations = allListings.slice(sNum, eNum);
+                console.log(`this is all list: ${allListings}`)
                 $scope.btnNums(listings);
             });
         };
