@@ -9,20 +9,11 @@ public class LeePropertyRecords {
     private String totalValue; //APRTOT
     private String saleDate; //Saledate
     private String salePrice; //sale_PRICE
-    private String zoning; //dwel_DESCR
     private String city;
     private String state;
     private String zip;
 
     public LeePropertyRecords() {
-    }
-
-    public String getZoning() {
-        return zoning;
-    }
-
-    public void setZoning(String zoning) {
-        this.zoning = zoning;
     }
 
     public String getCity() {

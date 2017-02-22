@@ -51,7 +51,7 @@ public class LeeCountyClient {
                 String aprTot = a.get("attributes").get("APRTOT").asText();
                 String saleDate = a.get("attributes").get("Saledate").asText();
                 String salePrice = a.get("attributes").get("sale_PRICE").asText();
-                String zoning = a.get("attributes").get("dwel_DESCR").asText();
+
                 LeePropertyRecords info = new LeePropertyRecords();
                 String newAddress = buildAddress(
                         mailAdrno,
@@ -71,7 +71,6 @@ public class LeeCountyClient {
                 info.setCity(mailCity);
                 info.setState(mailState);
                 info.setZip(mailZip);
-                info.setZoning(zoning);
 
                 // Lee County doesn't allow querying for specific zip codes from the API
                 if (mailZip.equals("27330")) {

@@ -28,7 +28,7 @@ public class HarnettCountyClient {
         List<HarnettPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String harnett = restTemplate.getForObject(testUrl30, String.class);
+        String harnett = restTemplate.getForObject(testUrl100, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
