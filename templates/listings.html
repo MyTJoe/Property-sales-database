@@ -2,7 +2,7 @@
 </select>
 <h1>{{displayCounty}}</h1>
 <!--pagnination test-->
-<section ng-repeat="loc in locations | limitTo: 10" class="listing" md-whiteframe="3">
+<section ng-repeat="loc in locations" class="listing" md-whiteframe="3">
     <div ng-click="coord(loc)">
         <img ng-src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location={{ loc.propertyAddress || loc.address}}
 &fov=40&pitch=0
@@ -16,10 +16,16 @@
                 <p ng-show="loc.landValue != null">Land Value: {{ loc.landValue | currency }}</p>
                 <p ng-show="loc.buildingValue != null">Building Value: {{ loc.buildingValue | currency }}</p>
                 <p ng-show="loc.additionalValue != null">Additional Value: {{ loc.additionalValue | currency }}</p>
-                <p>Zoning: {{ loc.zoning }}</p>
-                <p>Date of Sale: {{ loc.saleDate }}</p>
+                <p ng-show="loc.zoning != null">Zoning: {{ loc.zoning }}</p>
+                <p>Date of Sale: {{ loc.saleDate |date: MMM/YYYY }}</p>
             </div>
     </div>
 </section>
-<md-button>page buttons should happen somehow</md-button>
 
+<div>
+    <button ng-click="showPage('back')"> back page </button>
+    <div class="pageBtn" ng-repeat="number in num">
+        <button ng-click="showPage(number)">{{ number }}</button>
+    </div>
+    <button ng-click="showPage('next')"> next page </button>
+</div>

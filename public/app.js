@@ -80,6 +80,21 @@ module.exports = {
             }
         ];
 
+        //pagination maybe
+        $scope.btnNums =  (loc) => {
+            let count = 0;
+            console.log(`work already ${loc}`);
+            for (let i = 1; i < loc.length / 10; i++) {
+                count++;
+                btnCount.push(count);
+                console.log(`some num here: ${btnCount}`);
+            }
+                return btnCount;
+        };
+         let btnCount = [];
+         $scope.num = btnCount;
+        //end of pagination
+
         //refreshes page when new county is selected
         $scope.changedValue = (item) => {
             $scope.displayCounty = item.label;
@@ -88,23 +103,23 @@ module.exports = {
                 $scope.locations = listings;
             });
         };
-
         //getting array of locations 
          initialCountyLoad = () => {
             let initCounty = pickCounty;
             ListingsService.getLoc(initCounty).then(function (listings) {
                 $scope.locations = listings;
+                $scope.btnNums(listings);
             });
         };
-
         initialCountyLoad();
-
+        //sends coordinates to map
         $scope.coord = (location) => {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
                 pid: location.propertyId,
             }); // rerouting to a different view
-        }
+        };
+        
     },
 };
 
@@ -136,7 +151,7 @@ module.exports = {
                 lat: 35.3579,
                 lng: -78.8836,
             },
-            zoom: 11,
+            zoom: 10,
         });
 
         // show single map view
@@ -145,15 +160,14 @@ module.exports = {
                 if (result[i].propertyId === $stateParams.pid) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
-
                     let hybridMap = new google.maps.Map(document.querySelector('#map'), {
-            center: {
-                lat: lat,
-                lng: long,
-            },
-            zoom: 17,
-            mapTypeId: 'hybrid', 
-        });             
+                        center: {
+                            lat: lat,
+                            lng: long,
+                        },
+                        zoom: 17,
+                        mapTypeId: 'hybrid', 
+                    });             
                     let marker = new google.maps.Marker({
                         position: {
                             lat: lat,
@@ -161,7 +175,7 @@ module.exports = {
                         },
                         map: hybridMap,
                     });
-                    //shows all markers 
+                //shows all markers on road map 
                 } else if ($stateParams.pid === '' || $stateParams.pid === undefined) {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
