@@ -23,9 +23,9 @@
 </section>
 
 <div>
-    <button ng-click="showPage('back')"> back page </button>
+    <button ng-click="showPage('back')"> << </button>
     <div class="pageBtn" ng-repeat="number in num">
         <button ng-click="showPage(number)">{{ number }}</button>
     </div>
-    <button ng-click="showPage('next')"> next page </button>
+    <button ng-click="showPage('next')"> >> </button>
 </div>

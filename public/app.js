@@ -91,6 +91,7 @@ module.exports = {
             }
                 return btnCount;
         };
+        //button operations;
          let btnCount = [];
          let currentPage = 1;
          let startNum = 0;
