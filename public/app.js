@@ -4,6 +4,7 @@ const app = angular.module('PropData', [
         'ngMaterial',
         'ngAnimate',
         'ngAria',
+        'angularUtils.directives.dirPagination',
     ]);
 // angular material theme
 // app.config(function ($mdThemingProvider) {
@@ -18,6 +19,7 @@ const app = angular.module('PropData', [
         require('./controllers/listings'),
         require('./controllers/map'),
         require('./controllers/pager'),
+        require('./controllers/main'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -54,7 +56,9 @@ const app = angular.module('PropData', [
 //     console.log('going to page ' + num);
 //   };
 // }
-},{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/map":5,"./controllers/pager":6,"./routers":7,"./services/listings":8,"./services/map":9,"./services/pager":10}],2:[function(require,module,exports){
+
+
+},{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/main":5,"./controllers/map":6,"./controllers/pager":7,"./routers":8,"./services/listings":9,"./services/map":10,"./services/pager":11}],2:[function(require,module,exports){
 module.exports = {
     name: 'listings',
     object: {
@@ -80,22 +84,31 @@ module.exports = {
         $scope.countyList = [
             {
                 value: 'franklin',
-                label: 'Franklin County'
+                label: 'Franklin County',
+                lat: 36.0741,
+                long: -78.2427
             },
             {
                 value: 'harnett',
-                label: 'Harnett County'
+                label: 'Harnett County',
+                lat: 35.3579,
+                long: -78.8836
             },
             {
                 value: 'lee',
-                label: 'Lee County'
+                label: 'Lee County',
+                lat: 35.4694,
+                long: -79.1549
             },
             {
                 value: 'rutherford',
-                label: 'Rutherford County'
+                label: 'Rutherford County',
+                lat: 35.4259,
+                long: -81.9098
             }
         ];
 
+       // MapService.allCounties($scope.countyList);
         //refreshes page when new county is selected
         $scope.changedValue = (item) => {
             $scope.displayCounty = item.label;
@@ -132,6 +145,31 @@ module.exports = {
 },{}],5:[function(require,module,exports){
 
 module.exports = {
+    name: 'MainController', 
+    func: function($scope) {
+
+  $scope.currentPage = 0;
+
+  $scope.paging = {
+    total: 100,
+    current: 1,
+    onPageChanged: loadPages,
+  };
+
+  function loadPages() {
+    console.log('Current page is : ' + $scope.paging.current);
+
+    // TODO : Load current page Data here
+
+    $scope.currentPage = $scope.paging.current;
+  }
+
+}
+
+};
+},{}],6:[function(require,module,exports){
+
+module.exports = {
     name: 'MapController',
     // $stateParams is how you pull values out of the route (URL)
     func: function ($scope, MapService, ListingsService, $stateParams) {
@@ -141,23 +179,31 @@ module.exports = {
         let mainLat = 35.3579;
         let mainLong = -78.8836;
         
+
+
+        // let allCounties = MapService.allCounties();
+        // console.log(`this is all counties: ${allCounties}`);
+
+
+
+//testing county changes, lat and long changes with county
+// only harnett has lat and long
         if (county === null || county === undefined) {
             county = 'harnett';
-            // mainLat = 35.3579;
-            // mainLong = -78.8836;
+             mainLat = 35.3579;
+             mainLong = -78.8836;
         } else if (county === 'franklin') {
-            console.log('franklin in the house');
+            mainLat = 36.0741;
+            mainLong = -78.2427;
         }
-        console.log(`dispaly county: ${county}`);
-        console.log(`this is somename`)
-        console.log($stateParams.pid);
 
-        const map = new google.maps.Map(document.querySelector('#map'), {
+//end of county testing
+        let map = new google.maps.Map(document.querySelector('#map'), {
             center: {
-                lat: 35.3579,
-                lng: -78.8836,
+                lat: mainLat,
+                lng: mainLong,
             },
-            zoom: 11,
+            zoom: 10,
         });
 
         // // Show all markers
@@ -168,12 +214,21 @@ module.exports = {
                     const lat = parseFloat(result[i].latitude);
                     const long = parseFloat(result[i].longitude);
 
+                     singlemap = new google.maps.Map(document.querySelector('#map'), {
+                        center: {
+                            lat: lat,
+                            lng: long,
+                                },
+                            zoom: 15,
+                            mapTypeId: 'satellite'
+                        });
+
                     let marker = new google.maps.Marker({
                         position: {
                             lat: lat,
                             lng: long,
                         },
-                        map: map,
+                        map: singlemap,
                     });
                 } else if ($stateParams.pid === '' || $stateParams.pid === undefined) {
                     const lat = parseFloat(result[i].latitude);
@@ -191,7 +246,7 @@ module.exports = {
         });
     },
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
     name: 'PagerController',
     func: (PagerService) => {
@@ -223,7 +278,7 @@ module.exports = {
 }
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = [
     {
         name: 'listings',
@@ -246,14 +301,13 @@ module.exports = [
 
 
 ]
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = {
     name: 'ListingsService',
     func: ($http) => {
         let thisCounty = null;
         return {
             getLoc: (county) => {
-                console.log(`getLoc func in ListingsService: ${county}`);
                 thisCounty = county;
                 return $http.get
                 (`https://countylink.herokuapp.com/${county}`)
@@ -268,34 +322,35 @@ module.exports = {
     },
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
  module.exports = {
      name: 'MapService', 
      func: () => {
-         let coordinates = [];
-         let lati;
-         let long;
-
+         
          return {
+            // no longer needed
+            //  initMap: (lat, lng) => {
+            //      console.log(`initMap func: ${coordinates}`);
+            //      console.log(`logging coordinates in initMap: ${lati}`);
 
-             initMap: (lat, lng) => {
-                 console.log(`initMap func: ${coordinates}`);
-                 console.log(`logging coordinates in initMap: ${lati}`);
-
-},
-locate: (lat, lng) => {
-                coordinates = [lat, lng]
-                lati = lat;
-                long = lng;
-                console.log(`my map was clicked ${lati}, ${long}`);
+            // },
+            locate: (lat, lng) => {
+                let coordinates = [lat, lng]
                return coordinates;
             },
+            //this is to get info for all counties from listing controller. might not need
+            // allCounties: (cts) => {
+            //     let counties = cts;
+            //     return counties;
+            //     }
+            }
 
-         }  
-     },
- };
 
-},{}],10:[function(require,module,exports){
+         },  
+     };
+ 
+
+},{}],11:[function(require,module,exports){
 module.exports = {
     name: 'PagerService',
     func: () => {

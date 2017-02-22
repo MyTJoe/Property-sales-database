@@ -1,0 +1,27 @@
+{
+  "name": "property_database",
+  "description": "front end AngularJS project for displaying changes in property ownership. Aimed at economic developers",
+  "main": "gulpfile.js",
+  "authors": [
+    "King Prasankongsinh"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "AngularJS",
+    "HTML5",
+    "CSS3",
+    "ngMaterial",
+    "Gulp"
+  ],
+  "homepage": "https://github.com/MyTJoe/Property-sales-database",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "material-angular-paging": "*"
+  }
+}

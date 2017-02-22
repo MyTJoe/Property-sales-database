@@ -1,25 +1,26 @@
  module.exports = {
      name: 'MapService', 
      func: () => {
-         let coordinates = [];
-         let lati;
-         let long;
-
+         
          return {
+            // no longer needed
+            //  initMap: (lat, lng) => {
+            //      console.log(`initMap func: ${coordinates}`);
+            //      console.log(`logging coordinates in initMap: ${lati}`);
 
-             initMap: (lat, lng) => {
-                 console.log(`initMap func: ${coordinates}`);
-                 console.log(`logging coordinates in initMap: ${lati}`);
-
-},
-locate: (lat, lng) => {
-                coordinates = [lat, lng]
-                lati = lat;
-                long = lng;
-                console.log(`my map was clicked ${lati}, ${long}`);
+            // },
+            locate: (lat, lng) => {
+                let coordinates = [lat, lng]
                return coordinates;
             },
+            //this is to get info for all counties from listing controller. might not need
+            // allCounties: (cts) => {
+            //     let counties = cts;
+            //     return counties;
+            //     }
+            }
 
-         }  
-     },
- };
+
+         },  
+     };
+ 

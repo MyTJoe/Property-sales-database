@@ -3,6 +3,7 @@ const app = angular.module('PropData', [
         'ngMaterial',
         'ngAnimate',
         'ngAria',
+        'angularUtils.directives.dirPagination',
     ]);
 // angular material theme
 // app.config(function ($mdThemingProvider) {
@@ -17,6 +18,7 @@ const app = angular.module('PropData', [
         require('./controllers/listings'),
         require('./controllers/map'),
         require('./controllers/pager'),
+        require('./controllers/main'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -53,3 +55,4 @@ const app = angular.module('PropData', [
 //     console.log('going to page ' + num);
 //   };
 // }
+

@@ -7,22 +7,31 @@ module.exports = {
         $scope.countyList = [
             {
                 value: 'franklin',
-                label: 'Franklin County'
+                label: 'Franklin County',
+                lat: 36.0741,
+                long: -78.2427
             },
             {
                 value: 'harnett',
-                label: 'Harnett County'
+                label: 'Harnett County',
+                lat: 35.3579,
+                long: -78.8836
             },
             {
                 value: 'lee',
-                label: 'Lee County'
+                label: 'Lee County',
+                lat: 35.4694,
+                long: -79.1549
             },
             {
                 value: 'rutherford',
-                label: 'Rutherford County'
+                label: 'Rutherford County',
+                lat: 35.4259,
+                long: -81.9098
             }
         ];
 
+       // MapService.allCounties($scope.countyList);
         //refreshes page when new county is selected
         $scope.changedValue = (item) => {
             $scope.displayCounty = item.label;
