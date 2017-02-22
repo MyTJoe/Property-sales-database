@@ -92,23 +92,25 @@ module.exports = {
                 return btnCount;
         };
          let btnCount = [];
-         $scope.num = btnCount;
          let currentPage = 1;
-         let sNum = 0;
-         let eNum = 10;
-
+         let startNum = 0;
+         let endNum = 10;
+         $scope.num = btnCount;
         $scope.showPage = (operator) => {
-            
-            let startNum = (operator - 1) * 10;
-            let endNum = operator * 10;
-            console.log(`showPage func. Button ${operator} was pressed: ${startNum}, ${endNum}`);
-            sNum = startNum;
-            eNum = endNum;
-
+            if (operator === 'next') {
+                startNum += 10;
+                endNum += 10;
+            } else if (operator === 'back') {
+                startNum = startNum - 10;
+                endNum =  endNum - 10;
+            } else {            
+             startNum = (operator - 1) * 10;
+             endNum = operator * 10;
+            }
             // A bit wasteful because it redoes a bit AJAX request for each page load.
             ListingsService.getLoc(pickCounty).then(function (listings) {
                 //$scope.locations = listings;
-                $scope.locations = listings.slice(sNum, eNum);
+                $scope.locations = listings.slice(startNum, endNum);
             });
         };
         //end of pagination
@@ -126,7 +128,7 @@ module.exports = {
             let initCounty = pickCounty;
             ListingsService.getLoc(initCounty).then(function (listings) {
                 let allListings = listings
-                $scope.locations = allListings.slice(sNum, eNum);
+                $scope.locations = allListings.slice(startNum, endNum);
                 console.log(`this is all list: ${allListings}`)
                 $scope.btnNums(listings);
             });
