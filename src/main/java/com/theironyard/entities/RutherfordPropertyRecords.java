@@ -2,7 +2,7 @@ package com.theironyard.entities;
 
 public class RutherfordPropertyRecords {
     private String owner; //Property_Owner,
-    private String propertyAddress; //Physical_Address,Physical_Address_City,Physical_Address_State,Physical_Address_Zip,
+    private String propertyAddress; //Physical_Address
     private String mailingAddress; //Owner_Mailing_Address_1,Owner_Mailing_Address_City,Owner_Mailing_Address_State,Owner_Mailing_Address_Zip,
     private String zoning; //Land_Class
     private String buildingValue; //Total_Building_Value_Assessed
@@ -10,8 +10,35 @@ public class RutherfordPropertyRecords {
     private String totalValue; //Total_Property_Value,
     private String salePrice; //Sale_Price
     private String saleDate; //Land_Sale_Date,
+    private String city; //Physical_Address_City
+    private String state; //Physical_Address_State
+    private String zip; //Physical_Address_Zip
 
     public RutherfordPropertyRecords() {
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getOwner() {

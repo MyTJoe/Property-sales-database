@@ -12,7 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class HarnettCountyClient {
-    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Harnett-30.json";
+    private String testUrl30 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Harnett-30.json";
+    private String testUrl100 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Harnett-100.json";
     private String url = "http://gis.harnett.org/arcgis/rest/services/Tax/TaxParcels/MapServer/1/query?where=" +
             "parzipcode IN (27501,27521,27546,28323,28334,28339)&text=%&objectIds=&time=&geometry=&geometryTy" +
             "pe=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=OBJEC" +
@@ -21,13 +22,13 @@ public class HarnettCountyClient {
             "lYearBuilt,Zoning&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecis" +
             "ion=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=SaleYear DESC,SaleMonth DESC" +
             "&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistin" +
-            "ctValues=false&resultOffset=&resultRecordCount=30&f=pjson";
+            "ctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
 
     public List<HarnettPropertyRecords> getRecords() {
         List<HarnettPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String harnett = restTemplate.getForObject(testUrl, String.class);
+        String harnett = restTemplate.getForObject(testUrl30, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -36,7 +37,7 @@ public class HarnettCountyClient {
 
             while (features.hasNext()) {
                 JsonNode a = features.next();
-                String objectId = a.get("attributes").get("OBJECTID").asText();
+
                 String parcelID = a.get("attributes").get("ParcelID").asText();
                 String owner1 = a.get("attributes").get("Owner1").asText();
                 String physicalAddress = a.get("attributes").get("PhysicalAddress").asText();
@@ -55,7 +56,7 @@ public class HarnettCountyClient {
                 String zoning = a.get("attributes").get("Zoning").asText();
 
                 HarnettPropertyRecords info = new HarnettPropertyRecords();
-                info.setDataId(objectId);
+
                 info.setPropertyId(parcelID);
                 info.setOwner(owner1);
                 info.setMailingAddress(mailingAddress);
@@ -67,14 +68,9 @@ public class HarnettCountyClient {
                 info.setLongitude(longitude);
                 info.setLatitude(latitude);
                 info.setZoning(zoning);
-
-                StringBuilder sb = new StringBuilder();
-                info.setPropertyAddress(sb.
-                        append(physicalAddress).
-                        append(" ").
-                        append(parCity).
-                        append(", NC ").
-                        append(parZipCode).toString().trim());
+                info.setPropertyAddress(physicalAddress);
+                info.setZip(parZipCode);
+                info.setCity(parCity);
 
                 String createDate = buildSaleDate(saleMonth,saleYear);
                 info.setSaleDate(createDate);

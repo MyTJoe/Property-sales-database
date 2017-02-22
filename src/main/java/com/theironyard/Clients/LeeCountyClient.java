@@ -12,8 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LeeCountyClient {
-    // could try to do zips for lee -27330,27332,27505
-    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/lee-30.json";
+    private String testUrl30 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Lee-30.json";
+    private String testUrl50 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Lee-50.json";
+    private String testUrl100 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Lee-100.json";
     private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/LeeCounty/MapServer/1/" +
             "query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +
             "l=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&returnTrueCurves=fals" +
@@ -25,7 +26,7 @@ public class LeeCountyClient {
         List<LeePropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String lee = restTemplate.getForObject(testUrl, String.class);
+        String lee = restTemplate.getForObject(testUrl30, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -34,6 +35,7 @@ public class LeeCountyClient {
 
             while (features.hasNext()) {
                 JsonNode a = features.next();
+
                 String owner1 = a.get("attributes").get("Owner1").asText();
                 String propAddr = a.get("attributes").get("PropAddr").asText();
                 String mailAdrno = a.get("attributes").get("MailADRADD").asText();
@@ -49,17 +51,14 @@ public class LeeCountyClient {
                 String aprTot = a.get("attributes").get("APRTOT").asText();
                 String saleDate = a.get("attributes").get("Saledate").asText();
                 String salePrice = a.get("attributes").get("sale_PRICE").asText();
-
+                String zoning = a.get("attributes").get("dwel_DESCR").asText();
                 LeePropertyRecords info = new LeePropertyRecords();
-                String newAddress = createAddress(
+                String newAddress = buildAddress(
                         mailAdrno,
                         mailAdradd,
                         mailAdrdir,
                         mailAdrstr,
-                        mailAdrsuf,
-                        mailCity,
-                        mailState,
-                        mailZip);
+                        mailAdrsuf);
 
                 info.setOwner(owner1);
                 info.setPropertyAddress(propAddr);
@@ -69,6 +68,21 @@ public class LeeCountyClient {
                 info.setTotalValue(aprTot);
                 info.setSalePrice(salePrice);
                 info.setSaleDate(saleDate);
+                info.setCity(mailCity);
+                info.setState(mailState);
+                info.setZip(mailZip);
+                info.setZoning(zoning);
+
+                // Lee County doesn't allow querying for specific zip codes from the API
+                if (mailZip.equals("27330")) {
+                    records.add(info);
+                }
+                if (mailZip.equals("27332")) {
+                    records.add(info);
+                }
+                if (mailZip.equals("27505")) {
+                    records.add(info);
+                }
                 records.add(info);
             }
         } catch (IOException e) {
@@ -76,9 +90,8 @@ public class LeeCountyClient {
         }
         return records;
     }
-
-    private String createAddress(String mailno, String mailadd, String maildir, String mailstr, String mailsuf, String mailcity,
-                              String mailstate, String mailzip) {
+    //Build address from different fields provided by the database
+    private String buildAddress(String mailno, String mailadd, String maildir, String mailstr, String mailsuf) {
         StringBuilder sb = new StringBuilder();
         if (!StringUtils.isEmpty(mailno)) {
             sb.append(" ").append(mailno);
@@ -94,15 +107,6 @@ public class LeeCountyClient {
         }
         if (!StringUtils.isEmpty(mailsuf)) {
             sb.append(" ").append(mailsuf);
-        }
-        if (!StringUtils.isEmpty(mailcity)) {
-            sb.append(" ").append(mailcity);
-        }
-        if (!StringUtils.isEmpty(mailstate)) {
-            sb.append(" ").append(mailstate);
-        }
-        if (!StringUtils.isEmpty(mailzip)) {
-            sb.append(", ").append(mailzip);
         }
         return sb.toString().trim();
     }

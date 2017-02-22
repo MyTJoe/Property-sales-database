@@ -10,21 +10,21 @@ import java.io.IOException;
 import java.util.*;
 
 public class FranklinCountyClient {
-
-    private static String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Franklin-30.json";
+    private static String testUrl30 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Franklin-30.json";
+    private static String testUrl100 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Frankliln-100.json";
     private static String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/FranklinCounty/" +
             "MapServer/3/query?where=Zip1 IN (27508,27525,27549,27596)&text=%&objectIds=&time=&geometry=&geom" +
             "etryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields" +
             "=*&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&ret" +
             "urnIdsOnly=false&returnCountOnly=false&orderByFields=Saledt DESC&groupByFieldsForStatistics=&out" +
             "Statistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&res" +
-            "ultRecordCount=30&f=pjson";
+            "ultRecordCount=100&f=pjson";
 
     public List<FranklinPropertyRecords> getRecords() {
         List<FranklinPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String franklin = restTemplate.getForObject(testUrl, String.class);
+        String franklin = restTemplate.getForObject(testUrl30, String.class);
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(franklin);
@@ -32,9 +32,9 @@ public class FranklinCountyClient {
 
             while (features.hasNext()) {
                 JsonNode a = features.next();
+
                 String saleDate = a.get("attributes").get("Saledt").asText();
                 String owner1 = a.get("attributes").get("Own1").asText();
-                String owner2 = a.get("attributes").get("Own2").asText();
                 String adrno = a.get("attributes").get("Adrno").asText();
                 String adradd = a.get("attributes").get("Adradd").asText();
                 String adrdir = a.get("attributes").get("Adrdir").asText();
@@ -51,9 +51,22 @@ public class FranklinCountyClient {
                 String buildingValue = a.get("attributes").get("Aprbldg").asText();
                 String totalValue = a.get("attributes").get(("Tot22SUM")).asText();
 
+                FranklinPropertyRecords info = new FranklinPropertyRecords();
+                info.setOwner(owner1);
+                info.setSaleDate(saleDate);
+                String zoningName = convertZoningCode(zoningCode);
+                info.setZoning(zoningName);
+                info.setSalePrice(salePrice);
+                info.setLandValue(landValue);
+                info.setBuildingValue(buildingValue);
+                info.setTotalValue(totalValue);
+                info.setCity(cityName);
+                info.setState(state);
+                info.setZip(zipCode);
 
                 // trim fixes all the whitespace errors
-                // a lot of the address fields used to build the address objects are empty strings with a space " ",
+                // a lot of the address fields used to build the
+                // address are empty strings with a space " ",
                 String fullAddress = buildAddress(
                         adrno.trim(),
                         adradd.trim(),
@@ -62,27 +75,8 @@ public class FranklinCountyClient {
                         adrsuf.trim(),
                         adrsuf2.trim(),
                         addr1.trim());
-
-                FranklinPropertyRecords info = new FranklinPropertyRecords();
-                String insertOwners = addOwners(owner1.trim(), owner2.trim());
-                info.setOwner(insertOwners);
-                info.setSaleDate(saleDate);
-                String zoningName = convertZoningCode(zoningCode);
-                info.setZoning(zoningName);
-                info.setSalePrice(salePrice);
-                info.setLandValue(landValue);
-                info.setBuildingValue(buildingValue);
-                info.setTotalValue(totalValue);
                 StringBuilder sb = new StringBuilder();
-                info.setAddress(sb.
-                        append(fullAddress).
-                        append(" ").
-                        append(cityName).
-                        append(" ").
-                        append(state).
-                        append(", ").
-                        append(zipCode).toString());
-
+                info.setAddress(sb.append(fullAddress).toString());
                 records.add(info);
             }
         } catch (IOException e) {

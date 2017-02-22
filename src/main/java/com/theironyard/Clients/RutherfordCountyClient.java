@@ -11,7 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class RutherfordCountyClient {
-    private String testUrl = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/rutherford-30.json";
+    private String testUrl30 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/rutherford-30.json";
+    private String testUrl100 = "https://s3-us-west-2.amazonaws.com/ironyard-static-data/Rutherford-100.json";
     private String url = "http://web1.mobile311.com/arcgis/rest/services/NorthCarolina/RutherfordCounty/MapServer" +
             "/46/query?where=&text=%&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRe" +
             "l=esriSpatialRelIntersects&relationParam=&outFields=Property_Owner,Land_Sale_Date,Land_Class,Physica" +
@@ -20,13 +21,13 @@ public class RutherfordCountyClient {
             "ity,Owner_Mailing_Address_State,Owner_Mailing_Address_Zip,Sale_Price&returnGeometry=false&returnTrue" +
             "Curves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false" +
             "&orderByFields=Land_Sale_Date DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=" +
-            "false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=30&f=pjson";
+            "false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
 
     public List<RutherfordPropertyRecords> getRecords() {
         List<RutherfordPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String rutherford = restTemplate.getForObject(testUrl, String.class);
+        String rutherford = restTemplate.getForObject(testUrl30, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -52,14 +53,6 @@ public class RutherfordCountyClient {
                 String buildingValue = a.get("attributes").get("Total_Building_Value_Assessed").asText();
 
                 RutherfordPropertyRecords info = new RutherfordPropertyRecords();
-                info.setOwner(owner);
-                String createPropAddress = buildPropertyAddress(
-                        physicalAddress,
-                        physicalAddressCity,
-                        physicalAddressState,
-                        physicalAddressZip);
-                info.setPropertyAddress(createPropAddress);
-
                 String createMailAddress = buildMailingAddress(
                         ownerMailingAddress1,
                         ownerMailingAddressCity,
@@ -67,6 +60,11 @@ public class RutherfordCountyClient {
                         ownerMailingAddressZip);
                 info.setMailingAddress(createMailAddress);
 
+                info.setOwner(owner);
+                info.setPropertyAddress(physicalAddress);
+                info.setCity(physicalAddressCity);
+                info.setState(physicalAddressState);
+                info.setZip(physicalAddressZip);
                 info.setSalePrice(salePrice);
                 info.setTotalValue(totalValue);
                 info.setBuildingValue(buildingValue);
@@ -81,7 +79,7 @@ public class RutherfordCountyClient {
         }
         return records;
     }
-
+    // Front end requested address to be split up for styling purposes so no longer using this
     private String buildPropertyAddress(String address, String city, String state, String zip) {
         StringBuilder sb = new StringBuilder();
 
@@ -99,7 +97,7 @@ public class RutherfordCountyClient {
         }
         return sb.toString().trim();
     }
-
+    // Build Mailing Address from different fields provided by Rutherford's Database
     private String buildMailingAddress(String mAddress, String mCity, String mState, String mZip) {
         StringBuilder sb = new StringBuilder();
         if (!StringUtils.isEmpty(mAddress)) {
