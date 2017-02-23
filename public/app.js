@@ -92,10 +92,8 @@ module.exports = {
         }
         //pagination maybe
         $scope.btnNums = (loc) => {
-            
-            console.log(`btn count ${btnCount}`);
-            //resetCount();
-            console.log(`mo btns ${btnCount}`)
+            count = 0;
+            $scope.num.length = 0;
             for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
@@ -104,12 +102,6 @@ module.exports = {
             }
                 return btnCount;
         };
-        //button operations;
-        //  let btnCount = [];
-        //  let currentPage = 1;
-        //  let startNum = 0;
-        //  let endNum = 10;
-        //  $scope.num = btnCount;
         $scope.showPage = (operator) => {
             if (operator === 'next' && currentPage < count) {
                 startNum += 10;
