@@ -82,7 +82,6 @@ public class LeeCountyClient {
                 if (mailZip.equals("27505")) {
                     records.add(info);
                 }
-                records.add(info);
             }
         } catch (IOException e) {
             e.printStackTrace();
