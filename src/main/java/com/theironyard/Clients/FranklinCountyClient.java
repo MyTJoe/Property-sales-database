@@ -52,7 +52,7 @@ public class FranklinCountyClient {
                 String totalValue = a.get("attributes").get(("Tot22SUM")).asText();
 
                 FranklinPropertyRecords info = new FranklinPropertyRecords();
-                info.setOwner(owner1);
+                info.setOwner(" " + owner1);
                 info.setSaleDate(saleDate);
                 String zoningName = convertZoningCode(zoningCode);
                 info.setZoning(zoningName);

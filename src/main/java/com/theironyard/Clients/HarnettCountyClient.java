@@ -58,7 +58,7 @@ public class HarnettCountyClient {
                 HarnettPropertyRecords info = new HarnettPropertyRecords();
 
                 info.setPropertyId(parcelID);
-                info.setOwner(owner1);
+                info.setOwner(" " + owner1);
                 info.setMailingAddress(mailingAddress);
                 info.setSalePrice(salePrice);
                 info.setTotalValue(totalValue);
@@ -74,7 +74,7 @@ public class HarnettCountyClient {
 
                 String createDate = buildSaleDate(saleMonth,saleYear);
                 info.setSaleDate(createDate);
-
+                
                 records.add(info);
             }
         } catch (Exception e) {

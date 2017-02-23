@@ -60,7 +60,7 @@ public class LeeCountyClient {
                         mailAdrstr,
                         mailAdrsuf);
 
-                info.setOwner(owner1);
+                info.setOwner(" " + owner1);
                 info.setPropertyAddress(propAddr);
                 info.setMailingAddress(newAddress);
                 info.setLandValue(aprLand);
