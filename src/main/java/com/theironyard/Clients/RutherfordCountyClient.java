@@ -21,7 +21,7 @@ public class RutherfordCountyClient {
             "ity,Owner_Mailing_Address_State,Owner_Mailing_Address_Zip,Sale_Price&returnGeometry=false&returnTrue" +
             "Curves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false" +
             "&orderByFields=Land_Sale_Date DESC&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=" +
-            "false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
+            "false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=30&f=pjson";
 
     public List<RutherfordPropertyRecords> getRecords() {
         List<RutherfordPropertyRecords> records = new ArrayList<>();
@@ -79,7 +79,7 @@ public class RutherfordCountyClient {
         }
         return records;
     }
-    // Front end requested address to be split up for styling purposes so no longer using this
+    // Front end requested address to be split up for styling purposes
     private String buildPropertyAddress(String address, String city, String state, String zip) {
         StringBuilder sb = new StringBuilder();
 

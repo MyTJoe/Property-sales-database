@@ -18,7 +18,7 @@ public class FranklinCountyClient {
             "=*&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&ret" +
             "urnIdsOnly=false&returnCountOnly=false&orderByFields=Saledt DESC&groupByFieldsForStatistics=&out" +
             "Statistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&res" +
-            "ultRecordCount=100&f=pjson";
+            "ultRecordCount=30&f=pjson";
 
     public List<FranklinPropertyRecords> getRecords() {
         List<FranklinPropertyRecords> records = new ArrayList<>();

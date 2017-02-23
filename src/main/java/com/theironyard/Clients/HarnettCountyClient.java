@@ -22,13 +22,13 @@ public class HarnettCountyClient {
             "lYearBuilt,Zoning&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecis" +
             "ion=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=SaleYear DESC,SaleMonth DESC" +
             "&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistin" +
-            "ctValues=false&resultOffset=&resultRecordCount=100&f=pjson";
+            "ctValues=false&resultOffset=&resultRecordCount=30&f=pjson";
 
     public List<HarnettPropertyRecords> getRecords() {
         List<HarnettPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String harnett = restTemplate.getForObject(testUrl100, String.class);
+        String harnett = restTemplate.getForObject(testUrl30, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
