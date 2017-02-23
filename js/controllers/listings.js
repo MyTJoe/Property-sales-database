@@ -3,8 +3,13 @@ module.exports = {
     func: function ($scope, $state, ListingsService, MapService) {
         // county select box
         let count = 0;
-        $scope.displayCounty = 'Harnett County';
+        let btnCount = [];
+        let currentPage = 1;
+        let startNum = 0;
+        let endNum = 10;
         let pickCounty = 'harnett';
+        $scope.num = btnCount;
+        $scope.displayCounty = 'Harnett County'; 
         $scope.countyList = [
             {
                 value: 'franklin',
@@ -23,22 +28,31 @@ module.exports = {
                 label: 'Rutherford County'
             }
         ];
+        resetCount = () => {
+            count = 0;
+            btnCount = [];
+            //return count;
+        }
         //pagination maybe
         $scope.btnNums = (loc) => {
-            //let count = 0;
-            let max = 0;
+            
+            console.log(`btn count ${btnCount}`);
+            //resetCount();
+            console.log(`mo btns ${btnCount}`)
             for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
+                console.log('this is btn count')
+                console.log(btnCount);
             }
                 return btnCount;
         };
         //button operations;
-         let btnCount = [];
-         let currentPage = 1;
-         let startNum = 0;
-         let endNum = 10;
-         $scope.num = btnCount;
+        //  let btnCount = [];
+        //  let currentPage = 1;
+        //  let startNum = 0;
+        //  let endNum = 10;
+        //  $scope.num = btnCount;
         $scope.showPage = (operator) => {
             if (operator === 'next' && currentPage < count) {
                 startNum += 10;
@@ -69,6 +83,8 @@ module.exports = {
             ListingsService.getLoc(pickCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
+                // btnCount = [];
+                // count = 0;
                 $scope.btnNums(listings);
             });
         };
@@ -78,6 +94,8 @@ module.exports = {
             ListingsService.getLoc(initCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
+                // btnCount = [];
+               //  count = 0;
                 $scope.btnNums(listings);
             });
         };
