@@ -26,6 +26,7 @@ module.exports = {
                 lng: -78.8836,
             },
             zoom: 10,
+            scrollwheel: false,
         });
 
         // show single map view
@@ -41,6 +42,7 @@ module.exports = {
                         },
                         zoom: 17,
                         mapTypeId: 'hybrid', 
+                        scrollwheel: false,
                     });             
                     let marker = new google.maps.Marker({
                         position: {
