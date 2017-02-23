@@ -1,7 +1,36 @@
+$ltgrey: #ccc5b9;
+$offwht: #fffcf2;
+$grey: #403d39;
+$dkgrey: #252422;
+$orange: #eb5e28;
+
+
+body {
+  font-family: 'Cinzel', serif;
+}
+
+md-nav-bar .md-nav-bar {
+  background: $ltgrey;
+}
+
 .listing {
-    border: 1px black solid;
+    border: 1px $ltgrey solid;
     padding: 1%;
     margin: 5px;
+    background: $offwht;
+
+    h2 {
+      font-size: 1.6em;
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+
+      .title {
+      color: red;
+    }
+    }
 
     .info {
         display: inline-block;
@@ -9,41 +38,46 @@
         margin: auto 0;
         vertical-align: top;
     }
+    
 }
 
 // google maps
 #map { 
-    width: 100%;
-    height: 400px; 
+    width: 80%;
+    height: 450px; 
     border: 1px solid red;
     }
 
 .pageBtn {
-    display: inline;
+     text-align: center;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+
 }
 
 // pagination styling
-.my-controller {
-  border: 1px solid #fcc;
-  padding: 5px;
-  margin: 3px;
-}
-.my-controller small {
-  color: #c99;
-}
-.other-controller {
-  border: 1px solid #ccf;
-  padding: 5px;
-  margin: 3px;
-}
-.other-controller small {
-  color: #99c;
-}
-.third-controller {
-  border: 1px solid #cfc;
-  padding: 5px;
-  margin: 3px;
-}
-.third-controller small {
-  color: #9c9;
-}
+// .my-controller {
+//   border: 1px solid #fcc;
+//   padding: 5px;
+//   margin: 3px;
+// }
+// .my-controller small {
+//   color: #c99;
+// }
+// .other-controller {
+//   border: 1px solid #ccf;
+//   padding: 5px;
+//   margin: 3px;
+// }
+// .other-controller small {
+//   color: #99c;
+// }
+// .third-controller {
+//   border: 1px solid #cfc;
+//   padding: 5px;
+//   margin: 3px;
+// }
+// .third-controller small {
+//   color: #9c9;
+// }

@@ -85,17 +85,10 @@ module.exports = {
                 label: 'Rutherford County'
             }
         ];
-        resetCount = () => {
+            //pagination 
+            $scope.btnNums = (loc) => {
             count = 0;
-            btnCount = [];
-            //return count;
-        }
-        //pagination maybe
-        $scope.btnNums = (loc) => {
-            
-            console.log(`btn count ${btnCount}`);
-            //resetCount();
-            console.log(`mo btns ${btnCount}`)
+            $scope.num.length = 0;
             for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
@@ -104,12 +97,6 @@ module.exports = {
             }
                 return btnCount;
         };
-        //button operations;
-        //  let btnCount = [];
-        //  let currentPage = 1;
-        //  let startNum = 0;
-        //  let endNum = 10;
-        //  $scope.num = btnCount;
         $scope.showPage = (operator) => {
             if (operator === 'next' && currentPage < count) {
                 startNum += 10;
@@ -126,12 +113,11 @@ module.exports = {
              endNum = operator * 10;
              currentPage = operator;
             }
-            // A bit wasteful because it redoes a bit AJAX request for each page load.
+            //need to change later
             ListingsService.getLoc(pickCounty).then(function (listings) {
                 $scope.locations = listings.slice(startNum, endNum);
             });
         };
-        //end of pagination
 
         //refreshes page when new county is selected
         $scope.changedValue = (item) => {
@@ -140,8 +126,6 @@ module.exports = {
             ListingsService.getLoc(pickCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
-                // btnCount = [];
-                // count = 0;
                 $scope.btnNums(listings);
             });
         };
@@ -151,8 +135,6 @@ module.exports = {
             ListingsService.getLoc(initCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
-                // btnCount = [];
-               //  count = 0;
                 $scope.btnNums(listings);
             });
         };
