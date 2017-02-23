@@ -8,6 +8,7 @@ module.exports = {
         let startNum = 0;
         let endNum = 10;
         let pickCounty = 'harnett';
+        window.location.hash = '#top';
         $scope.num = btnCount;
         $scope.displayCounty = 'Harnett County'; 
         $scope.countyList = [
@@ -35,8 +36,6 @@ module.exports = {
             for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
-                console.log('this is btn count')
-                console.log(btnCount);
             }
                 return btnCount;
         };
@@ -45,19 +44,20 @@ module.exports = {
                 startNum += 10;
                 endNum += 10;
                 currentPage++;
+                window.location.hash = '#top';
             } else if (operator === 'back' && startNum > 1) {
                 startNum = startNum - 10;
                 endNum =  endNum - 10;
                 currentPage --;
-                console.log('back back fourth and fourth')
-            } else if (Number.isInteger(operator) === true ) {
-                console.log('numbers for all');            
-             startNum = (operator - 1) * 10;
-             endNum = operator * 10;
-             currentPage = operator;
+                window.location.hash = '#top';
+            } else if (Number.isInteger(operator) === true ) {            
+                startNum = (operator - 1) * 10;
+                endNum = operator * 10;
+                currentPage = operator;
+                window.location.hash = '#top';
             }
             //need to change later
-            ListingsService.getLoc(pickCounty).then(function (listings) {
+            ListingsService.getLoc(pickCounty).then((listings) => {
                 $scope.locations = listings.slice(startNum, endNum);
             });
         };
@@ -66,7 +66,7 @@ module.exports = {
         $scope.changedValue = (item) => {
             $scope.displayCounty = item.label;
             pickCounty = item.value;
-            ListingsService.getLoc(pickCounty).then(function (listings) {
+            ListingsService.getLoc(pickCounty).then((listings) => {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
                 $scope.btnNums(listings);
@@ -75,7 +75,7 @@ module.exports = {
         //getting array of locations 
          initialCountyLoad = () => {
             let initCounty = pickCounty;
-            ListingsService.getLoc(initCounty).then(function (listings) {
+            ListingsService.getLoc(initCounty).then((listings) => {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
                 $scope.btnNums(listings);
@@ -87,7 +87,7 @@ module.exports = {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
                 pid: location.propertyId,
-            }); // rerouting to a different view
+            }); 
         };
         
     },

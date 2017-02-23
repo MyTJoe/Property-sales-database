@@ -9,7 +9,6 @@ const app = angular.module('PropData', [
     const controllers = [
         require('./controllers/listings'),
         require('./controllers/map'),
-        require('./controllers/pager'),
     ];
     for (let i = 0; i < controllers.length; i++) {
         app.controller(controllers[i].name, controllers[i].func)
@@ -26,7 +25,6 @@ const app = angular.module('PropData', [
     const services = [
         require('./services/listings'),
         require('./services/map'),
-        require('./services/pager'),
     ];
     for (let i = 0; i < services.length; i++) {
         app.factory(services[i].name, services[i].func)
@@ -38,7 +36,7 @@ const app = angular.module('PropData', [
             $stateProvider.state(routers[i]);
         }
     });
-},{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/map":5,"./controllers/pager":6,"./routers":7,"./services/listings":8,"./services/map":9,"./services/pager":10}],2:[function(require,module,exports){
+},{"./components/listings":2,"./components/map":3,"./controllers/listings":4,"./controllers/map":5,"./routers":6,"./services/listings":7,"./services/map":8}],2:[function(require,module,exports){
 module.exports = {
     name: 'listings',
     object: {
@@ -65,6 +63,7 @@ module.exports = {
         let startNum = 0;
         let endNum = 10;
         let pickCounty = 'harnett';
+        window.location.hash = '#top';
         $scope.num = btnCount;
         $scope.displayCounty = 'Harnett County'; 
         $scope.countyList = [
@@ -92,8 +91,6 @@ module.exports = {
             for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
-                console.log('this is btn count')
-                console.log(btnCount);
             }
                 return btnCount;
         };
@@ -102,19 +99,20 @@ module.exports = {
                 startNum += 10;
                 endNum += 10;
                 currentPage++;
+                window.location.hash = '#top';
             } else if (operator === 'back' && startNum > 1) {
                 startNum = startNum - 10;
                 endNum =  endNum - 10;
                 currentPage --;
-                console.log('back back fourth and fourth')
-            } else if (Number.isInteger(operator) === true ) {
-                console.log('numbers for all');            
-             startNum = (operator - 1) * 10;
-             endNum = operator * 10;
-             currentPage = operator;
+                window.location.hash = '#top';
+            } else if (Number.isInteger(operator) === true ) {            
+                startNum = (operator - 1) * 10;
+                endNum = operator * 10;
+                currentPage = operator;
+                window.location.hash = '#top';
             }
             //need to change later
-            ListingsService.getLoc(pickCounty).then(function (listings) {
+            ListingsService.getLoc(pickCounty).then((listings) => {
                 $scope.locations = listings.slice(startNum, endNum);
             });
         };
@@ -123,7 +121,7 @@ module.exports = {
         $scope.changedValue = (item) => {
             $scope.displayCounty = item.label;
             pickCounty = item.value;
-            ListingsService.getLoc(pickCounty).then(function (listings) {
+            ListingsService.getLoc(pickCounty).then((listings) => {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
                 $scope.btnNums(listings);
@@ -132,7 +130,7 @@ module.exports = {
         //getting array of locations 
          initialCountyLoad = () => {
             let initCounty = pickCounty;
-            ListingsService.getLoc(initCounty).then(function (listings) {
+            ListingsService.getLoc(initCounty).then((listings) => {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
                 $scope.btnNums(listings);
@@ -144,7 +142,7 @@ module.exports = {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
                 pid: location.propertyId,
-            }); // rerouting to a different view
+            }); 
         };
         
     },
@@ -156,22 +154,13 @@ module.exports = {
     name: 'MapController',
     // $stateParams is how you pull values out of the route (URL)
     func: function ($scope, MapService, ListingsService, $stateParams) {
-        // if pid is undefined, need to show everything
-        // if pid is defined, only show that one
         let county = ListingsService.passCounty();
         let mainLat = 35.3579;
         let mainLong = -78.8836;
         
         if (county === null || county === undefined) {
             county = 'harnett';
-            // mainLat = 35.3579;
-            // mainLong = -78.8836;
-        } else if (county === 'franklin') {
-            console.log('franklin in the house');
-        }
-        console.log(`dispaly county: ${county}`);
-        console.log(`this is somename`)
-        console.log($stateParams.pid);
+        } else {county === 'franklin'} 
 
         let map = new google.maps.Map(document.querySelector('#map'), {
             center: {
@@ -181,9 +170,8 @@ module.exports = {
             zoom: 10,
             scrollwheel: false,
         });
-
         // show single map view
-        ListingsService.getLoc(county).then(function (result) {
+        ListingsService.getLoc(county).then((result) => {
             for (let i = 0; i < result.length; i++) {
                 if (result[i].propertyId === $stateParams.pid) {
                     const lat = parseFloat(result[i].latitude);
@@ -222,38 +210,6 @@ module.exports = {
     },
 };
 },{}],6:[function(require,module,exports){
-// module.exports = {
-//     name: 'PagerController',
-//     func: (PagerService) => {
-//     var vm = this;
- 
-//     vm.dummyItems = _.range(1, 151); // dummy array of items to be paged
-//     vm.pager = {};
-//     vm.setPage = setPage;
- 
-//     initController();
- 
-//     function initController() {
-//         // initialize to page 1
-//         vm.setPage(1);
-//     }
- 
-//     function setPage(page) {
-//         if (page < 1 || page > vm.pager.totalPages) {
-//             return;
-//         }
- 
- 
-//         // get pager object from service
-//         vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
- 
-//         // get current page of items
-//         vm.items = vm.dummyItems.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
-//     }
-// }
-// }
-
-},{}],7:[function(require,module,exports){
 module.exports = [
     {
         name: 'listings',
@@ -276,18 +232,17 @@ module.exports = [
 
 
 ]
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
     name: 'ListingsService',
     func: ($http) => {
         let thisCounty = null;
         return {
             getLoc: (county) => {
-                console.log(`getLoc func in ListingsService: ${county}`);
                 thisCounty = county;
                 return $http.get
                 (`https://countylink.herokuapp.com/${county}`)
-                    .then(function (response) {
+                    .then((response) => {
                         return response.data;
                     });
             },
@@ -298,7 +253,7 @@ module.exports = {
     },
 };
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
      name: 'MapService', 
      func: () => {
@@ -311,67 +266,4 @@ module.exports = {
         },
  };
 
-},{}],10:[function(require,module,exports){
-// module.exports = {
-//     name: 'PagerService',
-//     func: () => {
-//     // service definition
-//         var service = {};
-    
-//         service.GetPager = GetPager;
-    
-//         return service;
-    
-//         // service implementation
-//         function GetPager(totalItems, currentPage, pageSize) {
-//             // default to first page
-//             currentPage = currentPage || 1;
-    
-//             // default page size is 10
-//             pageSize = pageSize || 10;
-    
-//             // calculate total pages
-//             var totalPages = Math.ceil(totalItems / pageSize);
-    
-//             var startPage, endPage;
-//             if (totalPages <= 10) {
-//                 // less than 10 total pages so show all
-//                 startPage = 1;
-//                 endPage = totalPages;
-//             } else {
-//                 // more than 10 total pages so calculate start and end pages
-//                 if (currentPage <= 6) {
-//                     startPage = 1;
-//                     endPage = 10;
-//                 } else if (currentPage + 4 >= totalPages) {
-//                     startPage = totalPages - 9;
-//                     endPage = totalPages;
-//                 } else {
-//                     startPage = currentPage - 5;
-//                     endPage = currentPage + 4;
-//                 }
-//             }
-    
-//             // calculate start and end item indexes
-//             var startIndex = (currentPage - 1) * pageSize;
-//             var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-    
-//             // create an array of pages to ng-repeat in the pager control
-//             var pages = _.range(startPage, endPage + 1);
-    
-//             // return object with all pager properties required by the view
-//             return {
-//                 totalItems: totalItems,
-//                 currentPage: currentPage,
-//                 pageSize: pageSize,
-//                 totalPages: totalPages,
-//                 startPage: startPage,
-//                 endPage: endPage,
-//                 startIndex: startIndex,
-//                 endIndex: endIndex,
-//                 pages: pages
-//             };
-//         }
-//     }
-// }
 },{}]},{},[1]);

@@ -1,7 +1,16 @@
 <select ng-model="getCounty" ng-init="getCounty = countyList[1]" ng-change="changedValue(getCounty)" ng-options="county as county.label for county in countyList">
 </select>
+<a name="top"></a>
 <h1 id="county">{{displayCounty}}</h1>
-<!--pagnination test-->
+
+<div class="btnBox">
+    <md-button ng-click="showPage('back')"> << </md-button>
+    <div class="pageBtn" ng-repeat="number in num">
+        <md-button ng-click="showPage(number)">{{ number }}</md-button>
+    </div>
+    <md-button ng-click="showPage('next')"> >> </md-button>
+</div>
+
 <section ng-repeat="loc in locations" class="listing" md-whiteframe="3">
     <div ng-click="coord(loc)">
         <img ng-src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location={{ loc.propertyAddress || loc.address}}
