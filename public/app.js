@@ -59,8 +59,14 @@ module.exports = {
     name: 'ListingsController',
     func: function ($scope, $state, ListingsService, MapService) {
         // county select box
-        $scope.displayCounty = 'Harnett County';
+        let count = 0;
+        let btnCount = [];
+        let currentPage = 1;
+        let startNum = 0;
+        let endNum = 10;
         let pickCounty = 'harnett';
+        $scope.num = btnCount;
+        $scope.displayCounty = 'Harnett County'; 
         $scope.countyList = [
             {
                 value: 'franklin',
@@ -79,38 +85,49 @@ module.exports = {
                 label: 'Rutherford County'
             }
         ];
-
+        resetCount = () => {
+            count = 0;
+            btnCount = [];
+            //return count;
+        }
         //pagination maybe
-        $scope.btnNums =  (loc) => {
-            let count = 0;
-            console.log(`work already ${loc}`);
+        $scope.btnNums = (loc) => {
+            
+            console.log(`btn count ${btnCount}`);
+            //resetCount();
+            console.log(`mo btns ${btnCount}`)
             for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
-                console.log(`some num here: ${btnCount}`);
+                console.log('this is btn count')
+                console.log(btnCount);
             }
                 return btnCount;
         };
         //button operations;
-         let btnCount = [];
-         let currentPage = 1;
-         let startNum = 0;
-         let endNum = 10;
-         $scope.num = btnCount;
+        //  let btnCount = [];
+        //  let currentPage = 1;
+        //  let startNum = 0;
+        //  let endNum = 10;
+        //  $scope.num = btnCount;
         $scope.showPage = (operator) => {
-            if (operator === 'next') {
+            if (operator === 'next' && currentPage < count) {
                 startNum += 10;
                 endNum += 10;
-            } else if (operator === 'back') {
+                currentPage++;
+            } else if (operator === 'back' && startNum > 1) {
                 startNum = startNum - 10;
                 endNum =  endNum - 10;
-            } else {            
+                currentPage --;
+                console.log('back back fourth and fourth')
+            } else if (Number.isInteger(operator) === true ) {
+                console.log('numbers for all');            
              startNum = (operator - 1) * 10;
              endNum = operator * 10;
+             currentPage = operator;
             }
             // A bit wasteful because it redoes a bit AJAX request for each page load.
             ListingsService.getLoc(pickCounty).then(function (listings) {
-                //$scope.locations = listings;
                 $scope.locations = listings.slice(startNum, endNum);
             });
         };
@@ -121,7 +138,11 @@ module.exports = {
             $scope.displayCounty = item.label;
             pickCounty = item.value;
             ListingsService.getLoc(pickCounty).then(function (listings) {
-                //$scope.locations = listings;
+                let allListings = listings
+                $scope.locations = allListings.slice(startNum, endNum);
+                // btnCount = [];
+                // count = 0;
+                $scope.btnNums(listings);
             });
         };
         //getting array of locations 
@@ -130,7 +151,8 @@ module.exports = {
             ListingsService.getLoc(initCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
-                console.log(`this is all list: ${allListings}`)
+                // btnCount = [];
+               //  count = 0;
                 $scope.btnNums(listings);
             });
         };
@@ -216,36 +238,36 @@ module.exports = {
     },
 };
 },{}],6:[function(require,module,exports){
-module.exports = {
-    name: 'PagerController',
-    func: (PagerService) => {
-    var vm = this;
+// module.exports = {
+//     name: 'PagerController',
+//     func: (PagerService) => {
+//     var vm = this;
  
-    vm.dummyItems = _.range(1, 151); // dummy array of items to be paged
-    vm.pager = {};
-    vm.setPage = setPage;
+//     vm.dummyItems = _.range(1, 151); // dummy array of items to be paged
+//     vm.pager = {};
+//     vm.setPage = setPage;
  
-    initController();
+//     initController();
  
-    function initController() {
-        // initialize to page 1
-        vm.setPage(1);
-    }
+//     function initController() {
+//         // initialize to page 1
+//         vm.setPage(1);
+//     }
  
-    function setPage(page) {
-        if (page < 1 || page > vm.pager.totalPages) {
-            return;
-        }
+//     function setPage(page) {
+//         if (page < 1 || page > vm.pager.totalPages) {
+//             return;
+//         }
  
  
-        // get pager object from service
-        vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
+//         // get pager object from service
+//         vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
  
-        // get current page of items
-        vm.items = vm.dummyItems.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
-    }
-}
-}
+//         // get current page of items
+//         vm.items = vm.dummyItems.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
+//     }
+// }
+// }
 
 },{}],7:[function(require,module,exports){
 module.exports = [
@@ -306,66 +328,66 @@ module.exports = {
  };
 
 },{}],10:[function(require,module,exports){
-module.exports = {
-    name: 'PagerService',
-    func: () => {
-    // service definition
-        var service = {};
+// module.exports = {
+//     name: 'PagerService',
+//     func: () => {
+//     // service definition
+//         var service = {};
     
-        service.GetPager = GetPager;
+//         service.GetPager = GetPager;
     
-        return service;
+//         return service;
     
-        // service implementation
-        function GetPager(totalItems, currentPage, pageSize) {
-            // default to first page
-            currentPage = currentPage || 1;
+//         // service implementation
+//         function GetPager(totalItems, currentPage, pageSize) {
+//             // default to first page
+//             currentPage = currentPage || 1;
     
-            // default page size is 10
-            pageSize = pageSize || 10;
+//             // default page size is 10
+//             pageSize = pageSize || 10;
     
-            // calculate total pages
-            var totalPages = Math.ceil(totalItems / pageSize);
+//             // calculate total pages
+//             var totalPages = Math.ceil(totalItems / pageSize);
     
-            var startPage, endPage;
-            if (totalPages <= 10) {
-                // less than 10 total pages so show all
-                startPage = 1;
-                endPage = totalPages;
-            } else {
-                // more than 10 total pages so calculate start and end pages
-                if (currentPage <= 6) {
-                    startPage = 1;
-                    endPage = 10;
-                } else if (currentPage + 4 >= totalPages) {
-                    startPage = totalPages - 9;
-                    endPage = totalPages;
-                } else {
-                    startPage = currentPage - 5;
-                    endPage = currentPage + 4;
-                }
-            }
+//             var startPage, endPage;
+//             if (totalPages <= 10) {
+//                 // less than 10 total pages so show all
+//                 startPage = 1;
+//                 endPage = totalPages;
+//             } else {
+//                 // more than 10 total pages so calculate start and end pages
+//                 if (currentPage <= 6) {
+//                     startPage = 1;
+//                     endPage = 10;
+//                 } else if (currentPage + 4 >= totalPages) {
+//                     startPage = totalPages - 9;
+//                     endPage = totalPages;
+//                 } else {
+//                     startPage = currentPage - 5;
+//                     endPage = currentPage + 4;
+//                 }
+//             }
     
-            // calculate start and end item indexes
-            var startIndex = (currentPage - 1) * pageSize;
-            var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+//             // calculate start and end item indexes
+//             var startIndex = (currentPage - 1) * pageSize;
+//             var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
     
-            // create an array of pages to ng-repeat in the pager control
-            var pages = _.range(startPage, endPage + 1);
+//             // create an array of pages to ng-repeat in the pager control
+//             var pages = _.range(startPage, endPage + 1);
     
-            // return object with all pager properties required by the view
-            return {
-                totalItems: totalItems,
-                currentPage: currentPage,
-                pageSize: pageSize,
-                totalPages: totalPages,
-                startPage: startPage,
-                endPage: endPage,
-                startIndex: startIndex,
-                endIndex: endIndex,
-                pages: pages
-            };
-        }
-    }
-}
+//             // return object with all pager properties required by the view
+//             return {
+//                 totalItems: totalItems,
+//                 currentPage: currentPage,
+//                 pageSize: pageSize,
+//                 totalPages: totalPages,
+//                 startPage: startPage,
+//                 endPage: endPage,
+//                 startIndex: startIndex,
+//                 endIndex: endIndex,
+//                 pages: pages
+//             };
+//         }
+//     }
+// }
 },{}]},{},[1]);

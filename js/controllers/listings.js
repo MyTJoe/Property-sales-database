@@ -2,8 +2,14 @@ module.exports = {
     name: 'ListingsController',
     func: function ($scope, $state, ListingsService, MapService) {
         // county select box
-        $scope.displayCounty = 'Harnett County';
+        let count = 0;
+        let btnCount = [];
+        let currentPage = 1;
+        let startNum = 0;
+        let endNum = 10;
         let pickCounty = 'harnett';
+        $scope.num = btnCount;
+        $scope.displayCounty = 'Harnett County'; 
         $scope.countyList = [
             {
                 value: 'franklin',
@@ -22,38 +28,49 @@ module.exports = {
                 label: 'Rutherford County'
             }
         ];
-
+        resetCount = () => {
+            count = 0;
+            btnCount = [];
+            //return count;
+        }
         //pagination maybe
-        $scope.btnNums =  (loc) => {
-            let count = 0;
-            console.log(`work already ${loc}`);
+        $scope.btnNums = (loc) => {
+            
+            console.log(`btn count ${btnCount}`);
+            //resetCount();
+            console.log(`mo btns ${btnCount}`)
             for (let i = 0; i < loc.length / 10; i++) {
                 count++;
                 btnCount.push(count);
-                console.log(`some num here: ${btnCount}`);
+                console.log('this is btn count')
+                console.log(btnCount);
             }
                 return btnCount;
         };
         //button operations;
-         let btnCount = [];
-         let currentPage = 1;
-         let startNum = 0;
-         let endNum = 10;
-         $scope.num = btnCount;
+        //  let btnCount = [];
+        //  let currentPage = 1;
+        //  let startNum = 0;
+        //  let endNum = 10;
+        //  $scope.num = btnCount;
         $scope.showPage = (operator) => {
-            if (operator === 'next') {
+            if (operator === 'next' && currentPage < count) {
                 startNum += 10;
                 endNum += 10;
-            } else if (operator === 'back') {
+                currentPage++;
+            } else if (operator === 'back' && startNum > 1) {
                 startNum = startNum - 10;
                 endNum =  endNum - 10;
-            } else {            
+                currentPage --;
+                console.log('back back fourth and fourth')
+            } else if (Number.isInteger(operator) === true ) {
+                console.log('numbers for all');            
              startNum = (operator - 1) * 10;
              endNum = operator * 10;
+             currentPage = operator;
             }
             // A bit wasteful because it redoes a bit AJAX request for each page load.
             ListingsService.getLoc(pickCounty).then(function (listings) {
-                //$scope.locations = listings;
                 $scope.locations = listings.slice(startNum, endNum);
             });
         };
@@ -64,7 +81,11 @@ module.exports = {
             $scope.displayCounty = item.label;
             pickCounty = item.value;
             ListingsService.getLoc(pickCounty).then(function (listings) {
-                //$scope.locations = listings;
+                let allListings = listings
+                $scope.locations = allListings.slice(startNum, endNum);
+                // btnCount = [];
+                // count = 0;
+                $scope.btnNums(listings);
             });
         };
         //getting array of locations 
@@ -73,7 +94,8 @@ module.exports = {
             ListingsService.getLoc(initCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
-                console.log(`this is all list: ${allListings}`)
+                // btnCount = [];
+               //  count = 0;
                 $scope.btnNums(listings);
             });
         };
