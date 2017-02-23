@@ -28,13 +28,8 @@ module.exports = {
                 label: 'Rutherford County'
             }
         ];
-        resetCount = () => {
-            count = 0;
-            btnCount = [];
-            //return count;
-        }
-        //pagination maybe
-        $scope.btnNums = (loc) => {
+            //pagination 
+            $scope.btnNums = (loc) => {
             count = 0;
             $scope.num.length = 0;
             for (let i = 0; i < loc.length / 10; i++) {
@@ -61,12 +56,11 @@ module.exports = {
              endNum = operator * 10;
              currentPage = operator;
             }
-            // A bit wasteful because it redoes a bit AJAX request for each page load.
+            //need to change later
             ListingsService.getLoc(pickCounty).then(function (listings) {
                 $scope.locations = listings.slice(startNum, endNum);
             });
         };
-        //end of pagination
 
         //refreshes page when new county is selected
         $scope.changedValue = (item) => {
@@ -75,8 +69,6 @@ module.exports = {
             ListingsService.getLoc(pickCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
-                // btnCount = [];
-                // count = 0;
                 $scope.btnNums(listings);
             });
         };
@@ -86,8 +78,6 @@ module.exports = {
             ListingsService.getLoc(initCounty).then(function (listings) {
                 let allListings = listings
                 $scope.locations = allListings.slice(startNum, endNum);
-                // btnCount = [];
-               //  count = 0;
                 $scope.btnNums(listings);
             });
         };
