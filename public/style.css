@@ -4,18 +4,21 @@ body {
 md-nav-bar .md-nav-bar {
   background: #ccc5b9; }
 
+#county {
+  text-align: center; }
+
 .listing {
+  width: 90%;
+  text-align: left;
   border: 1px #ccc5b9 solid;
   padding: 1%;
-  margin: 5px;
+  margin: 5px auto;
   background: #fffcf2; }
   .listing h2 {
     font-size: 1.6em;
     margin: 0; }
   .listing p {
     margin: 0; }
-    .listing p .title {
-      color: red; }
   .listing .info {
     display: inline-block;
     padding-left: 10px;
@@ -23,12 +26,19 @@ md-nav-bar .md-nav-bar {
     vertical-align: top; }
 
 #map {
-  width: 80%;
+  width: 100%;
   height: 450px;
-  border: 1px solid red; }
+  border: 1px solid #eb5e28; }
+
+.btnBox {
+  text-align: center;
+  margin: 0;
+  padding: 0; }
+  .btnBox .md-button {
+    background: #fffcf2;
+    padding: 0;
+    margin: 0; }
 
 .pageBtn {
   text-align: center;
-  display: inline-block;
-  margin: 0;
-  padding: 0; }
+  display: inline-block; }
