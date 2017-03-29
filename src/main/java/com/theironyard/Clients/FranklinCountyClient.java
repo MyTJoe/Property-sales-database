@@ -24,7 +24,7 @@ public class FranklinCountyClient {
         List<FranklinPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String franklin = restTemplate.getForObject(testUrl30, String.class);
+        String franklin = restTemplate.getForObject(url, String.class);
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(franklin);

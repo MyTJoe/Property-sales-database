@@ -26,7 +26,7 @@ public class LeeCountyClient {
         List<LeePropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String lee = restTemplate.getForObject(testUrl30, String.class);
+        String lee = restTemplate.getForObject(url, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();

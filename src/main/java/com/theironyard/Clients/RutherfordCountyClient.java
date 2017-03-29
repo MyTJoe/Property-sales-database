@@ -27,7 +27,7 @@ public class RutherfordCountyClient {
         List<RutherfordPropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String rutherford = restTemplate.getForObject(testUrl30, String.class);
+        String rutherford = restTemplate.getForObject(url, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
