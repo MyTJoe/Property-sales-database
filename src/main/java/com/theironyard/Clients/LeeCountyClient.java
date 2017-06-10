@@ -26,7 +26,7 @@ public class LeeCountyClient {
         List<LeePropertyRecords> records = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String lee = restTemplate.getForObject(testUrl30, String.class);
+        String lee = restTemplate.getForObject(url, String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -82,7 +82,6 @@ public class LeeCountyClient {
                 if (mailZip.equals("27505")) {
                     records.add(info);
                 }
-                records.add(info);
             }
         } catch (IOException e) {
             e.printStackTrace();
