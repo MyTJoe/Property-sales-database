@@ -7,10 +7,10 @@ module.exports = {
         let currentPage = 1;
         let startNum = 0;
         let endNum = 10;
-        let pickCounty = 'harnett';
+        let pickCounty = 'franklin';
         window.location.hash = '#top';
         $scope.num = btnCount;
-        $scope.displayCounty = 'Harnett County'; 
+        $scope.displayCounty = 'Franklin County';
         $scope.countyList = [
             {
                 value: 'franklin',
@@ -29,7 +29,7 @@ module.exports = {
                 label: 'Rutherford County'
             }
         ];
-            //pagination 
+            //pagination
             $scope.btnNums = (loc) => {
             count = 0;
             $scope.num.length = 0;
@@ -50,7 +50,7 @@ module.exports = {
                 endNum =  endNum - 10;
                 currentPage --;
                 window.location.hash = '#top';
-            } else if (Number.isInteger(operator) === true ) {            
+            } else if (Number.isInteger(operator) === true ) {
                 startNum = (operator - 1) * 10;
                 endNum = operator * 10;
                 currentPage = operator;
@@ -72,7 +72,7 @@ module.exports = {
                 $scope.btnNums(listings);
             });
         };
-        //getting array of locations 
+        //getting array of locations
          initialCountyLoad = () => {
             let initCounty = pickCounty;
             ListingsService.getLoc(initCounty).then((listings) => {
@@ -87,8 +87,8 @@ module.exports = {
             MapService.locate(location.latitude, location.longitude);
             $state.go('map', {
                 pid: location.propertyId,
-            }); 
+            });
         };
-        
+
     },
 };
